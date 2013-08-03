@@ -3,5 +3,5 @@ class Scraping < ActiveRecord::Base
   
   belongs_to :craigs_site
   
-  extend CraigslistScrape
+  extend CraigslistCarScraper
 end
