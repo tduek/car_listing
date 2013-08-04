@@ -9,6 +9,7 @@ gem 'pg'
 
 gem 'nokogiri'
 require 'open-uri'
+require 'timeout'
 
 group :development do
   gem 'better_errors'

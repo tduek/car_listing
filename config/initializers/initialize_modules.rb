@@ -1,0 +1,1 @@
+require 'craigslist_scrape'
