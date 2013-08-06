@@ -1,7 +1,10 @@
 module CLCarsParse
   
   def parse_new_listings
-    #@divisions = 
+    @subdivisions = Subdivision.includes(:spellings, children: :spellings).all
+    @make_spellings = @subdivisions.select { |sub| sub.level == 0 }.
+                                       map { |make| make.spellings }.flatten
+    @makes_spellings_rxp = /#{@make_spellings.map { |s| s.string }.join("|")}/i
     Scraping.where(source: "Craigslist", 
                    parsed: false, 
                      dqed: false).find_each do |scraping|
@@ -34,8 +37,7 @@ module CLCarsParse
     dqers = dqers.join("|")
     
     if listing.title[/#{dqers}/i] || listing.description[/#{dqers}/i]
-      listing.dqed = true
-      listing.save
+      dq(scraping)
     end  
   end
   
@@ -54,27 +56,35 @@ module CLCarsParse
     if match && (match.length == 10 || (match.length == 11 && match[0] == "1"))
       listing.phone = match.to_i
     else
-      scraping.dqed = true
-      scraping.save
+      dq(scraping)
     end
   end
   
   def parse_yr_or_dq(scraping, listing)
     yrs = scraping.title.
-                  scan(/\b19|20\d{2}\b|\b0\d\b|\b1[0-#{Time.now.year-2010}]\b/).
-                  map { |yr| yr.rjust(4, "20").to_i }
+            scan(/\b19|20\d{2}\b|\b0\d\b|\b1[0-#{Time.now.year-2010}]\b/).
+            map { |yr| yr[0].to_i.between?(3, 9) ? 
+                               yr.rjust(4, "19").to_i : yr.rjust(4, "20").to_i }
     
-    if !yrs.empty? && yrs[0] > 1930 && yrs.inject(:+) % yrs[0] == 0
+    if yrs[0] && yrs[0] > 1930 && yrs.uniq.length == 1
       listing.year = yrs[0]
     else
-      scraping.dqed = true
-      scraping.save
+      dq(scraping)
     end
   end
   
   def parse_make(scraping, listing)
+    matches = scraping.title.scan(@makes_spellings_rxp).map { |m| m.downcase }
+    matches.map { |m| @make_spellings.detect{ |s| s.string == m }.subdivision_id }
     
+    matches.uniq.length == 1 ? listing.make_id = matches[0] : dq(scraping)
   end
+  
+  def dq(scraping)
+    scraping.dqed = true
+    scraping.save
+  end
+    
   
   
 end
