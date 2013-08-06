@@ -415,14 +415,206 @@
 	{city: 'Central SD', city_for_url: 'csd', zip: '57563', latitude: 43.360304, longitude: -100.38868}
 ]
 
-CraigsSite.destroy_all
+# CraigsSite.destroy_all
+# 
+# @cities.each do |city|
+#   CraigsSite.create(
+#     city:         city[:city],
+#     city_for_url: city[:city_for_url],
+#     zip:           city[:zip],
+#     latitude:     city[:latitude],
+#     longitude:     city[:longitude]
+#   )
+# end
 
-@cities.each do |city|
-	CraigsSite.create(
-		city: 				city[:city],
-		city_for_url: city[:city_for_url],
-		zip: 					city[:zip],
-		latitude:     city[:latitude],
-		longitude: 		city[:longitude]
-	)
+
+
+
+
+
+
+acura = {brand: 'Acura', spellings: 'Acura'}
+aston = {brand: 'Aston Martin', spellings: 'Aston Martin$astonmartin'}
+audi = {brand: 'Audi', spellings: 'Audi$audy'}
+bmw = {brand: 'BMW', spellings: 'BMW'}
+bentley = {brand: 'Bentley', spellings: 'Bentley$bently'}
+bugatti = {brand: 'Bugatti', spellings: 'Bugatti$bugati&buggatti$buggati$bugaty$buggaty$buggatty'}
+buick = {brand: 'Buick', spellings: 'Buick'}
+cadillac = {brand: 'Cadillac', spellings: 'Cadillac$cadilac$cadillack$cadilack'}
+chevy = {brand: 'Chevrolet', spellings: 'Chevrolet$chevy$chev'}
+chrysler = {brand: 'Chrysler', spellings: 'Chrysler$chryslr&Craisler&crysler'}
+daewoo = {brand: 'Daewoo', spellings: 'Daewoo$daewo$dawoo$daywoo$daywo'}
+dodge = {brand: 'Dodge', spellings: 'Dodge'}
+ferrari = {brand: 'Ferrari', spellings: 'Ferrari'}
+fiat = {brand: 'Fiat', spellings: 'Fiat'}
+fisker = {brand: 'Fisker', spellings: 'Fisker'}
+ford = {brand: 'Ford', spellings: 'Ford'}
+gmc = {brand: 'GMC', spellings: 'GMC'}
+honda = {brand: 'Honda', spellings: 'Honda'}
+hummer = {brand: 'Hummer', spellings: 'Hummer$humer'}
+hyundai = {brand: 'Hyundai', spellings: 'Hyundai$hiundai$hyunday$hiunday'}
+infiniti = {brand: 'Infiniti', spellings: 'Infiniti$infinity'}
+isuzu = {brand: 'Isuzu', spellings: 'Isuzu$izusu$izuzu$isusu'}
+jaguar = {brand: 'Jaguar', spellings: 'Jaguar'}
+jeep = {brand: 'Jeep', spellings: 'Jeep'}
+kia = {brand: 'Kia', spellings: 'Kia'}
+lambo = {brand: 'Lamborghini', spellings: 'Lamborghini$lamborgini$lambo'}
+land_rover = {brand: 'Land Rover', spellings: 'Land Rover$rover$landrover'}
+lexus = {brand: 'Lexus', spellings: 'Lexus'}
+lincoln = {brand: 'Lincoln', spellings: 'Lincoln$lincon'}
+maserati = {brand: 'Maserati', spellings: 'Maserati$masserati$masseratti$maseratti'}
+maybach = {brand: 'Maybach', spellings: 'Maybach$mayback$may back$maybac$may bach'}
+mazda = {brand: 'Mazda', spellings: 'Mazda$masda'}
+mclaren = {brand: 'McLaren', spellings: 'McLaren$maclaren$mac laren$mc laren'}
+mercedes_benz = {brand: 'Mercedes-Benz', spellings: 'Mercedes-Benz$mercedes$benz$mercedesbenz$mercedes benz'}
+mercury = {brand: 'Mercury', spellings: 'Mercury'}
+mini = {brand: 'Mini', spellings: 'Mini'}
+mitsubishi = {brand: 'Mitsubishi', spellings: 'Mitsubishi'}
+nissan = {brand: 'Nissan', spellings: 'Nissan$nisan'}
+oldsmobile = {brand: 'Oldsmobile', spellings: 'Oldsmobile'}
+plymouth = {brand: 'Plymouth', spellings: 'plymouth$plimouth$plymuth$plymoth$plimuth'}
+pontiac = {brand: 'Pontiac', spellings: 'Pontiac$pontiack$pontiak'}
+porsche = {brand: 'Porsche', spellings: 'Porsche$porshe$porsh$porche$porsce$porsha$porsca$porscha'}
+rolls = {brand: 'Rolls-Royce', spellings: 'Rolls-Royce$rolls royce$rolls$rolls-roise$rols-royce$rols royce$rolsroyce$rollsroyce$rolls-roys$rolls roys'}
+saab = {brand: 'Saab', spellings: 'Saab'}
+saturn = {brand: 'Saturn', spellings: 'Saturn'}
+scion = {brand: 'Scion', spellings: 'Scion$sion$cion'}
+smart = {brand: 'Smart', spellings: 'Smart'}
+subaru = {brand: 'Subaru', spellings: 'Subaru'}
+suzuki = {brand: 'Suzuki', spellings: 'Suzuki$susuki$zusuki$suzuky$susuky$zusuky$suzucky$zuzucky$susucky$zusucky$suzuky$zuzusky$zusuky$susuky'}
+tesla = {brand: 'Tesla', spellings: 'Tesla'}
+toyota = {brand: 'Toyota', spellings: 'Toyota'}
+vw = {brand: 'Volkswagen', spellings: 'Volkswagen$vw$volkswagon$volks wagen$volckswagen$volxwagen$volxwagon'}
+volvo = {brand: 'Volvo', spellings: 'Volvo'}
+
+
+acuras = [{model: 'RLX', spellings: 'RLX'}, {model: 'ILX', spellings: 'ILX'}, {model: 'TL', spellings: 'TL'}, {model: 'NSX', spellings: 'NSX'}, {model: 'TSX', spellings: 'TSX'}, {model: 'ZDX', spellings: 'ZDX'}, {model: 'RDX', spellings: 'RDX'}, {model: 'MDX', spellings: 'MDX'}, {model: 'RL', spellings: 'RL'}, {model: 'RSX', spellings: 'RSX'}, {model: 'Integra', spellings: 'Integra'}, {model: 'CL', spellings: 'CL'}]
+astons = [{model: 'Zagato', spellings: 'Zagato'}, {model: 'Vantage', spellings: 'Vantage'}, {model: 'DB9', spellings: 'DB9$DB 9$'}, {model: 'Vanquish', spellings: 'Vanquish'}, {model: 'Virage', spellings: 'Virage'}, {model: 'Cygnet', spellings: 'Cygnet'}, {model: 'DBS', spellings: 'DBS$db s'}, {model: 'Rapide', spellings: 'Rapide'}, {model: 'One-77', spellings: '177$one 77$one77'}, {model: 'Lagonda', spellings: 'Lagonda'}, {model: 'DBRS9', spellings: 'DBRS9$dbrs 9$dbr s9$dbrs9'}, {model: 'DBR9', spellings: 'DBR9$dbr 9'}, {model: 'DB AR1', spellings: 'DB AR1$dbar1$'}, {model: 'DB7', spellings: 'DB7$db 7'}]
+audis = [{model: 'S3', spellings: 'S3'}, {model: 'RS6', spellings: 'RS6$rs 6'}, {model: 'RS5', spellings: 'RS5$rs 5'}, {model: 'A3', spellings: 'A3$a 3$a.3'}, {model: 'TT', spellings: 'TT'}, {model: 'SQ5', spellings: 'SQ5$sq5$sq 5$qs 5$s q5'}, {model: 'S8', spellings: 'S8$s 8$s.8'}, {model: 'S7', spellings: 'S7$s.7$s 7'}, {model: 'S6', spellings: 'S6$s.6$s 6'}, {model: 'S4', spellings: 'S4$s.4$s 4'}, {model: 'RS4', spellings: 'RS4$rs 4'}, {model: 'R8', spellings: 'R8$r 8$r.8'}, {model: 'Q5', spellings: 'Q5$q 5$q.5'}, {model: 'A8', spellings: 'A8$a 8$a.8'}, {model: 'A6', spellings: 'A6$a.6$a 6'}, {model: 'A4', spellings: 'A4$a 4$a.4'}, {model: 'A1', spellings: 'A1$a.1$a 1'}, {model: 'S5', spellings: 'S5$s.5$s 5'}, {model: 'RS3', spellings: 'RS3$rs 3'}, {model: 'Q3', spellings: 'Q3$q 3'}, {model: 'Q7', spellings: 'Q7$q 7$q.7'}, {model: 'A5', spellings: 'A5$a.5$a 5'}, {model: 'A2', spellings: 'A2$a.2$a 2'}, {model: 'Allroad', spellings: 'Allroad$alroad$all road'}]
+bmws = [{model: 'Z3', spellings: 'Z3$z.3$z 3'}, {model: 'Z4', spellings: 'Z4$z 4$z.4$mroadster$m roadster$mcoupe$m coupe'}, {model: 'Z8', spellings: 'Z8$z.8$z 8'}, {model: 'X3', spellings: 'X3$x3i$x 3$x.3'}, {model: 'X5', spellings: 'X5$x5i$x 5$x.5'}, {model: 'X6', spellings: 'X6$x 6$x.6'}, {model: '1-Series', spellings: '128$128i$135$135i$1 series$1.series$1series'}, {model: '3-Series', spellings: '318$318i$318c$318ci$318cic$325$325i$325c$325ci$325cic$330$330i$330c$330ci$330cic$335$335i$335c$335ci$335cic$323$323i$323c$323ci$323cic$328$328i$328c$328ci$328cic$3 series$3.series$3series$325$330ci$330$325xi$328$335xi$328xi$330xi$335d$m3$m.3$m 3$335is$328is'}, {model: '5-Series', spellings: '525$525i$525c$525ci$525cic$530$530i$530c$530ci$530cic$535$535i$535c$535ci$535cic$540$540i$540c$540ci$540cic$545$545i$545c$545ci$545cic$550$550i$550c$550ci$550cic$550$528i$528c$528ci$528cic$5 series$5.series$5series$528$550i$535xi$530xi$525xi$528xi$m5$m.5$m 5'}, {model: '6-Series', spellings: '635$635i$635c$635ci$635cic$645$645i$645c$645ci$645cic$650$650i$650c$650ci$650cic$640$640i$640c$640ci$640cic$6 series$6.series$6series$m6$m 6$m.6'}, {model: '7-Series', spellings: '740$740i$740c$740ci$740cic$745$745i$745c$745ci$745cic$750$750i$750c$750ci$750cic$755$755i$755c$755ci$755cic$760$760i$760c$760ci$760cic$7 series$7.series$7series$740il$750il$745il$760il$740li$745li$750li$755li$760li'}]
+bentleys = [{model: 'Continental GT', spellings: 'Continental GT$continentalGT$moonbeam$continental gtc$supersport$supersports$continental coupe'}, {model: 'Continental Flying Spur', spellings: 'Continental Flying Spur$flying spur$continental 4dr$continental 4door$continental 4 door'}, {model: 'Mulsanne', spellings: 'Mulsanne'}, {model: 'Azure', spellings: 'Azure'}, {model: 'Arnage', spellings: 'Arnage'}, {model: 'Brooklands', spellings: 'Brooklands'}]
+bugattis = [{model: 'Veyron', spellings: 'Veyron$16.4$164'}]
+buicks = [{model: 'Verano', spellings: 'Verano'}, {model: 'Encore', spellings: 'Encore'}, {model: 'Enclave', spellings: 'Enclave'}, {model: 'Regal', spellings: 'Regal'}, {model: 'LaCrosse', spellings: 'LaCrosse$lacross$la crosse$la cross$lacrose'}, {model: 'GL8', spellings: 'GL8$gl 8'}, {model: 'Lucerne', spellings: 'Lucerne$lucern$lecerne$lucernce$lucrene'}, {model: 'Terraza', spellings: 'Terraza$teraza$terazza'}, {model: 'Rendezvous', spellings: 'Rendezvous$rendezuos$rendevous'}, {model: 'Rainier', spellings: 'Rainier'}, {model: 'Royaum', spellings: 'Royaum'}, {model: 'Park Avenue', spellings: 'Park Avenue$park ave$parkavenue$park'}, {model: 'LeSabre', spellings: 'LeSabre$sabre$lasabre$la sabre$la sabber$sabber'}, {model: 'Century', spellings: 'Century'}, {model: 'Riviera', spellings: 'Riviera$rivera'}]
+cadillacs = [{model: 'XTS', spellings: 'XTS'}, {model: 'ATS', spellings: 'ATS'}, {model: 'SRX', spellings: 'SRX'}, {model: 'CTS', spellings: 'cts v$ctsv$cts'}, {model: 'SLS', spellings: 'SLS'}, {model: 'Presidential', spellings: 'Presidential'}, {model: 'Escalade', spellings: 'Escalade$escelade$esclade$escalede'}, {model: 'BLS', spellings: 'BLS'}, {model: 'XLR', spellings: 'XLR$xlrv'}, {model: 'STS', spellings: 'STSV$sts$seville$sevile'}, {model: 'DTS', spellings: 'DTS$deville$devilled$devile$deviled'}, {model: 'Eldorado', spellings: 'Eldorado$eldarado$dorado$darado'}, {model: 'Catera', spellings: 'Catera'}]
+chevrolets = [{model: 'Silverado', spellings: 'Silverado$3500$2500hd$3500hd$4500$k1500$k2500$k3500$k4500'}, {model: 'Impala', spellings: 'Impala'}, {model: 'Traverse', spellings: 'Traverse'}, {model: 'Trailblazer', spellings: 'Trailblazer$tailblazer$trailbrazer$tailbrazer'}, {model: 'Sonic', spellings: 'Sonic'}, {model: 'Malibu', spellings: 'Malibu'}, {model: 'Cruze', spellings: 'Cruze'}, {model: 'Corvette', spellings: 'Corvette'}, {model: 'Camaro', spellings: 'Camaro$camarro'}, {model: 'Colorado', spellings: 'Colorado'}, {model: 'Captiva', spellings: 'Captiva'}, {model: 'Volt', spellings: 'Volt'}, {model: 'Aveo', spellings: 'Aveo5$aveo'}, {model: 'Lumina', spellings: 'Lumina'}, {model: 'HHR', spellings: 'HHR'}, {model: 'Equinox', spellings: 'Equinox'}, {model: 'Tahoe', spellings: 'Tahoe'}, {model: 'Suburban', spellings: 'Suburban'}, {model: 'Avalanche', spellings: 'Avalanche'}, {model: 'Monte Carlo', spellings: 'Monte Carlo$monte$carlo'}, {model: 'Cobalt', spellings: 'Cobalt$colbalt'}, {model: 'Uplander', spellings: 'Uplander'}, {model: 'Cavalier', spellings: 'Cavalier'}, {model: 'Tracker', spellings: 'Tracker'}, {model: 'Express', spellings: 'Express'}, {model: 'SSR', spellings: 'SSR$ss r$ss.r'}, {model: 'Blazer', spellings: 'Blazer'}, {model: 'Venture', spellings: 'Venture'}, {model: 'S-10', spellings: 's 10$s10'}]
+chryslers = [{model: 'Town and Country', spellings: 'Town and Country$town&country$town'}, {model: '300', spellings: '300$300 c$300-c$300c$300m$300-m$300.m'}, {model: '200', spellings: '200$200c$200-c$200 c'}, {model: 'Concorde', spellings: 'Concorde$concord'}, {model: 'Sebring', spellings: 'Sebring'}, {model: 'Pacifica', spellings: 'Pacifica$pacific'}, {model: 'PT', spellings: 'PT'}, {model: 'Crossfire', spellings: 'Crossfire'}, {model: 'Aspen', spellings: 'Aspen'}]
+daewoos = [{model: 'Leganza', spellings: 'Leganza$legansa$laganza'}, {model: 'Nubira', spellings: 'Nubira$nubria'}, {model: 'Lanos', spellings: 'Lanos'}]
+dodges = [{model: 'Ram', spellings: 'Ram$1500$2500$3500$ram1500$ram2500$ram3500'}, {model: 'Dart', spellings: 'Dart'}, {model: 'Charger', spellings: 'Charger'}, {model: 'Sprinter', spellings: 'Sprinter'}, {model: 'Avenger', spellings: 'Avenger$avanger'}, {model: 'Challenger', spellings: 'Challenger'}, {model: 'Journey', spellings: 'Journey'}, {model: 'Grand Caravan', spellings: 'Grand Caravan$caravan'}, {model: 'Durango', spellings: 'Durango$durando'}, {model: 'Viper', spellings: 'Viper'}, {model: 'Caliber', spellings: 'Caliber'}, {model: 'Magnum', spellings: 'Magnum'}, {model: 'Dakota', spellings: 'Dakota'}, {model: 'Nitro', spellings: 'Nitro'}, {model: 'Stratus', spellings: 'Stratus'}, {model: 'Neon', spellings: 'Neon$srt4$srt 4'}, {model: 'Intrepid', spellings: 'Intrepid'}]
+ferraris = [{model: '458 Italia', spellings: '458 Italia$458$italia$458italia'}, {model: 'SP12', spellings: 'SP12$sp 12'}, {model: 'FF', spellings: 'FF'}, {model: '599', spellings: '599$599gto$599gtb'}, {model: 'P540', spellings: 'P540$540$p 540'}, {model: 'Scuderia Spider 16M', spellings: '16M'}, {model: 'California', spellings: 'California'}, {model: 'FXX', spellings: 'FXX'}, {model: '612 Scaglietti', spellings: '612 Scaglietti$612$scaglieti'}, {model: 'F430/360', spellings: '430$F430$360$modena$360gtc'}, {model: '575 GTZ', spellings: '575 GTZ$575gtz$575$575$575gtc$575m$superamerica'}, {model: 'F2005', spellings: 'F2005$f 2005$'}, {model: 'Enzo', spellings: 'Enzo'}, {model: '456M GT Scaglietti', spellings: '456M GT Scaglietti$456$456m'}, {model: '550 Maranello', spellings: '550 Maranello$550$maranello'}]
+fiats = [{model: '500', spellings: '500$500c$500s$500l$pop$hatchback$hatch$fiat'}]
+fiskers = [{model: 'Surf', spellings: 'Surf'}, {model: 'Karma', spellings: 'Karma'}, {model: 'Tramonto', spellings: 'Tramonto'}, {model: 'Latigo', spellings: 'Latigo'}]
+fords = [{model: 'Transit', spellings: 'Transit'}, {model: 'Fiesta', spellings: 'Fiesta'}, {model: 'Taurus', spellings: 'Taurus$tauras$taurse'}, {model: 'Mustang', spellings: 'Mustang$mustanggt'}, {model: 'Fusion', spellings: 'Fusion'}, {model: 'Focus', spellings: 'Focus$zx3$zx4'}, {model: 'Flex', spellings: 'Flex'}, {model: 'F-Series Trucks', spellings: 'f150$f 150$f250$f 250$f350$f 350$f450$f 450$f550$f 550$extended cab$crew cab$f250sd$f250hd$f350hd$f350sd$f450sd$f450hd$f 450hd$f 450sd$f 350sd$f 350hd$f 250hd$f 250sd$f250xl$f350xl'}, {model: 'Explorer', spellings: 'Explorer'}, {model: 'Escape', spellings: 'Escape'}, {model: 'C-MAX', spellings: 'cmax$c max'}, {model: 'Ranger', spellings: 'Ranger'}, {model: 'Edge', spellings: 'Edge'}, {model: 'Freestar', spellings: 'Freestar'}, {model: 'Five Hundred', spellings: 'Five Hundred$fivehundred$500$5hundred$5 hundred$5 100'}, {model: 'Expedition', spellings: 'Expedition'}, {model: 'Freestyle', spellings: 'Freestyle'}, {model: 'Windstar', spellings: 'Windstar'}, {model: 'Excursion', spellings: 'Excursion'}, {model: 'Escort', spellings: 'Escort$zx2'}, {model: 'Thunderbird', spellings: 'Thunderbird'}, {model: 'Crown Victoria', spellings: 'Crown Victoria$victoria$crown vic$crownvictoria$crownvic'}, {model: 'Cougar', spellings: 'Cougar'}, {model: 'Contour', spellings: 'Contour'}, {model: 'E-Series Van', spellings: 'Econoline$E250$e 250$e350$e 350$e450$e 450$e series$eseries'}]
+gmcs = [{model: 'Sierra', spellings: 'Sierra$seirra$1500hd$2500$2500hd$3500$3500hd$pickup$cab'}, {model: 'Terrain', spellings: 'Terrain'}, {model: 'Acadia', spellings: 'Acadia'}, {model: 'Yukon', spellings: 'Yukon'}, {model: 'Envoy', spellings: 'Envoy'}, {model: 'Canyon', spellings: 'Canyon'}, {model: 'Sonoma', spellings: 'Sonoma'}, {model: 'Jimmy', spellings: 'Jimmy'}]
+hondas = [{model: 'Accord', spellings: 'Accord$acord$acoord$Crosstour$crostour'}, {model: 'Fit', spellings: 'Fit'}, {model: 'Civic', spellings: 'Civic$civicEX'}, {model: 'CR-Z', spellings: 'crz$cr z'}, {model: 'CR-V', spellings: 'crv$cr v'}, {model: 'Ridgeline', spellings: 'Ridgeline'}, {model: 'Pilot', spellings: 'Pilot'}, {model: 'Odyssey', spellings: 'Odyssey$odyssy$oddysey$odyessy$oddyssey$oddesey'}, {model: 'Insight', spellings: 'Insight'}, {model: 'S2000', spellings: 'S2000$s 2000'}, {model: 'Element', spellings: 'Element'}, {model: 'Passport', spellings: 'Passport$pasport'}]
+hummers = [{model: 'H3', spellings: 'H3$h 3$h3t$h3x$h3 x$h3 t'}, {model: 'H2', spellings: 'H2$h 2$h2t$h2x$h2 x$h2 t'}, {model: 'H1', spellings: 'H1$humvee$h 1'}]
+hyundais = [{model: 'Veloster', spellings: 'Veloster'}, {model: 'Santa Fe', spellings: 'Santa Fe$santafe$santa'}, {model: 'Genesis', spellings: 'Genesis'}, {model: 'Elantra', spellings: 'Elantra$elanitra$elatra$avante'}, {model: 'Azera', spellings: 'Azera'}, {model: 'Accent', spellings: 'Accent'}, {model: 'Sonata', spellings: 'Sonata$sonota'}, {model: 'Tucson', spellings: 'Tucson'}, {model: 'Veracruz', spellings: 'Veracruz'}, {model: 'Tiburon', spellings: 'Tiburon'}, {model: 'Entourage', spellings: 'Entourage'}, {model: 'XG350', spellings: 'XG350$xg 350$xg.350$xg350l$xg 350l'}]
+infinitis = [{model: 'M', spellings: 'm$M35$m 35$m35s$m35x$m35h$m45s$m45x$m45h$m56$m 56$m56s$m37$m 37'}, {model: 'JX', spellings: 'JX$jx35$jx35s'}, {model: 'FX', spellings: 'FX$fx35$fx37$fx45$fx50$fx35s$fx37s$fx45s$fx50s'}, {model: 'QX', spellings: 'QX$qx56$qx45$qx80$qx 80$qx4$qx 4'}, {model: 'G', spellings: 'g37s$G$g20$g25$g35$g37$g35c$g37c$g35s$g35x$g37x'}, {model: 'EX', spellings: 'EX$ex37$ex35$ex35s$ex37s$ex35x$ex37x'}, {model: 'Q45', spellings: 'Q45$q'}, {model: 'I', spellings: 'I35$I$i30'}]
+isuzus = [{model: 'Trooper', spellings: 'trooper$troper$tropper$troopper'}, {model: 'Rodeo', spellings: 'Rodeo'}, {model: 'Pickup', spellings: 'Pickup'}, {model: 'Ascender', spellings: 'Ascender$acender$asender$acsender'}, {model: 'Axiom', spellings: 'Axiom'}, {model: 'NPR', spellings: 'NPR$nprhd$nrr$nqr$fvr$frr$box truck$boxtruck'}]
+jaguars = [{model: 'XF', spellings: 'xf$xfr$xfrs$xfseries'}, {model: 'F-Type', spellings: 'f type$ftype$f$ftipe'}, {model: 'XK', spellings: 'xk$xkr$xkrs$xk8$xkseries'}, {model: 'XJ', spellings: 'xj$xjr$xjrs$xj8$xjl$xj6$xj12$super v8$superv8$vanden$vandenplas$supersport$plas$xj8l$xjseries'}, {model: 'E-Type', spellings: 'e type$etype$e$etipe'}, {model: 'X-Type', spellings: 'x type$xtype$x$xtipe'}, {model: 'S-Type', spellings: 's type$stype$s$stipe'}]
+jeeps = [{model: 'Wrangler', spellings: 'Wrangler$rangler$wramgler$sahara$tj$rubicon$cj5$cj 5'}, {model: 'Liberty', spellings: 'Liberty$libert'}, {model: 'Patriot', spellings: 'Patriot'}, {model: 'Compass', spellings: 'Compass'}, {model: 'Cherokee', spellings: 'Cherokee$cheroke$cheroky$cherocky$cherockee$cherocke$cherrokee'}, {model: 'Commander', spellings: 'Commander$comander'}]
+kias = [{model: 'Sorento', spellings: 'Sorento$sorrento'}, {model: 'Forte', spellings: 'Forte'}, {model: 'Soul', spellings: 'Soul'}, {model: 'Rio', spellings: 'Rio$rio5'}, {model: 'Sportage', spellings: 'Sportage'}, {model: 'Optima', spellings: 'Optima'}, {model: 'Rondo', spellings: 'Rondo$ronda'}, {model: 'Spectra', spellings: 'Spectra$spectra5'}, {model: 'Sedona', spellings: 'Sedona'}, {model: 'Amanti', spellings: 'Amanti'}, {model: 'Borrego', spellings: 'Borrego$borego'}, {model: 'Sephia', spellings: 'Sephia$sepia'}]
+lambos = [{model: 'Aventador', spellings: 'Aventador'}, {model: 'Gallardo', spellings: 'Gallardo$galardo'}, {model: 'Reventon', spellings: 'Reventon'}, {model: 'Murcielago', spellings: 'Murcielago'}, {model: 'Estoque', spellings: 'Estoque'}, {model: 'Diablo', spellings: 'Diablo'}]
+land_rovers = [{model: 'Range Rover', spellings: 'Range Rover$roversport$rangerover'}, {model: 'Freelander', spellings: 'Freelander'}, {model: 'Defender', spellings: 'Defender'}, {model: 'Evoque', spellings: 'Evoque'}, {model: 'Discovery', spellings: 'Discovery$lr3$lr 3$lr4$lr 4'}, {model: 'LR2', spellings: 'LR2$lr 2'}]
+lexi = [{model: 'RX', spellings: 'RX$rx450h$rx350$rx400h$rx330$rx300'}, {model: 'LX', spellings: 'LX$lx570$lx470$lx450'}, {model: 'LS', spellings: 'LS$ls600h$ls600hybrid$ls460$ls430$ls400$ls600hl'}, {model: 'GS', spellings: 'GS$gs450h$gs450hybrid$gs350$gs250$gs460d$gs430$gs300$gs400'}, {model: 'ES', spellings: 'e330$e 330$Es$es300h$es350$es330$es300$es250'}, {model: 'LFA', spellings: 'LFA$lf a'}, {model: 'IS', spellings: 'is350$is250$isf$is300$is250c$is350$is 350$is 250$is f$is 300$is 250c$is 350c$is350c'}, {model: 'CT', spellings: 'CT200h$ct200hybrid$ct 200h$ct 200$ct200'}, {model: 'SC', spellings: 'SC430$sc 430$sc300$sc 300$sc400$sc 400'}, {model: 'HS', spellings: 'HS$hs250h$hs250hybrid'}, {model: 'GX', spellings: 'GX$gx460$gx470'}]
+lincolns = [{model: 'LS', spellings: 'ls$l s'}, {model: 'MKZ', spellings: 'MKZ$zephyr'}, {model: 'MKT', spellings: 'MKT'}, {model: 'MKS', spellings: 'MKS'}, {model: 'MKX', spellings: 'MKX'}, {model: 'Navigator', spellings: 'Navigator$navigater'}, {model: 'Mark LT', spellings: 'Mark LT$marklt$mark'}, {model: 'Aviator', spellings: 'Aviator$aviater'}, {model: 'Town Car', spellings: 'Town Car$towncar$continental'}]
+maseratis = [{model: 'Quattroporte', spellings: 'Quattroporte$quatroporte$cuatroporte$quatro porte$cuatro porte$quattro porte'}, {model: 'GranTurismo', spellings: 'GranTurismo$gran turismo$granturismo$tourismo$grantourismo$grandtourismo'}, {model: 'Spyder', spellings: 'Spyder'}, {model: 'GranSport', spellings: 'gransport$gran sport$grandsport$grand sport'}]
+maybachs = [{model: 'Zeppelin', spellings: 'Zeppelin'}, {model: 'Xenatec', spellings: 'Xenatec'}, {model: 'Landaulet', spellings: 'Landaulet'}, {model: 'Exelero', spellings: 'Exelero'}, {model: '62', spellings: '62$62s'}, {model: '57', spellings: '57$57s'}]
+mazdas = [{model: 'MX-5 Miata', spellings: 'mx5$mx 5$miata'}, {model: 'CX-9', spellings: 'cx9$cx 9'}, {model: 'CX-5', spellings: 'cx5$cx 5'}, {model: 'Mazda6', spellings: 'mazda6$mazda6i$6i$6s$mazda6s$mazda 6s$mazda 6'}, {model: 'Mazda3', spellings: 'mazda3$mazdaspeed3$speed3$mazda3i$3i$mazda 3$speed 3'}, {model: 'Mazda5', spellings: 'Mazda5$mazda 5$mazdaspeed5$mazdaspeed 5$5i$mazda5i$speed 5'}, {model: 'Mazda2', spellings: 'Mazda2$Mazda 2$2i$mazda2i'}, {model: 'CX-7', spellings: 'cx7$cx 7'}, {model: 'RX-8', spellings: 'rx8$rx 8'}, {model: 'Tribute', spellings: 'Tribute'}, {model: 'Protege', spellings: 'Protege$protege5'}, {model: 'MPV', spellings: 'MPV'}, {model: 'Truck', spellings: 'B2500$b series$bseries$b4000$b3000$b-4000$b'}, {model: '929', spellings: '929'}, {model: 'RX7', spellings: 'RX7$rx 7'}, {model: '626', spellings: '626'}]
+mclarens = [{model: 'MP4-12C Spider', spellings: 'mp4$12c spider$12c$mp412c'}, {model: 'F1', spellings: 'F1'}]
+mercedes = [{model: 'SLS', spellings: 'SLS'}, {model: 'E-Class', spellings: 'e class$eclass$e300$e 300$e63$e 63$e550$e 550$e350$e 350$e320$e 320$e200$e 200$e55$e 55$e500$e 500'}, {model: 'SL-Class', spellings: 'SL class$SLclass$SL65$sl$sl550$sl500$sl63$sl55$sl350$sl73$sl60'}, {model: 'GLK-Class', spellings: 'glk class$glkclass$glk$glk350$glk280$glk300$glk'}, {model: 'GL-Class', spellings: 'gl class$glclass$GL$gl63$gl420$gl450$gl550$gl'}, {model: 'G-Class', spellings: 'g class$gclass$g 63$g63$g 55$g55$g 500$g500$g 550$g550'}, {model: 'CLS-Class', spellings: 'cls class$clsclass$CLS$cls63$cls550$cls350$cls500$cls320$cls55$cls'}, {model: 'SLK-Class', spellings: 'slk class$slkclass$SLK$slk55$slk350$slk320$slk200$slk230$slk32$slk300$slk280$slk'}, {model: 'M-Class', spellings: 'ml class$mlclass$m class$mclass$ML$ml63$ml500$ml350$ml320$ml55$ml550$ml430'}, {model: 'C-Class', spellings: 'c class$cclass$c300$C63$c 63$c 55$c55$c320$c 320$c220$c 220$c200$c 200$c180$c 180$c230$c 230$c240$c 240$c280$c 280$c36$c 36$c43$c 43$c160$c 160$c350$c 350$c32$c 32'}, {model: 'S-Class', spellings: 's class$sclass$s430$S600$s 600$s500$s 500$s63$s 63$s550$s 550$s65$s 65$s450$s 450$s400$s 400$s350$s 350'}, {model: 'R-Class', spellings: 'r class$rclass$r63$r 63$r500$r 500$r280$r 280$r350$r 350$r320$r 320'}, {model: 'CL-Class', spellings: 'cl class$clclass$CL65$cl 65$cl63$cl 63$cl500$cl 500$cl600$cl 600$cl55$cl 55$cl450$cl 450$cl400$cl 400$cl350$cl 350$cl550$cl 550'}, {model: 'SLR', spellings: 'SLR'}, {model: 'CLK-Class', spellings: 'clk class$clkclass$CLK$clk63$clk500$clk350$clk320$clk55$clk430$clk200$clk230$clk320$clk270$clk'}]
+mercurys = [{model: 'Milan', spellings: 'Milan'}, {model: 'Sable', spellings: 'Sable'}, {model: 'Mariner', spellings: 'Mariner'}, {model: 'Mountaineer', spellings: 'Mountaineer$mountainer'}, {model: 'Montego', spellings: 'Montego'}, {model: 'Monterey', spellings: 'Monterey$monterrey'}, {model: 'Marauder', spellings: 'Marauder'}, {model: 'Grand Marquis', spellings: 'Grand Marquis$marquis'}, {model: 'Cougar', spellings: 'Cougar$coogar$cuogar'}]
+minis = [{model: 'Roadster', spellings: 'Roadster'}, {model: 'Countryman', spellings: 'Countryman'}, {model: 'Clubman', spellings: 'Clubman'}, {model: 'Coupe', spellings: 'Coupe'}, model: "Cooper", spellings: "cooper"]
+mitsubishis = [{model: 'Outlander', spellings: 'Outlander'}, {model: 'i-MiEV', spellings: 'i-MiEV$miev$imiev'}, {model: 'Lancer', spellings: 'Lancer$evolution$evo'}, {model: 'Vanwagon', spellings: 'Vanwagon'}, {model: '3000GT', spellings: '3000GT$3000 gt$3000'}, {model: 'Mirage', spellings: 'Mirage'}, {model: 'Galant', spellings: 'Galant$galent'}, {model: 'Eclipse', spellings: 'Eclipse'}, {model: 'Raider', spellings: 'Raider'}, {model: 'Montero', spellings: 'Montero'}, {model: 'Endeavor', spellings: 'Endeavor'}, {model: 'Diamante', spellings: 'Diamante$diamonte'}]
+nissans = [{model: 'Sentra', spellings: 'Sentra$centra'}, {model: 'Pathfinder', spellings: 'Pathfinder$patherfinder'}, {model: 'Murano', spellings: 'Murano$morano$marano'}, {model: 'Juke', spellings: 'Juke'}, {model: 'GT-R', spellings: 'gtr$gt r'}, {model: 'Altima', spellings: 'Altima'}, {model: '370Z/350Z', spellings: '370Z$370 z$350z$350 z'}, {model: 'Versa', spellings: 'Versa'}, {model: 'Maxima', spellings: 'Maxima'}, {model: 'Rogue', spellings: 'Rogue'}, {model: 'Quest', spellings: 'Quest'}, {model: 'LEAF', spellings: 'LEAF'}, {model: 'NV', spellings: 'NV200$nv2000$nv2500$nv1500$nv'}, {model: 'Cube', spellings: 'Cube'}, {model: 'Xterra', spellings: 'Xterra$xtera$extera$exterra'}, {model: 'Frontier', spellings: 'Frontier$fronteir'}, {model: 'Armada', spellings: 'Armada'}, {model: 'Titan', spellings: 'Titan'}]
+oldsmobiles = [{model: 'Alero', spellings: 'Alero'}, {model: 'Silhouette', spellings: 'Silhouette$silhouete$silouette$silouete'}, {model: 'Bravada', spellings: 'Bravada'}, {model: 'Aurora', spellings: 'Aurora'}, {model: 'Intrigue', spellings: 'Intrigue$intrique'}]
+plymouths = [{model: 'Prowler', spellings: 'Prowler'}, {model: 'Neon', spellings: 'Neon'}, {model: 'Breeze', spellings: 'Breeze'}, {model: 'Voyager', spellings: 'Voyager'}]
+pontiacs = [{model: 'G5', spellings: 'G5$g 5'}, {model: 'G8', spellings: 'G8$g 8'}, {model: 'Vibe', spellings: 'Vibe'}, {model: 'Solstice', spellings: 'Solstice$soltice'}, {model: 'G6', spellings: 'G6$g 6'}, {model: 'G3', spellings: 'G3$g 3'}, {model: 'Torrent', spellings: 'Torrent'}, {model: 'Montana', spellings: 'Montana'}, {model: 'GTO', spellings: 'GTO'}, {model: 'Grand Prix', spellings: 'Grand Prix$grandprix$granprix$gran prix'}, {model: 'Grand Am', spellings: 'Grand Am$grandam$granam$gran am$granan$gran an'}, {model: 'Bonneville', spellings: 'Bonneville$bonevile$boneville$bonnevile$bonevil$bonnevil'}, {model: 'Aztek', spellings: 'Aztek$astek$asteck$astec$aztec'}, {model: 'Sunfire', spellings: 'Sunfire'}, {model: 'Trans Am', spellings: 'Trans Am$transam$tran am$tranam'}, {model: 'Firebird', spellings: 'Firebird'}]
+porsches = [{model: 'Cayman', spellings: 'Cayman$caymans'}, {model: 'Panamera', spellings: 'Panamera$panameras'}, {model: 'Cayenne', spellings: 'Cayenne$cayene$cayen$cayyen$cayyenne$cayyenn$cayyen$cayennes$cayenes$cayens$cayenn$cayens'}, {model: 'Boxster', spellings: 'Boxster$boxter$boxters$boxsters'}, {model: 'Carrera', spellings: 'Carrera$carreras$911$carera$careras$carrera turbo$911 turbo$911 turbo s$carrera s$carrera turbo s$carrera turbo$gt3$gt2$gt 3$gt 2$targa$targatop'}]
+rollses = [{model: 'Phantom', spellings: 'Phantom'}, {model: 'Ghost', spellings: 'Ghost'}]
+saabs = [{model: '9-5', spellings: '9 5$95$9.5'}, {model: '9-4X', spellings: '9 4x$94x$94$9.4x$9.4'}, {model: '9-3', spellings: '9 3$9 3x$93 x$9 3 x$93$9.3$9.3x'}, {model: '9-7X', spellings: '9 7$9 7x$97 x$9 7 x$97x$97$9.7x$9.7$97'}, {model: '9-2X', spellings: '9 2$9 2x$92 x$9 2 x$92x$92$9.2$9.2x$92'}]
+saturns = [{model: 'Vue', spellings: 'Vue$veu$view'}, {model: 'Astra', spellings: 'Astra'}, {model: 'Sky', spellings: 'Sky'}, {model: 'Outlook', spellings: 'Outlook'}, {model: 'Aura', spellings: 'Aura'}, {model: 'Relay', spellings: 'Relay'}, {model: 'Ion', spellings: 'Ion'}, {model: 'L-Series', spellings: 'l series$lseries$ls2$lw2$ls1$lw1$l100$l200$l300$lw200$lw200$l300.1$l300.2$l300.3$ls$lw$l$lw300'}, {model: 'S-Series', spellings: 's series$sseries$sl1$sl2$sw1$sw2$sc1$sc2$s12$sl$sw'}]
+scions = [{model: 'FR-S', spellings: 'frs$fr s$fr'}, {model: 'iQ', spellings: 'iQ'}, {model: 'tC', spellings: 'tC'}, {model: 'xD', spellings: 'xD'}, {model: 'xB', spellings: 'xB'}, {model: 'xA', spellings: 'xA'}]
+smarts = [{model: 'fortwo electric', spellings: 'fortwo electric'}, {model: 'fortwo Passion', spellings: 'fortwo Passion$passion$pasion'}, {model: 'fortwo Pure', spellings: 'fortwo Pure$for two$pure'}]
+subarus = [{model: 'Forester', spellings: 'Forester$forsester'}, {model: 'VX', spellings: 'VX'}, {model: 'Legacy', spellings: 'Legacy'}, {model: 'Outback', spellings: 'Outback'}, {model: 'Impreza', spellings: 'Impreza$wrx$sti$impresa$wrxsti'}, {model: 'Tribeca', spellings: 'Tribeca'}, {model: 'Baja', spellings: 'Baja'}]
+suzukis = [{model: 'XL7', spellings: 'Grand Vitara$grandvitara$granvitara$gran vitara$vitara$xl7$xl 7$lx7$lx 7$xl$lx'}, {model: 'Swift', spellings: 'Swift'}, {model: 'Kizashi', spellings: 'Kizashi'}, {model: 'SX4', spellings: 'SX4$sx 4'}, {model: 'Forenza', spellings: 'Forenza'}, {model: 'Aerio', spellings: 'Aerio$aerios$aeriosx'}, {model: 'Verona', spellings: 'Verona'}, {model: 'Reno', spellings: 'Reno'}, {model: 'Equator', spellings: 'Equator$ecuator$ecuador'}, {model: 'Samurai', spellings: 'Samurai'}, {model: 'Esteem', spellings: 'Esteem$estem'}]
+teslas = [{model: 'Model S', spellings: 'Model S$models'}, {model: 'Roadster', spellings: 'Roadster'}]
+toyotas = [{model: 'Yaris', spellings: 'Yaris'}, {model: 'Venza', spellings: 'Venza'}, {model: 'RAV4', spellings: 'RAV4$rava$rav 4'}, {model: 'Prius', spellings: 'Prius'}, {model: 'Land Cruiser', spellings: 'Land Cruiser$landcruiser$land crusier'}, {model: 'Tacoma', spellings: 'Tacoma$prerunner'}, {model: 'Hilux', spellings: 'Hilux'}, {model: 'Camry', spellings: 'Camry$camary$camery$solara'}, {model: 'Sienna', spellings: 'Sienna$siena$sieena'}, {model: 'Sequoia', spellings: 'Sequoia$sequioa'}, {model: 'Matrix', spellings: 'Matrix'}, {model: 'Highlander', spellings: 'Highlander$higlander'}, {model: 'Corolla', spellings: 'Corolla$corrola$carola$carrola$carrolla$carolla'}, {model: 'Tundra', spellings: 'Tundra'}, {model: '4Runner', spellings: '4Runner$4 runner'}, {model: 'FJ Cruiser', spellings: 'FJ Cruiser$fjcruiser$fj'}, {model: 'Avalon', spellings: 'Avalon'}, {model: 'Celica', spellings: 'Celica'}, {model: 'MR2 Spider', spellings: 'MR2 Spider$mr2$mr 2'}, {model: 'Echo', spellings: 'Echo$eco'}]
+vws = [{model: 'Touareg', spellings: 'Touareg$tuareg$toareg$tuoareg'}, {model: 'Passat', spellings: 'Passat$pasat$pasatt$passatt'}, {model: 'Jetta', spellings: 'Jetta$jeta$jett'}, {model: 'Golf', spellings: 'Golf$gti$r32'}, {model: 'Beetle', spellings: 'Beetle$bettle$beettle$betle$bug$beelte'}, {model: 'Touran', spellings: 'Touran$tuoran$turan'}, {model: 'Phaeton', spellings: 'Phaeton$phaton$pheton$faeton$feton$faton$phaetone'}, {model: 'Eos', spellings: 'Eos'}, {model: 'Rabbit', spellings: 'Rabbit$rabit'}, {model: 'CC', spellings: 'CC'}, {model: 'Cabrio', spellings: 'cabrio$cabriolet$cabriolette$cabriolete'}, {model: 'Tiguan', spellings: 'Tiguan$tigaun'}, {model: 'Routan', spellings: 'Routan$ruotan'}]
+volvos = [{model: 'V60', spellings: 'V60$v 60'}, {model: 'V40', spellings: 'V40$v 40'}, {model: 'XC60', spellings: 'XC60$xc 60'}, {model: 'S60', spellings: 'S60$s 60$s60t$s60r'}, {model: 'XC90', spellings: 'XC90$xc 90$cx90$cx 90$cx9$cx 9$xc9'}, {model: 'C30', spellings: 'C30$c 30'}, {model: 'S80', spellings: 'S80$s 80$s80l$s80 l$s 80l'}, {model: 'C70', spellings: 'C70$c 70'}, {model: 'V50', spellings: 'V50$v 50'}, {model: 'S40', spellings: 'S40$s 40'}, {model: 'XC70', spellings: 'XC70$xc 70'}, {model: 'V70', spellings: 'V70$v 70$v70xc'}]
+
+
+brands = [{make: acura, models: acuras}, 
+          {make: aston, models: astons},
+          {make: audi, models: audis},
+          {make: bmw, models: bmws},
+          {make: bentley, models: bentleys},
+          {make: bugatti, models: bugattis},
+          {make: buick, models: buicks},
+          {make: cadillac, models: cadillacs},
+          {make: chevy, models: chevrolets},
+          {make: chrysler, models: chryslers},
+          {make: daewoo, models: daewoos},
+          {make: dodge, models: dodges},
+          {make: ferrari, models: ferraris},
+          {make: fiat, models: fiats},
+          {make: fisker, models: fiskers},
+          {make: ford, models: fords},
+          {make: gmc, models: gmcs},
+          {make: honda, models: hondas},
+          {make: hummer, models: hummers},
+          {make: hyundai, models: hyundais},
+          {make: infiniti, models: infinitis},
+          {make: isuzu, models: isuzus},
+          {make: jaguar, models: jaguars},
+          {make: jeep, models: jeeps},
+          {make: kia, models: kias},
+          {make: lambo, models: lambos},
+          {make: land_rover, models: land_rovers},
+          {make: lexus, models: lexi},
+          {make: lincoln, models: lincolns},
+          {make: maserati, models: maseratis},
+          {make: maybach, models: maybachs},
+          {make: mazda, models: mazdas},
+          {make: mclaren, models: mclarens},
+          {make: mercedes_benz, models: mercedes},
+          {make: mercury, models: mercurys},
+          {make: mini, models: minis},
+          {make: mitsubishi, models: mitsubishis},
+          {make: nissan, models: nissans}, 
+          {make: oldsmobile, models: oldsmobiles},
+          {make: plymouth, models: plymouths},
+          {make: pontiac, models: pontiacs}, 
+          {make: porsche, models: porsches},
+          {make: rolls, models: rollses},
+          {make: saab, models: saabs},
+          {make: saturn, models: saturns},
+          {make: scion, models: scions},
+          {make: smart, models: smarts},
+          {make: subaru, models: subarus},
+          {make: suzuki, models: suzukis}, 
+          {make: tesla, models: teslas},
+          {make: toyota, models: toyotas},
+          {make: vw, models: vws},
+          {make: volvo, models: volvos}]
+
+# Include when making model subdivisions
+# [{model: 'Cooper S Convertible', spellings: nil}, {model: 'Cooper Convertible', spellings: nil}, {model: 'Cooper S', spellings: nil}, {model: 'Cooper', spelling: nil}, {model: 'John Cooper Works Convertible', spelling: nil}, {model: 'John Cooper Works', spelling: nil}]
+          
+Subdivision.delete_all
+Spelling.delete_all
+brands.each do |brand|
+  make = Subdivision.create(name: brand[:make][:brand], level: 0)
+  
+  brand[:make][:spellings].split("$").each do |make_spelling|
+    make.spellings.create(string: make_spelling)
+  end
+  
+  brand[:models].each do |model|
+    saved_model = make.children.create(name: model[:model], level: 1)
+    model[:spellings].split("$").each do |model_spelling|
+      saved_model.spellings.create(string: model_spelling)
+    end
+  end
 end
+
+

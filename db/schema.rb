@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130805010227) do
+ActiveRecord::Schema.define(:version => 20130806151722) do
 
   create_table "craigs_sites", :force => true do |t|
     t.string   "city"
@@ -21,6 +21,19 @@ ActiveRecord::Schema.define(:version => 20130805010227) do
     t.float    "longitude"
     t.datetime "created_at",   :null => false
     t.datetime "updated_at",   :null => false
+  end
+
+  create_table "listings", :force => true do |t|
+    t.integer  "year"
+    t.integer  "model_id"
+    t.integer  "price"
+    t.boolean  "is_owner"
+    t.integer  "zip"
+    t.integer  "miles"
+    t.integer  "phone"
+    t.integer  "scraping_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
   create_table "scrapings", :force => true do |t|
@@ -37,6 +50,21 @@ ActiveRecord::Schema.define(:version => 20130805010227) do
     t.datetime "updated_at",                                     :null => false
     t.boolean  "dqed",                        :default => false
     t.integer  "price"
+  end
+
+  create_table "spellings", :force => true do |t|
+    t.string   "string"
+    t.integer  "subdivision_id"
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
+  end
+
+  create_table "subdivisions", :force => true do |t|
+    t.string   "name"
+    t.integer  "parent_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+    t.integer  "level"
   end
 
 end
