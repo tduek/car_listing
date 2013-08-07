@@ -13,7 +13,7 @@ module CLCarsParse
                                           
     @all_models_spellings_rxp = /\b#{@all_models_spellings.map { |s| s.string }.join("|")}\b/i
     
-    Scraping.includes(:craigs_site).
+    Scraping.includes(:craigs_site, :thumbs, :main_pics).
              where(source: "Craigslist", 
                    parsed: false, 
                      dqed: false).
@@ -46,6 +46,7 @@ module CLCarsParse
       listing.make_id ? parse_mdl_w_make(scraping, listing) : parse_mdl_wo_make(scraping, listing)
       
       listing.save
+      scraping.thumbs+scraping.main_pics.each { |pic| pic.listing_id = listing.id; pic.save }
     end
     
     scraping.parsed = true; scraping.save

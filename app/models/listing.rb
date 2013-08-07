@@ -7,7 +7,7 @@ class Listing < ActiveRecord::Base
   belongs_to :model, class_name: "Subdivision", foreign_key: :model_id
   
   has_many :thumbs, class_name: "Pic", 
-                    conditions: "is_thumb = true"
+                    conditions: "pics.is_thumb = true"
   has_many :main_pics, class_name: "Pic",
-                       conditions: "is_thumb = false"
+                       conditions: "pics.is_thumb = false"
 end

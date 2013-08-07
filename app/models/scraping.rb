@@ -4,9 +4,9 @@ class Scraping < ActiveRecord::Base
   belongs_to :craigs_site
   
   has_many :thumbs, class_name: "Pic", 
-                    conditions: "is_thumb = true"
+                    conditions: "pics.thumb_for IS NOT NULL"
   has_many :main_pics, class_name: "Pic",
-                       conditions: "is_thumb = false"
+                       conditions: "pics.thumb_for IS NULL"
   
   extend CraigslistCarScraper
   extend CLCarsParse
