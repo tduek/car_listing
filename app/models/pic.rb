@@ -1,5 +1,5 @@
 class Pic < ActiveRecord::Base
-  attr_accessible :listing_id, :scraping_id, :src, :thumb_for, :type
+  attr_accessible :listing_id, :scraping_id, :src, :thumb_for, :is_thumb
   
   belongs_to :listing
   belongs_to :scraping

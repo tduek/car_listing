@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130807145502) do
+ActiveRecord::Schema.define(:version => 20130807161810) do
 
   create_table "craigs_sites", :force => true do |t|
     t.string   "city"
@@ -41,10 +41,10 @@ ActiveRecord::Schema.define(:version => 20130807145502) do
     t.string   "src"
     t.integer  "scraping_id"
     t.integer  "listing_id"
-    t.integer  "type"
     t.integer  "thumb_for"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
+    t.boolean  "is_thumb"
   end
 
   create_table "scrapings", :force => true do |t|

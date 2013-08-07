@@ -38,7 +38,7 @@ module CraigslistCarScraper
   
   def scrape_listing_details_page(url, city_id, seller_type, guid, row, attempt = 0)
     page = get_page(url.to_s)
-    return unless listing
+    return unless page
     body = page.css("#postingbody").text
     # the listing won't have a 
     post_date = page.css("date").last
@@ -59,11 +59,11 @@ module CraigslistCarScraper
   end
   
   def scrape_pics(page, scraping)
-    scraping.css("#thumbs a").each do |link|
-      main_pic = scraping.main_pics.create(src: link[:href], type: PIC_TYPES[:main_pic])
+    page.css("#thumbs a").each do |link|
+      main_pic = scraping.main_pics.create(src: link[:href], is_thumb: false)
       scraping.thumbs.create(src: link.at_css("img")[:src],
                        thumb_for: main_pic.id,
-                            type: PIC_TYPES[:thumb])
+                        is_thumb: true)
     end
   end
   
