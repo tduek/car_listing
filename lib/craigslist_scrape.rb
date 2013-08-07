@@ -37,25 +37,34 @@ module CraigslistCarScraper
   end
   
   def scrape_listing_details_page(url, city_id, seller_type, guid, row, attempt = 0)
-    listing = get_page(url.to_s)
+    page = get_page(url.to_s)
     return unless listing
-    body = listing.css("#postingbody").text
+    body = page.css("#postingbody").text
     # the listing won't have a 
-    post_date = listing.css("date").last
+    post_date = page.css("date").last
     post_date = post_date ? Time.at(post_date.attributes["title"].value.to_i).to_datetime : nil
 
-    # unless dq_text?(body, city_id, seller_type, guid, url.to_s)
-      Scraping.create(guid: guid,
-            craigs_site_id: city_id,
-               seller_type: seller_type,
-                     title: row.css("a").text,
-               description: body,
-                       url: url.to_s,
-                    source: "Craigslist",
-                 post_date: post_date,
-                     price: row.css(".price").text[/\d+/].to_i,
-                      dqed: !post_date)
-   # end
+
+    scraping = Scraping.create(guid: guid,
+                     craigs_site_id: city_id,
+                        seller_type: seller_type,
+                              title: row.css("a").text,
+                        description: body,
+                                url: url.to_s,
+                             source: "Craigslist",
+                          post_date: post_date,
+                              price: row.css(".price").text[/\d+/].to_i,
+                               dqed: !post_date)
+    scrape_pics(page, scraping) 
+  end
+  
+  def scrape_pics(page, scraping)
+    scraping.css("#thumbs a").each do |link|
+      main_pic = scraping.main_pics.create(src: link[:href], type: PIC_TYPES[:main_pic])
+      scraping.thumbs.create(src: link.at_css("img")[:src],
+                       thumb_for: main_pic.id,
+                            type: PIC_TYPES[:thumb])
+    end
   end
   
   def get_page(url, secs = 5, i = 0)
