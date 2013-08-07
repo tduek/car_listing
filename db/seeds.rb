@@ -415,17 +415,17 @@
 	{city: 'central sd', city_for_url: 'csd', zip: '57563', latitude: 43.360304, longitude: -100.38868}
 ]
 
-# CraigsSite.destroy_all
-# 
-# @cities.each do |city|
-#   CraigsSite.create(
-#     city:         city[:city],
-#     city_for_url: city[:city_for_url],
-#     zip:           city[:zip],
-#     latitude:     city[:latitude],
-#     longitude:     city[:longitude]
-#   )
-# end
+CraigsSite.destroy_all
+
+@cities.each do |city|
+  CraigsSite.create(
+    city:         city[:city],
+    city_for_url: city[:city_for_url],
+    zip:           city[:zip],
+    latitude:     city[:latitude],
+    longitude:     city[:longitude]
+  )
+end
 
 
 
