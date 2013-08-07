@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130806151722) do
+ActiveRecord::Schema.define(:version => 20130806235144) do
 
   create_table "craigs_sites", :force => true do |t|
     t.string   "city"
@@ -30,10 +30,11 @@ ActiveRecord::Schema.define(:version => 20130806151722) do
     t.boolean  "is_owner"
     t.integer  "zip"
     t.integer  "miles"
-    t.integer  "phone"
+    t.integer  "phone",       :limit => 8
     t.integer  "scraping_id"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.datetime "created_at",               :null => false
+    t.datetime "updated_at",               :null => false
+    t.integer  "make_id"
   end
 
   create_table "scrapings", :force => true do |t|
