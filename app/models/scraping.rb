@@ -3,6 +3,9 @@ class Scraping < ActiveRecord::Base
   
   belongs_to :craigs_site
   
+  has_many :thumbs, -> { where type: PIC_TYPES[:thumb] }
+  has_many :main_pics, -> { where type: PIC_TYPES[:main_pic] }
+  
   extend CraigslistCarScraper
   extend CLCarsParse
 end

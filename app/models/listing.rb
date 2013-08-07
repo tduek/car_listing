@@ -6,4 +6,7 @@ class Listing < ActiveRecord::Base
   belongs_to :make, class_name: "Subdivision", foreign_key: :make_id
   belongs_to :model, class_name: "Subdivision", foreign_key: :model_id
   
+  has_many :thumbs, -> { where type: PIC_TYPES[:thumb] }
+  has_many :main_pics, -> { where type: PIC_TYPES[:main_pic] }
+  
 end
