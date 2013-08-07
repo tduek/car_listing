@@ -8,6 +8,7 @@ gem 'rails', '3.2.13'
 gem 'pg'
 
 gem 'nokogiri'
+gem 'kaminari'
 require 'open-uri'
 require 'timeout'
 

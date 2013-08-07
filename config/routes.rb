@@ -1,4 +1,8 @@
 CarListing::Application.routes.draw do
+  get "listings/index"
+
+  get "listings/show"
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
