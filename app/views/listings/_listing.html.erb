@@ -1,0 +1,10 @@
+<article class="search-result-listing">
+	<div class="thumb-container">
+		<% unless listing.thumbs.empty? %>
+			<%= link_to(image_tag(listing.thumbs[0].src), listing, class: "thumb") %>
+		<% end %>
+	</div>
+	
+	<header><%= link_to "#{listing.make.name if listing.make} 
+						 #{listing.model.name if listing.model}", listing %></header>
+</article>

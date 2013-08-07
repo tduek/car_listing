@@ -1,7 +1,6 @@
 CarListing::Application.routes.draw do
-  get "listings/index"
-
-  get "listings/show"
+  
+  resources :listings, only: [:index, :show]
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
