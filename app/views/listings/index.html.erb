@@ -51,12 +51,12 @@
 	<% end %>
 </section>
 
-<section id="search-results">
+<section id="search-results" class="clear-fix">
   <div id="pages-container" class="clear-fix">
   <%= render partial: "search_results" %>
   </div>
 </section>
-
+<%= render partial: "listings/infinite_scroll_params" %>
 <script>
 $(document).ready(function () {
   $("#search-results").on("ajax:success", 
@@ -66,13 +66,44 @@ $(document).ready(function () {
     $("div#pages-container").animate({"left": "-=515px"}, 1500);
   });
   
+  var requestingNextPage = false;
+  
   $(window).scroll(function(event) {
     var distanceFromBottom = function () {
       var doc = $(document)
       return doc.height() - (window.innerHeight + doc.scrollTop())
     }
     
-    console.log("distance from bottom = "+distanceFromBottom());
+    if (distanceFromBottom() < 500 && !requestingNextPage) {
+      requestingNextPage = true;
+      var params = $("input[type='hidden'].scroll")
+      $.ajax({
+        url: "<%= listings_url %>",
+        dataType: "html",
+        data: {
+          "search[year_from]": params.filter("#year-from").val(),
+          "search[year_to]": params.filter("#year-to").val(),
+          "search[make_id]": params.filter("#make-id").val(),
+          "search[model_id]": params.filter("#model-id").val(),
+          "search[price_from]": params.filter("#price-from").val(),
+          "search[price_to]": params.filter("#price-to").val(),
+          "page": params.filter("#page").val()
+        },
+        beforeSend: function () {
+          console.log("HIT beforeSend")
+        },
+        success: function (data) {
+          console.log("HIT success");
+          console.log(data);
+          
+          $("#pages-container").append(data);
+          var nextPageNum = (parseInt(params.filter("#page").val())+1);
+          params.filter("#page").val(nextPageNum);
+          requestingNextPage = false;
+        }
+        
+      })
+    };
   })
   
   $("#search-results").on("ajax:success", 

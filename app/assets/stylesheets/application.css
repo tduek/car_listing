@@ -183,8 +183,7 @@ form.search tr:last-child {
 	border-left: 1px solid lightgray;
   padding: 0 0 0 25px;
   position: relative;
-  overflow: hidden;
-  height: 2500px;
+/*  overflow: hidden;*/
 }
 
 #search-results > #pages-container {

@@ -1,0 +1,19 @@
+<%= hidden_field_tag(:year_from, params[:search][:year_from], 
+                      class: "scroll", id: "year-from") %>
+
+<%= hidden_field_tag(:year_to, params[:search][:year_to], 
+                      class: "scroll", id: "year-to") %>
+
+<%= hidden_field_tag(:make_id, params[:search][:make_id], 
+                      class: "scroll", id: "make-id") %>
+
+<%= hidden_field_tag(:model_id, params[:search][:model_id],
+                      class: "scroll", id: "model-id") %>
+
+<%= hidden_field_tag(:price_from, params[:search][:price_from], 
+                      class: "scroll", id: "price-from") %>
+                      
+<%= hidden_field_tag(:price_to, params[:search][:price_to], 
+                      class: "scroll", id: "price-to") %>
+                      
+<%= hidden_field_tag(:page, params[:page].to_i, class: "scroll", id: "page") %>
