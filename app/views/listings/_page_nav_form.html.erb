@@ -1,0 +1,24 @@
+<%= form_tag(listings_url, class: "nav-button-form #{page_delta == -1 ? 'nav-prev' : 'nav-next'}", method: "get", remote: true) do %>
+	
+  <%= hidden_field_tag(:year_from, params[:search][:year_from], 
+                        name: "search[year_from]") %>
+  
+  <%= hidden_field_tag(:year_to, params[:search][:year_to], 
+                        name: "search[year_to]") %>
+  
+  <%= hidden_field_tag(:make_id, params[:search][:make_id], 
+                        name: "search[make_id]") %>
+  
+  <%= hidden_field_tag(:model_id, params[:search][:model_id],
+                        name: "search[model_id]") %>
+  
+  <%= hidden_field_tag(:price_from, params[:search][:price_from], 
+                        name: "search[price_from]") %>
+                        
+  <%= hidden_field_tag(:price_to, params[:search][:price_to], 
+                        name: "search[price_to]") %>
+                        
+  <%= hidden_field_tag(:page, params[:page].to_i + page_delta) %>
+  
+  <%= submit_tag page_delta == 1 ? "Next >>" : "<< Prev" %>
+<% end %>

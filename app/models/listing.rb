@@ -7,7 +7,41 @@ class Listing < ActiveRecord::Base
   belongs_to :model, class_name: "Subdivision", foreign_key: :model_id
   
   has_many :thumbs, class_name: "Pic", 
-                    conditions: "pics.is_thumb = true"
+                    conditions: "pics.thumb_for IS NOT NULL"
   has_many :main_pics, class_name: "Pic",
-                       conditions: "pics.is_thumb = false"
+                       conditions: "pics.thumb_for IS NULL"
+                       
+  def self.search(terms, page)
+    results = Listing.where("listings.model_id IS NOT NULL").
+                        includes(:thumbs, :make, :model).
+                        order("listings.id DESC").
+                        page(page)
+    if terms
+      if terms[:year_from].to_i > 0 && terms[:year_to].to_i > 0
+        results = results.where(year: terms[:year_from]..terms[:year_to])
+      elsif terms[:year_from].to_i > 0
+        results = results.where("listings.year >= '#{terms[:year_from]}'")
+      elsif terms[:year_to].to_i > 0
+        results = results.where("listings.year <= '#{terms[:year_from]}'")
+      end
+      
+      if terms[:make_id].to_i > 0
+        results = results.where(make_id: terms[:make_id])
+      end
+      
+      if terms[:model_id].to_i > 0
+        results = results.where(model_id: terms[:model_id])
+      end
+      
+      if terms[:price_from].to_i > 0 && terms[:price_to].to_i > 0
+        results = results.where(price: terms[:price_from]..terms[:price_to])
+      elsif terms[:price_from].to_i > 0
+        results = results.where("listings.price >= '#{terms[:price_from]}'")
+      elsif terms[:price_to].to_i > 0
+        results = results.where("listings.price <= '#{terms[:price_to]}'")
+      end
+    end
+    
+    results
+  end
 end

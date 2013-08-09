@@ -1,10 +1,85 @@
 <h1>Listings#index</h1>
 
 <section id="sidebar">
-	
+	<%= form_tag(listings_url, method: "get", class: "search") do %>
+  <table>
+    <tr>
+      <td>
+    <%= label_tag :year_from, "Year" %>
+    <%= select_tag(:year_from,
+                    options_for_select((1930..Time.now.year).to_a.reverse, 
+                                        params[:search][:year_from]), 
+                    prompt: "From", name: "search[year_from]") %>
+    <%= select_tag(:year_to,
+                    options_for_select((1930..Time.now.year).to_a.reverse,
+                                        params[:search][:year_to]), 
+                    prompt: "To", name: "search[year_to]") %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+    <%= select_tag(:make_id, 
+                    options_for_select(@makes_array, 
+                                       params[:search][:make_id]), 
+                    prompt: "Make", name: "search[make_id]") %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+    <%= select_tag(:model_id, 
+                    options_for_select(@models_array, 
+                                       params[:search][:model_id]),
+                    prompt: "Model", name: "search[model_id]") %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+    <%= label_tag :price_from, "Price" %>
+    <%= number_field_tag(:price_from, params[:search][:price_from], 
+                          min: 0, step: 50, name: "search[price_from]") %>
+    <%= label_tag :price_to, "to" %>
+    <%= number_field_tag(:price_to, params[:search][:price_to], 
+                          min: 0, step: 50, name: "search[price_to]") %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+    <%= submit_tag "Search" %>
+      </td>
+    </tr>
+  </table>
+	<% end %>
 </section>
 
 <section id="search-results">
-	<header>Found <%= pluralize(@listings.count, "result") %></header>
-	<%= render @listings %>
+  <div id="pages-container" class="clear-fix">
+  <%= render partial: "search_results" %>
+  </div>
 </section>
+
+<script>
+$(document).ready(function () {
+  $("#search-results").on("ajax:success", 
+                          ".nav-button-form.nav-next", function (event, data) {
+                            console.log("HIT")
+    $("div#pages-container").append(data);
+    $("div#pages-container").animate({"left": "-=515px"}, 1500);
+  });
+  
+  $(window).scroll(function(event) {
+    var distanceFromBottom = function () {
+      var doc = $(document)
+      return doc.height() - (window.innerHeight + doc.scrollTop())
+    }
+    
+    console.log("distance from bottom = "+distanceFromBottom());
+  })
+  
+  $("#search-results").on("ajax:success", 
+                          ".nav-button-form.nav-prev", function (event, data) {
+                            console.log("HIT")
+    //$("div#pages-container").prepend(data);
+    $("div#pages-container").animate({"left": "+=515px"}, 1500);
+  });
+});
+</script>

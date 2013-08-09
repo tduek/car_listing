@@ -1,10 +1,22 @@
-<article class="search-result-listing">
+<article class="search-result-listing clear-fix">
 	<div class="thumb-container">
-		<% unless listing.thumbs.empty? %>
-			<%= link_to(image_tag(listing.thumbs[0].src), listing, class: "thumb") %>
-		<% end %>
+    <%# if !listing.thumbs.empty? %>
+	    <%= link_to(listing.thumbs[0] ? image_tag(listing.thumbs[0].src) : "NO PHOTO", listing, class: "thumb") 
+      %>
+    <%# else %>
+      <%#= link_to("", listing, class: "thumb") %>
+    <%# end %> 
 	</div>
 	
-	<header><%= link_to "#{listing.make.name if listing.make} 
-						 #{listing.model.name if listing.model}", listing %></header>
+	<div class="listing-info">
+		<%= link_to "#{listing.year}
+					 #{listing.make.name if listing.make} 
+					 #{listing.model.name if listing.model}", listing %>
+						 
+		<div class="price"><%= number_to_currency(listing.price, precision: 0) %></div>
+		<div class="seller">
+			for sale by <%= listing.is_owner ? "OWNER" : "DEALERSHIP" %> in zip
+			<%= listing.zip.to_s.rjust(5, "0") %>
+		</div>
+	</div>
 </article>

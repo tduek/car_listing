@@ -11,3 +11,280 @@
  *= require_self
  *= require_tree .
  */
+html, body, article, div, img, a, h1, h2, h3, h4, h5, p, 
+header, section, ul, li, input, form {
+	margin: 0; padding: 0; border: 0; 
+  font-family: "Trebuchet MS", sans-serif; font-weight: 100; color: #333333;
+}
+
+h1, h2 {font-family: "Didot"; font-weight: 100; color: #333333;}
+h1 {letter-spacing: 1px;}
+a { text-decoration: none; }
+a:hover {text-decoration: underline;}
+ul { list-style: none; }
+input[type="submit"]:hover {cursor: pointer;}
+
+.clear-fix:after {
+	content: "";
+	display: table;
+	clear: both;
+}
+
+body {
+  background-color: rgb(255,246,237);
+}
+
+body > header {
+	width: 100%;
+}
+
+body > header > h1 {
+  display: block;
+  text-align: center;
+  font-size: 48px;
+  font-weight: 100;
+  margin: 20px 0 10px 0;
+  letter-spacing: 5px;
+}
+
+body > header > nav {
+	width: 800px;
+	margin: 0 auto;
+  text-align: center;
+  border-top: 1px solid #333333;
+  border-bottom: 7px solid #333333;
+}
+
+body > header > nav > ul {
+  clear: none;
+  display: inline-block;
+  margin: 0 auto;
+}
+
+body > header > nav > ul > li {
+  float: left;
+}
+
+body > header > nav > ul > li > a {
+  display: block;
+  padding: 0px 10px;
+  margin: 0 50px -4px 50px;
+  color: black;
+  text-transform: uppercase;
+  font-family: "Didot";
+}
+
+body > header > nav > ul > li > a:hover {
+  text-decoration: none;
+  /*border-bottom: 2px solid rgb(200,7,0);
+  margin-bottom: -7px;*/
+}
+
+#content {
+	position: relative;
+	top: 50px;
+	width: 800px;
+	margin: 0 auto;
+}
+
+#sidebar {
+	display: block;
+	float: left;
+	width: 230px;
+}
+
+#sidebar > form.search {
+  background: white;
+  display: block;
+  padding: 0;
+}
+form.search > table {
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  border: 3px solid #444444;
+  border-radius: 3px;
+}
+form.search tr {
+  display: block;
+  padding: 8px 5px;
+  border-bottom: 1px solid lightgray;
+}
+
+form.search td {
+  padding: 0;
+  display: block;
+  width: 100%;
+}
+
+form.search label {
+  font-size: 14px;
+  border-spacing: 0;
+}
+
+.search > input, .search select, .search input[type="number"] {
+  border: 0; padding: 0; margin: 0;
+  background: none;
+  font-size: 18px;
+  border: 0;
+  outline: none;
+}
+
+.search > input:hover, .search select:hover, .search input[type=number] {
+  cursor: pointer;
+}
+
+
+.search select#year_from, .search select#year_to {
+  display: inline-block;
+  clear: none;
+  margin: 0 0 0 35px;
+  width: 45px;
+}
+
+.search select, .search input[type="number"] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+.search option:first-child {
+  color: lightgray;
+}
+
+.search select#make_id, .search #model_id, .search input[type="submit"] {
+  width: 100%;
+}
+
+.search #price_from, .search #price_to {
+  width: 70px;
+  font-size: 16px;
+}
+
+.search input[type="submit"] {
+  padding: 10px;
+  background: #444444;
+  color: rgb(255,246,237);
+  text-transform: uppercase;
+  font-size: 18px;
+  font-family: "Didot", serif;
+  font-weight: 100;
+}
+
+form.search tr:last-child {
+  border-bottom: none;
+  padding: 0;
+  margin-top: 20px;
+}
+
+
+#search-results {
+	float: right;
+	width: 515px;
+	border-left: 1px solid lightgray;
+  padding: 0 0 0 25px;
+  position: relative;
+  overflow: hidden;
+  height: 2500px;
+}
+
+#search-results > #pages-container {
+  position: absolute;
+  left: 0;
+}
+
+#pages-container > .page {
+  float: left;
+}
+
+.page header > h3 {
+  display: block;
+  float: left;
+  clear: none;
+  margin: 0 0 0 15px;
+  font-size: 19px;
+}
+
+.page > header > nav.page-nav {
+  display: block;
+  margin-top: 3px;
+  float: right;
+  clear: none;
+  width: 100px;
+}
+
+nav.page-nav > form > input[type="submit"] {
+  display: block;
+  clear: none;
+  font-size: 12px;
+  border: none;
+  background: none;
+  padding-top: 3px;
+}
+
+form.nav-prev input[type="submit"] {
+  float: left;
+  padding-right: 5px;
+}
+
+form.nav-next input[type="submit"] {
+  float: right;
+  padding-left: 0;
+}
+
+nav.page-nav > form > input[type="submit"]:hover {
+  text-decoration: underline;
+}
+
+article.search-result-listing {
+	display: block;
+	clear: both;
+	padding: 15px 0 15px 15px;
+	width: 100%;
+	border-top: 1px solid lightgray;
+}
+
+article.search-result-listing:last-child {
+	border-bottom: 2px solid lightgray;
+}
+
+article.search-result-listing > div.thumb-container {
+	width: 56px;
+	height: 56px;
+	background: darkgray;
+  clear: none;
+  float: left;
+}
+
+article.search-result-listing > div.thumb-container > .thumb {
+	display: block;
+	width: 50px;
+	height: auto;
+	margin: 3px auto;
+  text-align: center;
+  font-size: 12px;
+  color: black;
+}
+article.search-result-listing > div.listing-info{
+  height: 56px;
+  width: 424px;
+  float: left;
+  padding: 0 10px;
+}
+article.search-result-listing > div.listing-info > a {
+	display: block;
+	float: left;
+  color: black;
+}
+
+article.search-result-listing > div.listing-info > div.seller {
+  font-size: 13px;
+  clear: both;
+  float: right;
+  margin-top: 22px;
+}
+
+article.search-result-listing > div.listing-info > div.price {
+	color: rgb(200,7,0);
+	font-size: 16px;
+	float: right;
+}
