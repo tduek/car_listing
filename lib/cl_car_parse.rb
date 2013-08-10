@@ -46,7 +46,10 @@ module CLCarsParse
       listing.make_id ? parse_mdl_w_make(scraping, listing) : parse_mdl_wo_make(scraping, listing)
       
       listing.save
-      scraping.thumbs+scraping.main_pics.each { |pic| pic.listing_id = listing.id; pic.save }
+      
+      (scraping.thumbs << scraping.main_pics).each do |pic| 
+        pic.listing_id = listing.id; pic.save
+      end
     end
     
     scraping.parsed = true; scraping.save
