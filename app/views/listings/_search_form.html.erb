@@ -1,0 +1,48 @@
+<%= form_tag(listings_url, method: "get", class: "search") do %>
+<table>
+  <tr>
+    <td>
+  <%= label_tag :year_from, "Year" %>
+  <%= select_tag(:year_from,
+                  options_for_select((1930..Time.now.year).to_a.reverse, 
+                                      params[:search][:year_from]), 
+                  prompt: "From", name: "search[year_from]") %>
+  <%= select_tag(:year_to,
+                  options_for_select((1930..Time.now.year).to_a.reverse,
+                                      params[:search][:year_to]), 
+                  prompt: "To", name: "search[year_to]") %>
+    </td>
+  </tr>
+  <tr>
+    <td>
+  <%= select_tag(:make_id, 
+                  options_for_select(@makes_array, 
+                                     params[:search][:make_id]), 
+                  prompt: "Make", name: "search[make_id]") %>
+    </td>
+  </tr>
+  <tr>
+    <td>
+  <%= select_tag(:model_id, 
+                  options_for_select(@models_array, 
+                                     params[:search][:model_id]),
+                  prompt: "Model", name: "search[model_id]") %>
+    </td>
+  </tr>
+  <tr>
+    <td>
+  <%= label_tag :price_from, "Price" %>
+  <%= number_field_tag(:price_from, params[:search][:price_from], 
+                        min: 0, step: 50, name: "search[price_from]") %>
+  <%= label_tag :price_to, "to" %>
+  <%= number_field_tag(:price_to, params[:search][:price_to], 
+                        min: 0, step: 50, name: "search[price_to]") %>
+    </td>
+  </tr>
+  <tr>
+    <td>
+  <%= submit_tag "Search" %>
+    </td>
+  </tr>
+</table>
+<% end %>
