@@ -76,7 +76,8 @@ module CraigslistCarScraper
   end
   
   def build_srch_page_url(city_for_url, seller_type, page_num)
-    url = URI.parse("http://city.craigslist.org/search/ct#{seller_type}/")
+    url = Addressable::URI.parse(
+                      "http://city.craigslist.org/search/ct#{seller_type}/")
     
     url.host.gsub!(/\A\w+/, city_for_url)
     
