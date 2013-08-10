@@ -1,10 +1,18 @@
 <div class="page">
-<header class="">
-	<h3><%= page_entries_info @listings %></h3>
-	<nav class="page-nav">
-	  <%= render partial: "page_nav_form", locals: {page_delta: -1} unless @listings.first_page? %>
-    <%= render partial: "page_nav_form", locals: {page_delta: 1} unless @listings.last_page? %>
-	</nav>
-</header>
-<%= render @listings %>
+  <header class="">
+  	<h3><%= page_entries_info @listings %></h3>
+  	<nav class="page-nav">
+  	  <%= render partial: "page_nav_form", locals: {page_delta: -1} unless @listings.first_page? %>
+      <%= render partial: "page_nav_form", locals: {page_delta: 1} unless @listings.last_page? %>
+  	</nav>
+  </header>
+  
+  <%= render @listings %>
+
+  <h2 id="end-of-page">
+    Fetching more listings
+    <img alt="Ajax-loader" src="assets/ajax-loader.gif">
+  </h2>
+
+  <h2 id="end-of-list">END OF LIST</h2>
 </div>

@@ -1,4 +1,4 @@
-<%= form_tag(listings_url, class: "nav-button-form #{page_delta == -1 ? 'nav-prev' : 'nav-next'}", method: "get", remote: true) do %>
+<%= form_tag(listings_url, class: "nav-button-form #{page_delta == -1 ? 'nav-prev' : 'nav-next'}", method: "get") do %>
 	
   <%= hidden_field_tag(:year_from, params[:search][:year_from], 
                         name: "search[year_from]") %>

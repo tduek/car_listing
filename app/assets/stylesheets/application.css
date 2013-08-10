@@ -31,7 +31,7 @@ input[type="submit"]:hover {cursor: pointer;}
 }
 
 body {
-  background-color: rgb(255,246,237);
+  background-color: rgb(255,228,201);
 }
 
 body > header {
@@ -162,7 +162,7 @@ form.search label {
 
 .search input[type="submit"] {
   padding: 10px;
-  background: #444444;
+  background: #333333;
   color: rgb(255,246,237);
   text-transform: uppercase;
   font-size: 18px;
@@ -182,17 +182,6 @@ form.search tr:last-child {
 	width: 515px;
 	border-left: 1px solid lightgray;
   padding: 0 0 0 25px;
-  position: relative;
-/*  overflow: hidden;*/
-}
-
-#search-results > #pages-container {
-  position: absolute;
-  left: 0;
-}
-
-#pages-container > .page {
-  float: left;
 }
 
 .page header > h3 {
@@ -209,6 +198,12 @@ form.search tr:last-child {
   float: right;
   clear: none;
   width: 100px;
+}
+
+.page > h2#end-of-page, .page > h2#end-of-list {
+  text-align: center;
+  margin: 20px;
+  display: none;
 }
 
 nav.page-nav > form > input[type="submit"] {

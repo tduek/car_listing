@@ -8,11 +8,11 @@ class ListingsController < ApplicationController
     
     @listings = Listing.search(params[:search], params[:page])
     
-    
     params[:search] = {} unless params[:search]
     
     if request.xhr?
-      render partial: "search_results"
+      sleep 3
+      render @listings
     end
   end
 
