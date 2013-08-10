@@ -22,7 +22,7 @@ class Listing < ActiveRecord::Base
       elsif terms[:year_from].to_i > 0
         results = results.where("listings.year >= '#{terms[:year_from]}'")
       elsif terms[:year_to].to_i > 0
-        results = results.where("listings.year <= '#{terms[:year_from]}'")
+        results = results.where("listings.year <= '#{terms[:year_to]}'")
       end
       
       if terms[:make_id].to_i > 0
