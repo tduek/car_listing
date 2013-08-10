@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130807161810) do
+ActiveRecord::Schema.define(:version => 20130810140636) do
 
   create_table "craigs_sites", :force => true do |t|
     t.string   "city"
@@ -37,6 +37,11 @@ ActiveRecord::Schema.define(:version => 20130807161810) do
     t.integer  "make_id"
   end
 
+  add_index "listings", ["make_id"], :name => "index_listings_on_make_id"
+  add_index "listings", ["model_id"], :name => "index_listings_on_model_id"
+  add_index "listings", ["price"], :name => "index_listings_on_price"
+  add_index "listings", ["year"], :name => "index_listings_on_year"
+
   create_table "pics", :force => true do |t|
     t.string   "src"
     t.integer  "scraping_id"
@@ -46,6 +51,9 @@ ActiveRecord::Schema.define(:version => 20130807161810) do
     t.datetime "updated_at",  :null => false
     t.boolean  "is_thumb"
   end
+
+  add_index "pics", ["listing_id"], :name => "index_pics_on_listing_id"
+  add_index "pics", ["scraping_id"], :name => "index_pics_on_scraping_id"
 
   create_table "scrapings", :force => true do |t|
     t.string   "title"
@@ -63,12 +71,16 @@ ActiveRecord::Schema.define(:version => 20130807161810) do
     t.integer  "price"
   end
 
+  add_index "scrapings", ["guid"], :name => "index_scrapings_on_guid"
+
   create_table "spellings", :force => true do |t|
     t.string   "string"
     t.integer  "subdivision_id"
     t.datetime "created_at",     :null => false
     t.datetime "updated_at",     :null => false
   end
+
+  add_index "spellings", ["subdivision_id"], :name => "index_spellings_on_subdivision_id"
 
   create_table "subdivisions", :force => true do |t|
     t.string   "name"
@@ -77,5 +89,8 @@ ActiveRecord::Schema.define(:version => 20130807161810) do
     t.datetime "updated_at", :null => false
     t.integer  "level"
   end
+
+  add_index "subdivisions", ["level"], :name => "index_subdivisions_on_level"
+  add_index "subdivisions", ["parent_id"], :name => "index_subdivisions_on_parent_id"
 
 end
