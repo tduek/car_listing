@@ -427,15 +427,9 @@ CraigsSite.destroy_all
   )
 end
 
-
-
-
-
-
-
 acura = {brand: 'Acura', spellings: 'acura'}
 aston = {brand: 'Aston Martin', spellings: 'aston martin$astonmartin'}
-audi = {brand: 'Audi', spellings: 'budi$audy'}
+audi = {brand: 'Audi', spellings: 'audi$audy'}
 bmw = {brand: 'BMW', spellings: 'bmw'}
 bentley = {brand: 'Bentley', spellings: 'bentley$bently'}
 bugatti = {brand: 'Bugatti', spellings: 'bugatti$bugati&buggatti$buggati$bugaty$buggaty$buggatty'}
@@ -600,22 +594,22 @@ brands = [{make: acura, models: acuras},
 # include when making model subdivisions
 # [{model: 'cooper s convertible', spellings: nil}, {model: 'cooper convertible', spellings: nil}, {model: 'cooper s', spellings: nil}, {model: 'cooper', spelling: nil}, {model: 'john cooper works convertible', spelling: nil}, {model: 'john cooper works', spelling: nil}]
           
-Subdivision.delete_all
-Spelling.delete_all
-
-brands.each do |brand|
-  make = Subdivision.create(name: brand[:make][:brand], level: 0)
-  
-  brand[:make][:spellings].split("$").each do |make_spelling|
-    make.spellings.create(string: make_spelling)
-  end
-  
-  brand[:models].each do |model|
-    saved_model = make.children.create(name: model[:model], level: 1)
-    model[:spellings].split("$").each do |model_spelling|
-      saved_model.spellings.create(string: model_spelling)
-    end
-  end
-end
+# Subdivision.delete_all
+# Spelling.delete_all
+# 
+# brands.each do |brand|
+#   make = Subdivision.create(name: brand[:make][:brand], level: 0)
+#   
+#   brand[:make][:spellings].split("$").each do |make_spelling|
+#     make.spellings.create(string: make_spelling)
+#   end
+#   
+#   brand[:models].each do |model|
+#     saved_model = make.children.create(name: model[:model], level: 1)
+#     model[:spellings].split("$").each do |model_spelling|
+#       saved_model.spellings.create(string: model_spelling)
+#     end
+#   end
+# end
 
 
