@@ -14,7 +14,7 @@ class Listing < ActiveRecord::Base
                        
   def self.search(terms, page)
     results = Listing.where("listings.model_id IS NOT NULL").
-                        includes(:thumbs, :make, :model).
+                        includes(:thumbs, :make, :model, :zip).
                         page(page)
     if terms
       if terms[:year_from].to_i > 0 && terms[:year_to].to_i > 0
