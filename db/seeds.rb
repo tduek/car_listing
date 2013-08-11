@@ -415,17 +415,17 @@
 	{city: 'central sd', city_for_url: 'csd', zip: '57563', latitude: 43.360304, longitude: -100.38868}
 ]
 
-CraigsSite.destroy_all
-
-@cities.each do |city|
-  CraigsSite.create(
-    city:         city[:city],
-    city_for_url: city[:city_for_url],
-    zip:           city[:zip],
-    latitude:     city[:latitude],
-    longitude:     city[:longitude]
-  )
-end
+# CraigsSite.destroy_all
+# 
+# @cities.each do |city|
+#   CraigsSite.create(
+#     city:         city[:city],
+#     city_for_url: city[:city_for_url],
+#     zip:           city[:zip],
+#     latitude:     city[:latitude],
+#     longitude:     city[:longitude]
+#   )
+# end
 
 acura = {brand: 'Acura', spellings: 'acura'}
 aston = {brand: 'Aston Martin', spellings: 'aston martin$astonmartin'}
@@ -612,4 +612,13 @@ brands = [{make: acura, models: acuras},
 #   end
 # end
 
+lines = File.readlines("db/US_zips.txt").map { |line| line.split("\t") }
 
+lines.each do |line|
+  Zip.create(code: line[1].to_i,
+             city: line[2],
+            state: line[3],
+               st: line[4],
+              lat: line[8],
+             long: line[9])
+end 

@@ -2,6 +2,7 @@ class Listing < ActiveRecord::Base
   attr_accessible :is_owner, :miles, :model_id, :phone, :price, :scraping_id, :year, :zip, :post_date
   
   belongs_to :scraping
+  belongs_to :zip, primary_key: :code, foreign_key: :zip
   
   belongs_to :make, class_name: "Subdivision", foreign_key: :make_id
   belongs_to :model, class_name: "Subdivision", foreign_key: :model_id

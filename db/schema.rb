@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130810222850) do
+ActiveRecord::Schema.define(:version => 20130811195953) do
 
   create_table "craigs_sites", :force => true do |t|
     t.string   "city"
@@ -93,5 +93,20 @@ ActiveRecord::Schema.define(:version => 20130810222850) do
 
   add_index "subdivisions", ["level"], :name => "index_subdivisions_on_level"
   add_index "subdivisions", ["parent_id"], :name => "index_subdivisions_on_parent_id"
+
+  create_table "zips", :force => true do |t|
+    t.integer  "code"
+    t.string   "city"
+    t.string   "state"
+    t.string   "st"
+    t.decimal  "lat"
+    t.decimal  "long"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "zips", ["code"], :name => "index_zips_on_code"
+  add_index "zips", ["lat"], :name => "index_zips_on_lat"
+  add_index "zips", ["long"], :name => "index_zips_on_long"
 
 end
