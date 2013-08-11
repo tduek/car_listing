@@ -16,6 +16,9 @@
 <%= hidden_field_tag(:price_to, params[:search][:price_to], 
                       class: "scroll", id: "price-to") %>
                         
+<%= hidden_field_tag(:sort_by, params[:search][:sort], 
+                      class: "scroll", id: "sort") %>
+                        
 <%= hidden_field_tag(:total_pages, @listings.total_pages,
                       class: "scroll", id: "total-pages") %>
                       

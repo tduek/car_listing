@@ -18,7 +18,7 @@
   <%= select_tag(:make_id, 
                   options_for_select(@makes_array, 
                                      params[:search][:make_id]), 
-                  prompt: "Make", name: "search[make_id]") %>
+                  prompt: "Make ▾", name: "search[make_id]") %>
     </td>
   </tr>
   <tr>
@@ -26,17 +26,32 @@
   <%= select_tag(:model_id, 
                   options_for_select(@models_array, 
                                      params[:search][:model_id]),
-                  prompt: "Model", name: "search[model_id]") %>
+                  prompt: "Model ▾", name: "search[model_id]") %>
     </td>
   </tr>
   <tr>
     <td>
   <%= label_tag :price_from, "Price" %>
-  <%= number_field_tag(:price_from, params[:search][:price_from], 
-                        min: 0, step: 50, name: "search[price_from]") %>
-  <%= label_tag :price_to, "to" %>
-  <%= number_field_tag(:price_to, params[:search][:price_to], 
-                        min: 0, step: 50, name: "search[price_to]") %>
+      <input placeholder="From" 
+                    type="text" 
+                    name="search[price_from]"
+                 pattern="[0-9]*"
+                      id="price_from">
+      <input placeholder="To"
+                    type="text" 
+                    name="search[price_to]" 
+                 pattern="[0-9]*"
+                      id="price_to">
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <%= label_tag :sort_by %>
+      <%= select_tag(:sort_by, 
+                      options_for_select(@sort_options,
+                                         params[:search][:sort]),
+                      prompt: "▾", name: "search[sort]") %>
+      </select>
     </td>
   </tr>
   <tr>
@@ -46,3 +61,68 @@
   </tr>
 </table>
 <% end %>
+
+<script>
+
+var disableNewerThanYearFrom = function () {
+  var yearFrom = parseInt($("#year_from").val());
+  var options = $("#year_to").children("option")
+  options.each(function (i) {
+    var option = $(options[i])
+    if (option.val() < yearFrom) {
+      option.prop("disabled", "true"); 
+    } else if (isNaN(yearFrom)) {
+      option.removeAttr("disabled");
+    }
+  });
+};
+
+var disableOlderThanYearTo = function () {
+  var yearTo = parseInt($("#year_to").val());
+  var options = $("#year_from").children("option")
+  options.each(function (i) {
+    var option = $(options[i])
+    if (option.val() > yearTo) {
+     option.prop("disabled", "true"); 
+    } else if (isNaN(yearTo)) {
+      option.removeAttr("disabled");
+    }
+  });
+};
+
+$(document).ready(function () {
+  disableNewerThanYearFrom();
+  disableOlderThanYearTo();
+  $("#year_from").on("change", disableNewerThanYearFrom)
+  
+  $("#year_to").on("change", disableOlderThanYearTo)
+  
+  
+  var allModelsForSelect = $("#model_id").children("option");
+  var updateModelSelect = function() {
+    var currentMakeID = parseInt($("#make_id").val());
+    if (isNaN(currentMakeID)) {
+      $("#model_id").prop("disabled", "true");
+    } else {
+      $("#model_id").removeAttr("disabled");
+      var nextMakeID = $("#make_id").find("option[value="+currentMakeID+"]").next().val();
+      $("#model_id").empty();
+    
+      if (currentMakeID) {
+        $("#model_id").prepend("<option value=''>Model ▾</option>")
+      }
+    
+      allModelsForSelect.each(function (i) {
+        var modelOption = $(allModelsForSelect[i])
+        var modelID = parseInt(modelOption.val());
+        if ((!currentMakeID || modelID > currentMakeID) && (!nextMakeID || modelID < nextMakeID)) {
+          $("#model_id").append(modelOption)
+        }
+      });
+    }
+  };
+    
+  updateModelSelect();  
+  $("#make_id").on("change", updateModelSelect);
+});
+</script>

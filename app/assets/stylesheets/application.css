@@ -76,8 +76,6 @@ body > header > nav > ul > li > a {
 
 body > header > nav > ul > li > a:hover {
   text-decoration: none;
-  /*border-bottom: 2px solid rgb(200,7,0);
-  margin-bottom: -7px;*/
 }
 
 #content {
@@ -97,6 +95,9 @@ body > header > nav > ul > li > a:hover {
   background: white;
   display: block;
   padding: 0;
+  border: 1px solid black;
+  border-radius: 5px;
+  
 }
 form.search > table {
   padding: 0;
@@ -104,6 +105,7 @@ form.search > table {
   width: 100%;
   border: 3px solid #444444;
   border-radius: 3px;
+  box-shadow: 5px 5px 10px rgba(0,0,0,0.7);
 }
 form.search tr {
   display: block;
@@ -118,8 +120,9 @@ form.search td {
 }
 
 form.search label {
-  font-size: 14px;
+  font-size: 18px;
   border-spacing: 0;
+  margin-right: 15px;
 }
 
 .search > input, .search select, .search input[type="number"] {
@@ -138,7 +141,7 @@ form.search label {
 .search select#year_from, .search select#year_to {
   display: inline-block;
   clear: none;
-  margin: 0 0 0 35px;
+  margin: 0 12px 0 0;
   width: 45px;
 }
 
@@ -156,8 +159,15 @@ form.search label {
 }
 
 .search #price_from, .search #price_to {
-  width: 70px;
-  font-size: 16px;
+  font-size: 18px;
+}
+
+.search #price_from {
+  width: 55px;
+}
+
+.search #price_to {
+  width: 65px;
 }
 
 .search input[type="submit"] {
@@ -166,8 +176,15 @@ form.search label {
   color: rgb(255,246,237);
   text-transform: uppercase;
   font-size: 18px;
-  font-family: "Didot", serif;
+  font-family: "Trebuchet MS", sans-serif;
   font-weight: 100;
+  border-radius: 2px;
+  border: 1px solid black;
+}
+
+.search input[type="submit"]:active {
+  color: lightgray;
+  padding: 11px 10px 9px 10px;
 }
 
 form.search tr:last-child {
@@ -180,7 +197,7 @@ form.search tr:last-child {
 #search-results {
 	float: right;
 	width: 515px;
-	border-left: 1px solid lightgray;
+	border-left: 1px solid gray;
   padding: 0 0 0 25px;
 }
 
@@ -202,7 +219,7 @@ form.search tr:last-child {
 
 .page > h2#end-of-page, .page > h2#end-of-list {
   text-align: center;
-  margin: 20px;
+  margin: 20px 0 20px 80px;
   display: none;
 }
 
@@ -233,34 +250,35 @@ article.search-result-listing {
 	display: block;
 	clear: both;
 	padding: 15px 0 15px 15px;
-	width: 100%;
-	border-top: 1px solid lightgray;
+	width: 500px;
+	border-top: 1px solid gray;
 }
 
 article.search-result-listing:last-child {
-	border-bottom: 2px solid lightgray;
+	border-bottom: 2px solid gray;
 }
 
 article.search-result-listing > div.thumb-container {
-	width: 56px;
-	height: 56px;
-	background: darkgray;
+	width: 50px;
+	height: 50px;
+  background: white;
   clear: none;
   float: left;
+  border: 3px solid #333333;
 }
 
 article.search-result-listing > div.thumb-container > .thumb {
 	display: block;
 	width: 50px;
-	height: auto;
-	margin: 3px auto;
+	height: 50px;
+/*  margin: 3px auto;*/
   text-align: center;
   font-size: 12px;
-  color: black;
+  color: #333333/*rgb(255,228,201)*/;
 }
 article.search-result-listing > div.listing-info{
   height: 56px;
-  width: 424px;
+  width: 400px;
   float: left;
   padding: 0 10px;
 }

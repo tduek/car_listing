@@ -18,6 +18,9 @@
   <%= hidden_field_tag(:price_to, params[:search][:price_to], 
                         name: "search[price_to]") %>
                         
+  <%= hidden_field_tag(:sort_by, params[:search][:sort], 
+                        name: "search[sort]") %>
+                        
   <%= hidden_field_tag(:page, params[:page].to_i + page_delta) %>
   
   <%= submit_tag page_delta == 1 ? "Next >>" : "<< Prev" %>

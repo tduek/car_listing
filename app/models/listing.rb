@@ -1,5 +1,5 @@
 class Listing < ActiveRecord::Base
-  attr_accessible :is_owner, :miles, :model_id, :phone, :price, :scraping_id, :year, :zip
+  attr_accessible :is_owner, :miles, :model_id, :phone, :price, :scraping_id, :year, :zip, :post_date
   
   belongs_to :scraping
   
@@ -14,7 +14,6 @@ class Listing < ActiveRecord::Base
   def self.search(terms, page)
     results = Listing.where("listings.model_id IS NOT NULL").
                         includes(:thumbs, :make, :model).
-                        order("listings.id DESC").
                         page(page)
     if terms
       if terms[:year_from].to_i > 0 && terms[:year_to].to_i > 0
@@ -39,6 +38,19 @@ class Listing < ActiveRecord::Base
         results = results.where("listings.price >= '#{terms[:price_from]}'")
       elsif terms[:price_to].to_i > 0
         results = results.where("listings.price <= '#{terms[:price_to]}'")
+      end
+      
+      case terms[:sort]
+      when "post_date_asc"
+        results = results.order(:post_date)
+      when "post_date_desc"
+        results = results.order("listings.post_date DESC")
+      when "price_asc"
+        results = results.order(:price)
+      when "price_desc"
+        results = results.order("listings.price DESC")
+      else
+        results = results.order("listings.id DESC")
       end
     end
     

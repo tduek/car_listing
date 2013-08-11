@@ -15,7 +15,7 @@
 						 
 		<div class="price"><%= number_to_currency(listing.price, precision: 0) %></div>
 		<div class="seller">
-			for sale by <%= listing.is_owner ? "OWNER" : "DEALERSHIP" %> in zip
+		  <%= "posted #{time_ago_in_words(listing.post_date)} ago " if listing.post_date %>by <%= listing.is_owner ? "OWNER" : "A DEALERSHIP" %> in zip
 			<%= listing.zip.to_s.rjust(5, "0") %>
 		</div>
 	</div>

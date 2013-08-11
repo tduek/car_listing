@@ -42,7 +42,7 @@ module CraigslistCarScraper
     body = page.css("#postingbody").text
     # the listing won't have a 
     post_date = page.css("date").last
-    post_date = post_date ? Time.at(post_date.attributes["title"].value.to_i).to_datetime : nil
+    post_date = post_date ? DateTime.parse(post_date.text) : DateTime.now
 
 
     scraping = Scraping.create(guid: guid,

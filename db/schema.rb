@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130810140636) do
+ActiveRecord::Schema.define(:version => 20130810222850) do
 
   create_table "craigs_sites", :force => true do |t|
     t.string   "city"
@@ -35,6 +35,7 @@ ActiveRecord::Schema.define(:version => 20130810140636) do
     t.datetime "created_at",               :null => false
     t.datetime "updated_at",               :null => false
     t.integer  "make_id"
+    t.datetime "post_date"
   end
 
   add_index "listings", ["make_id"], :name => "index_listings_on_make_id"
