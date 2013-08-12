@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130811195953) do
+ActiveRecord::Schema.define(:version => 20130812142538) do
 
   create_table "craigs_sites", :force => true do |t|
     t.string   "city"
@@ -28,7 +28,7 @@ ActiveRecord::Schema.define(:version => 20130811195953) do
     t.integer  "model_id"
     t.integer  "price"
     t.boolean  "is_owner"
-    t.integer  "zip"
+    t.integer  "zipcode"
     t.integer  "miles"
     t.integer  "phone",       :limit => 8
     t.integer  "scraping_id"
