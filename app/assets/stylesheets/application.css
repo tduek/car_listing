@@ -96,7 +96,7 @@ body > header > nav > ul > li > a:hover {
   display: block;
   padding: 0;
   border: 1px solid black;
-  border-radius: 5px;
+  border-radius: 4px;
   
 }
 form.search > table {
@@ -117,6 +117,7 @@ form.search td {
   padding: 0;
   display: block;
   width: 100%;
+  font-size: 25px;
 }
 
 form.search label {
@@ -162,12 +163,21 @@ form.search label {
   font-size: 18px;
 }
 
+.search #price_from:hover, .search #price_to:hover {
+  cursor: pointer;
+}
+
 .search #price_from {
-  width: 55px;
+  width: 52px;
 }
 
 .search #price_to {
+  margin-left: 2px;
   width: 65px;
+}
+
+.search label[for="sort_by"] {
+  margin-right: 0;
 }
 
 .search input[type="submit"] {
@@ -289,7 +299,7 @@ article.search-result-listing > div.listing-info > a {
 }
 
 article.search-result-listing > div.listing-info > div.seller {
-  font-size: 13px;
+  font-size: 12px;
   clear: both;
   float: right;
   margin-top: 22px;

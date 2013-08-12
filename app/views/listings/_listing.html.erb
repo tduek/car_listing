@@ -15,10 +15,11 @@
 						 
 		<div class="price"><%= number_to_currency(listing.price, precision: 0) %></div>
 		<div class="seller">
-		    <%= "posted #{time_ago_in_words(listing.post_date)} ago by
-                    #{listing.is_owner ? "OWNER" : "A DEALERSHIP"} in     
-                    #{listing.zip.city}, #{listing.zip.st} 
-                    #{listing.zip.code.to_s.rjust(5, "0")}" %>
+		    <%= "#{time_ago_in_words(listing.post_date)} ago by
+             #{listing.is_owner ? "the <strong>OWNER</strong>" : 
+                                  "a <strong>DEALERSHIP</strong>"} in     
+             #{listing.zip.city}, #{listing.zip.st} 
+             #{listing.zip.code.to_s.rjust(5, "0")}".html_safe %>
 		</div>
 	</div>
 </article>

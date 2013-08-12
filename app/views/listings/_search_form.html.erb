@@ -6,7 +6,7 @@
   <%= select_tag(:year_from,
                   options_for_select((1930..Time.now.year).to_a.reverse, 
                                       params[:search][:year_from]), 
-                  prompt: "From", name: "search[year_from]") %>
+                  prompt: "From", name: "search[year_from]") %>- 
   <%= select_tag(:year_to,
                   options_for_select((1930..Time.now.year).to_a.reverse,
                                       params[:search][:year_to]), 
@@ -36,7 +36,7 @@
                     type="text" 
                     name="search[price_from]"
                  pattern="[0-9]*"
-                      id="price_from">
+                      id="price_from">- 
       <input placeholder="To"
                     type="text" 
                     name="search[price_to]" 

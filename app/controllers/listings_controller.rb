@@ -8,15 +8,15 @@ class ListingsController < ApplicationController
     
     @listings = Listing.search(params[:search], params[:page])
     
-    @sort_options = [["Oldest first", "post_date_asc"], 
-                     ["Newest first", "post_date_desc"],
-                     ["Lowest price", "price_asc"], 
-                     ["Highest price", "price_desc"]]
+    @sort_options = [["oldest first", "post_date_asc"], 
+                     ["newest first", "post_date_desc"],
+                     ["lowest price", "price_asc"], 
+                     ["highest price", "price_desc"]]
                      
     params[:search] = {} unless params[:search]
     
     if request.xhr?
-      sleep 3
+      sleep 3 if Rails.env.development?
       render @listings
     end
   end
