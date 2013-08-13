@@ -1,5 +1,5 @@
 CarListing::Application.routes.draw do
-  
+  root to: "listings#index"
   resources :listings, only: [:index, :show]
 
   # The priority is based upon order of creation:

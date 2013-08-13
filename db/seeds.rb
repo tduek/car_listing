@@ -415,17 +415,17 @@
 	{city: 'central sd', city_for_url: 'csd', zip: '57563', latitude: 43.360304, longitude: -100.38868}
 ]
 
-# CraigsSite.destroy_all
-# 
-# @cities.each do |city|
-#   CraigsSite.create(
-#     city:         city[:city],
-#     city_for_url: city[:city_for_url],
-#     zip:           city[:zip],
-#     latitude:     city[:latitude],
-#     longitude:     city[:longitude]
-#   )
-# end
+CraigsSite.destroy_all
+
+@cities.each do |city|
+  CraigsSite.create(
+    city:         city[:city],
+    city_for_url: city[:city_for_url],
+    zip:           city[:zip],
+    latitude:     city[:latitude],
+    longitude:     city[:longitude]
+  )
+end
 
 acura = {brand: 'Acura', spellings: 'acura'}
 aston = {brand: 'Aston Martin', spellings: 'aston martin$astonmartin'}
@@ -594,23 +594,23 @@ brands = [{make: acura, models: acuras},
 # include when making model subdivisions
 # [{model: 'cooper s convertible', spellings: nil}, {model: 'cooper convertible', spellings: nil}, {model: 'cooper s', spellings: nil}, {model: 'cooper', spelling: nil}, {model: 'john cooper works convertible', spelling: nil}, {model: 'john cooper works', spelling: nil}]
           
-# Subdivision.delete_all
-# Spelling.delete_all
-# 
-# brands.each do |brand|
-#   make = Subdivision.create(name: brand[:make][:brand], level: 0)
-#   
-#   brand[:make][:spellings].split("$").each do |make_spelling|
-#     make.spellings.create(string: make_spelling)
-#   end
-#   
-#   brand[:models].each do |model|
-#     saved_model = make.children.create(name: model[:model], level: 1)
-#     model[:spellings].split("$").each do |model_spelling|
-#       saved_model.spellings.create(string: model_spelling)
-#     end
-#   end
-# end
+Subdivision.delete_all
+Spelling.delete_all
+
+brands.each do |brand|
+  make = Subdivision.create(name: brand[:make][:brand], level: 0)
+  
+  brand[:make][:spellings].split("$").each do |make_spelling|
+    make.spellings.create(string: make_spelling)
+  end
+  
+  brand[:models].each do |model|
+    saved_model = make.children.create(name: model[:model], level: 1)
+    model[:spellings].split("$").each do |model_spelling|
+      saved_model.spellings.create(string: model_spelling)
+    end
+  end
+end
 
 lines = File.readlines("db/US_zips.txt").map { |line| line.split("\t") }
 
