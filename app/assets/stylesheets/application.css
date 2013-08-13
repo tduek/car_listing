@@ -117,7 +117,7 @@ form.search td {
   padding: 0;
   display: block;
   width: 100%;
-  font-size: 25px;
+  font-size: 18px;
 }
 
 form.search label {
@@ -126,7 +126,7 @@ form.search label {
   margin-right: 15px;
 }
 
-.search > input, .search select, .search input[type="number"] {
+.search input, .search select {
   border: 0; padding: 0; margin: 0;
   background: none;
   font-size: 18px;
@@ -142,9 +142,11 @@ form.search label {
 .search select#year_from, .search select#year_to {
   display: inline-block;
   clear: none;
-  margin: 0 12px 0 0;
+  margin: 0 8px 0 0;
   width: 45px;
 }
+
+.search select#year_to { margin-left: 2px;}
 
 .search select, .search input[type="number"] {
   -webkit-appearance: none;
@@ -160,20 +162,37 @@ form.search label {
 }
 
 .search #price_from, .search #price_to {
-  font-size: 18px;
+/*  font-size: 18px;*/
 }
 
-.search #price_from:hover, .search #price_to:hover {
+.search input:hover, .search label:hover {
   cursor: pointer;
 }
 
 .search #price_from {
-  width: 52px;
+  width: 49px;
 }
 
 .search #price_to {
-  margin-left: 2px;
+  margin-left: 3px;
   width: 65px;
+}
+
+.search label[for="search_distance"] {
+  margin: 0;
+}
+
+.search #search_distance {
+  width: 40px;
+  text-align: center;
+}
+
+.search label[for="search_zip"]{
+  margin: 0 7px 0 13px;
+}
+
+.search #search_zip {
+  width: 60px;
 }
 
 .search label[for="sort_by"] {

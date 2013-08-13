@@ -21,6 +21,12 @@
                         
 <%= hidden_field_tag(:total_pages, @listings.total_pages,
                       class: "scroll", id: "total-pages") %>
+                        
+<%= hidden_field_tag(:zip, params[:search][:zip],
+                      class: "scroll", id: "zip") %>
+                        
+<%= hidden_field_tag(:dist, params[:search][:dist],
+                      class: "scroll", id: "dist") %>
                       
 <%= hidden_field_tag(:page, params[:page].to_i+1, 
                       class: "scroll", id: "page") %>

@@ -16,10 +16,10 @@
 		<div class="price"><%= number_to_currency(listing.price, precision: 0) %></div>
 		<div class="seller">
 		    <%= "#{time_ago_in_words(listing.post_date)} ago by
-             #{listing.is_owner ? "the <strong>OWNER</strong>" : 
-                                  "a <strong>DEALERSHIP</strong>"} in     
-             #{listing.zip.city}, #{listing.zip.st} 
-             #{listing.zip.code.to_s.rjust(5, "0")}".html_safe %>
+             #{listing.is_owner ? "<strong>OWNER</strong>" : 
+                                  "<strong>DEALER</strong>"} 
+             #{pluralize(listing.distance.to_f.round, 'mile') + 'away' if listing.respond_to?(:distance)} in     
+             #{listing.zip.city}, #{listing.zip.st}".html_safe %>
 		</div>
 	</div>
 </article>

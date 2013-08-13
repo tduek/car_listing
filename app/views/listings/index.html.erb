@@ -1,5 +1,3 @@
-<h1>Listings#index</h1>
-
 <section id="sidebar">
 <%= render partial: "listings/search_form" %>
 </section>
@@ -38,6 +36,8 @@ $(document).ready(function () {
             "search[model_id]": params.filter("#model-id").val(),
             "search[price_from]": params.filter("#price-from").val(),
             "search[price_to]": params.filter("#price-to").val(),
+            "search[zip]": params.filter("#zip").val(),
+            "search[dist]": params.filter("#dist").val(),
             "search[sort]": params.filter("#sort").val(),
             "page": params.filter("#page").val()
           },

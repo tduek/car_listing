@@ -6,7 +6,7 @@
   <%= select_tag(:year_from,
                   options_for_select((1930..Time.now.year).to_a.reverse, 
                                       params[:search][:year_from]), 
-                  prompt: "From", name: "search[year_from]") %>- 
+                  prompt: "From", name: "search[year_from]") %>▰  
   <%= select_tag(:year_to,
                   options_for_select((1930..Time.now.year).to_a.reverse,
                                       params[:search][:year_to]), 
@@ -36,12 +36,35 @@
                     type="text" 
                     name="search[price_from]"
                  pattern="[0-9]*"
-                      id="price_from">- 
+                      id="price_from"
+               maxlength="5">▰ 
       <input placeholder="To"
                     type="text" 
                     name="search[price_to]" 
                  pattern="[0-9]*"
-                      id="price_to">
+                      id="price_to"
+               maxlength="9">
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <%= label_tag :search_distance, "Within" %>
+      <input placeholder="any" 
+                    type="text" 
+                    name="search[dist]"
+                 pattern="[0-9]*"
+                      id="search_distance"
+               maxlength="4"
+                   value="<%= params[:search][:dist] %>">
+      <%= label_tag :search_distance, "miles" %><br>
+      <%= label_tag :search_zip, "from" %> 
+      <input placeholder="zip"
+                    type="text" 
+                    name="search[zip]" 
+                 pattern="[0-9]*"
+                      id="search_zip"
+               maxlength="5"
+                   value="<%= params[:search][:zip] %>">
     </td>
   </tr>
   <tr>
@@ -90,6 +113,15 @@ var disableOlderThanYearTo = function () {
   });
 };
 
+var updateSortByDistance = function () {
+  var distanceOption = $("select#sort_by").find("option[value='distance']")
+  if ($("#search_zip").val().length === 5) {
+    distanceOption.removeAttr("disabled");
+  } else {
+    distanceOption.prop("disabled", "true");
+  }
+};
+
 $(document).ready(function () {
   disableNewerThanYearFrom();
   disableOlderThanYearTo();
@@ -124,5 +156,8 @@ $(document).ready(function () {
     
   updateModelSelect();  
   $("#make_id").on("change", updateModelSelect);
+  
+  updateSortByDistance();
+  $("#search_zip").on("change", updateSortByDistance);
 });
 </script>

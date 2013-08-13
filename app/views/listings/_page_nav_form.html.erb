@@ -18,6 +18,12 @@
   <%= hidden_field_tag(:price_to, params[:search][:price_to], 
                         name: "search[price_to]") %>
                         
+  <%= hidden_field_tag(:zip, params[:search][:zip],
+                        name: "search[zip]") %>
+
+  <%= hidden_field_tag(:dist, params[:search][:dist],
+                        name: "search[dist]") %>
+                        
   <%= hidden_field_tag(:sort_by, params[:search][:sort], 
                         name: "search[sort]") %>
                         
