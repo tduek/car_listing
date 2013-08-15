@@ -1,4 +1,5 @@
 module CraigslistCarScraper
+  require 'addressable/uri'
   include Timeout
   
   def start(seller_type = "o")

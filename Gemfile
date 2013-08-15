@@ -14,7 +14,7 @@ gem 'kaminari'
 require 'open-uri'
 require 'timeout'
 gem 'addressable'
-#require 'addressable/uri'
+
 
 group :development do
   gem 'better_errors'

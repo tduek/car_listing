@@ -21,7 +21,7 @@ class ListingsController < ApplicationController
     end
     
     if request.xhr?
-      sleep 1 if Rails.env.development?
+      #sleep 1 if Rails.env.development?
       render @listings
     end
   end
