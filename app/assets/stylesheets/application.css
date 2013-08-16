@@ -14,8 +14,10 @@
 html, body, article, div, img, a, h1, h2, h3, h4, h5, p, 
 header, section, ul, li, input, form {
 	margin: 0; padding: 0; border: 0; 
-  font-family: "Trebuchet MS", sans-serif; font-weight: 100; color: #333333;
+  font-family: sans-serif; font-weight: 100; color: #333333;
 }
+
+select {font-family: sans-serif; font-weight: 100;}
 
 h1, h2 {font-family: "Didot"; font-weight: 100; color: #333333;}
 h1 {letter-spacing: 1px;}
@@ -69,7 +71,7 @@ body > header > nav > ul > li > a {
   display: block;
   padding: 0px 10px;
   margin: 0 50px -4px 50px;
-  color: black;
+  color: #333333;
   text-transform: uppercase;
   font-family: "Didot";
 }
@@ -103,7 +105,7 @@ form.search > table {
   padding: 0;
   margin: 0;
   width: 100%;
-  border: 3px solid #444444;
+  border: 3px solid #333333;
   border-radius: 3px;
   box-shadow: 5px 5px 10px rgba(0,0,0,0.7);
 }
@@ -123,7 +125,7 @@ form.search td {
 form.search label {
   font-size: 18px;
   border-spacing: 0;
-  margin-right: 15px;
+/*  margin-right: 5px;*/
 }
 
 .search input, .search select {
@@ -142,11 +144,13 @@ form.search label {
 .search select#year_from, .search select#year_to {
   display: inline-block;
   clear: none;
-  margin: 0 8px 0 0;
-  width: 45px;
+  margin: 0 0 0 0;
+  width: 40px;
+  color: #999999;
 }
 
-.search select#year_to { margin-left: 2px;}
+.search select#year_from { margin-left: 17px;}
+.search select#year_to { margin-left: 0px;}
 
 .search select, .search input[type="number"] {
   -webkit-appearance: none;
@@ -162,7 +166,6 @@ form.search label {
 }
 
 .search #price_from, .search #price_to {
-/*  font-size: 18px;*/
 }
 
 .search input:hover, .search label:hover {
@@ -170,11 +173,13 @@ form.search label {
 }
 
 .search #price_from {
-  width: 49px;
+  width: 50px;
+  margin-right: 5px;
+  text-align: right;
 }
 
 .search #price_to {
-  margin-left: 3px;
+  margin-left: 0px;
   width: 65px;
 }
 
@@ -226,7 +231,7 @@ form.search tr:last-child {
 #search-results {
 	float: right;
 	width: 515px;
-	border-left: 1px solid gray;
+	border-left: 1px solid #333333;
   padding: 0 0 0 25px;
 }
 
@@ -240,7 +245,7 @@ form.search tr:last-child {
 
 .page > header > nav.page-nav {
   display: block;
-  margin-top: 3px;
+  margin: 0 0 15px 0;
   float: right;
   clear: none;
   width: 100px;
@@ -255,10 +260,9 @@ form.search tr:last-child {
 nav.page-nav > form > input[type="submit"] {
   display: block;
   clear: none;
-  font-size: 12px;
+  font-size: 19px;
   border: none;
   background: none;
-  padding-top: 3px;
 }
 
 form.nav-prev input[type="submit"] {
@@ -269,6 +273,7 @@ form.nav-prev input[type="submit"] {
 form.nav-next input[type="submit"] {
   float: right;
   padding-left: 0;
+  font-size: 19px;
 }
 
 nav.page-nav > form > input[type="submit"]:hover {
@@ -278,13 +283,13 @@ nav.page-nav > form > input[type="submit"]:hover {
 article.search-result-listing {
 	display: block;
 	clear: both;
-	padding: 15px 0 15px 15px;
-	width: 500px;
-	border-top: 1px solid gray;
+	padding: 15px;
+	width: 485px;
+	border-top: 1px solid #333333;
 }
 
 article.search-result-listing:last-child {
-	border-bottom: 2px solid gray;
+	border-bottom: 2px solid #333333;
 }
 
 article.search-result-listing > div.thumb-container {
@@ -307,9 +312,9 @@ article.search-result-listing > div.thumb-container > .thumb {
 }
 article.search-result-listing > div.listing-info{
   height: 56px;
-  width: 400px;
+  width: 415px;
   float: left;
-  padding: 0 10px;
+  padding: 0 0 0 10px;
 }
 article.search-result-listing > div.listing-info > a {
 	display: block;

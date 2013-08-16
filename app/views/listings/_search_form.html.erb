@@ -2,15 +2,15 @@
 <table>
   <tr>
     <td>
-  <%= label_tag :year_from, "Year" %>
+  <%= label_tag :year_from, "Year:" %>
   <%= select_tag(:year_from,
                   options_for_select((1930..Time.now.year).to_a.reverse, 
                                       params[:search][:year_from]), 
-                  prompt: "From", name: "search[year_from]") %>▰  
+                  prompt: "from", name: "search[year_from]") %>▰  
   <%= select_tag(:year_to,
                   options_for_select((1930..Time.now.year).to_a.reverse,
                                       params[:search][:year_to]), 
-                  prompt: "To", name: "search[year_to]") %>
+                  prompt: "to", name: "search[year_to]") %>
     </td>
   </tr>
   <tr>
@@ -31,20 +31,20 @@
   </tr>
   <tr>
     <td>
-  <%= label_tag :price_from, "Price" %>
-      <input placeholder="From" 
+  <%= label_tag :price_from, "Price:" %>
+      <input placeholder="from" 
                     type="text" 
                     name="search[price_from]"
                  pattern="[0-9]*"
                       id="price_from"
                maxlength="5"
                    value="<%= params[:search][:price_from] %>">▰ 
-      <input placeholder="To"
+      <input placeholder="to"
                     type="text" 
                     name="search[price_to]" 
                  pattern="[0-9]*"
                       id="price_to"
-               maxlength="9"
+               maxlength="6"
                    value="<%= params[:search][:price_to] %>">
     </td>
   </tr>

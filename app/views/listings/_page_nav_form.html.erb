@@ -29,5 +29,5 @@
                         
   <%= hidden_field_tag(:page, params[:page].to_i + page_delta) %>
   
-  <%= submit_tag page_delta == 1 ? "Next >>" : "<< Prev" %>
+  <%= submit_tag page_delta == 1 ? "next" : "prev" %>
 <% end %>
