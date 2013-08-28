@@ -11,15 +11,15 @@
  *= require_self
  *= require_tree .
  */
-html, body, article, div, img, a, h1, h2, h3, h4, h5, p, 
+html, body, article, div, img, a, h1, h2, h3, h4, h5, p,
 header, section, ul, li, input, form {
-	margin: 0; padding: 0; border: 0; 
-  font-family: sans-serif; font-weight: 100; color: #333333;
+  margin: 0; padding: 0; border: 0;
+  font-family: "Open Sans", sans-serif; font-weight: 100; color: #333333;
 }
 
-select {font-family: sans-serif; font-weight: 100;}
+select {font-family: "Open Sans", sans-serif; font-weight: 100; }
 
-h1, h2 {font-family: "Didot"; font-weight: 100; color: #333333;}
+h1, h2 {font-family: "Oswald"; font-weight: 100; color: #333333;}
 h1 {letter-spacing: 1px;}
 a { text-decoration: none; }
 a:hover {text-decoration: underline;}
@@ -27,9 +27,9 @@ ul { list-style: none; }
 input[type="submit"]:hover {cursor: pointer;}
 
 .clear-fix:after {
-	content: "";
-	display: table;
-	clear: both;
+  content: "";
+  display: table;
+  clear: both;
 }
 
 body {
@@ -37,7 +37,7 @@ body {
 }
 
 body > header {
-	width: 100%;
+  width: 100%;
 }
 
 body > header > h1 {
@@ -50,8 +50,8 @@ body > header > h1 {
 }
 
 body > header > nav {
-	width: 800px;
-	margin: 0 auto;
+  width: 800px;
+  margin: 0 auto;
   text-align: center;
   border-top: 1px solid #333333;
   border-bottom: 7px solid #333333;
@@ -73,7 +73,7 @@ body > header > nav > ul > li > a {
   margin: 0 50px -4px 50px;
   color: #333333;
   text-transform: uppercase;
-  font-family: "Didot";
+  font-family: "Oswald";
 }
 
 body > header > nav > ul > li > a:hover {
@@ -81,16 +81,16 @@ body > header > nav > ul > li > a:hover {
 }
 
 #content {
-	position: relative;
-	top: 50px;
-	width: 800px;
-	margin: 0 auto;
+  position: relative;
+  top: 50px;
+  width: 800px;
+  margin: 0 auto;
 }
 
 #sidebar {
-	display: block;
-	float: left;
-	width: 230px;
+  display: block;
+  float: left;
+  width: 230px;
 }
 
 #sidebar > form.search {
@@ -99,7 +99,7 @@ body > header > nav > ul > li > a:hover {
   padding: 0;
   border: 1px solid black;
   border-radius: 4px;
-  
+
 }
 form.search > table {
   padding: 0;
@@ -120,12 +120,12 @@ form.search td {
   display: block;
   width: 100%;
   font-size: 18px;
+  line-height: 0.9;
 }
 
 form.search label {
   font-size: 18px;
   border-spacing: 0;
-/*  margin-right: 5px;*/
 }
 
 .search input, .search select {
@@ -146,13 +146,19 @@ form.search label {
   clear: none;
   margin: 0 0 0 0;
   width: 40px;
-  color: #999999;
+  color: #AAAAAA;
 }
 
-.search select#year_from { margin-left: 17px;}
-.search select#year_to { margin-left: 0px;}
+.search select#year_from {
+  margin: 0 4px 0 13px;
+  direction: rtl;
+}
 
-.search select, .search input[type="number"] {
+.search select#year_from option {float: right;}
+
+.search select#year_to { margin-left: -1px;}
+
+.search select {
   -webkit-appearance: none;
   -moz-appearance: none;
 }
@@ -174,12 +180,12 @@ form.search label {
 
 .search #price_from {
   width: 50px;
-  margin-right: 5px;
+  margin-right: 4px;
   text-align: right;
 }
 
 .search #price_to {
-  margin-left: 0px;
+  margin-left: -1px;
   width: 65px;
 }
 
@@ -188,16 +194,17 @@ form.search label {
 }
 
 .search #search_distance {
+  margin-left: 10px;
   width: 40px;
-  text-align: center;
+  text-align: right;
 }
 
 .search label[for="search_zip"]{
-  margin: 0 7px 0 13px;
+  margin: 0;
 }
 
 .search #search_zip {
-  width: 60px;
+  width: 55px;
 }
 
 .search label[for="sort_by"] {
@@ -229,9 +236,9 @@ form.search tr:last-child {
 
 
 #search-results {
-	float: right;
-	width: 515px;
-	border-left: 1px solid #333333;
+  float: right;
+  width: 515px;
+  border-left: 1px solid #333333;
   padding: 0 0 0 25px;
 }
 
@@ -281,30 +288,31 @@ nav.page-nav > form > input[type="submit"]:hover {
 }
 
 article.search-result-listing {
-	display: block;
-	clear: both;
-	padding: 15px;
-	width: 485px;
-	border-top: 1px solid #333333;
+  display: block;
+  clear: both;
+  padding: 15px;
+  width: 485px;
+  border-top: 1px solid #333333;
 }
 
 article.search-result-listing:last-child {
-	border-bottom: 2px solid #333333;
+  border-bottom: 2px solid #333333;
 }
 
 article.search-result-listing > div.thumb-container {
-	width: 50px;
-	height: 50px;
+  width: 50px;
+  height: 50px;
   background: white;
   clear: none;
   float: left;
   border: 3px solid #333333;
+  border-radius: 3px;
 }
 
 article.search-result-listing > div.thumb-container > .thumb {
-	display: block;
-	width: 50px;
-	height: 50px;
+  display: block;
+  width: 50px;
+  height: 50px;
 /*  margin: 3px auto;*/
   text-align: center;
   font-size: 12px;
@@ -316,21 +324,44 @@ article.search-result-listing > div.listing-info{
   float: left;
   padding: 0 0 0 10px;
 }
-article.search-result-listing > div.listing-info > a {
-	display: block;
-	float: left;
+
+div.listing-info > div.car-and-seller-container {
+  width: 350px;
+  height: 39px;
+  float: left;
+  clear: none;
+}
+
+div.listing-info > div.car-and-seller-container > a {
+  display: block;
+  float: left;
+  clear: none;
   color: black;
 }
 
-article.search-result-listing > div.listing-info > div.seller {
+div.listing-info > div.car-and-seller-container > div.seller {
   font-size: 12px;
-  clear: both;
+  margin-top: 3px;
+  clear: none;
   float: right;
-  margin-top: 22px;
+  margin: 3px 20px 0 20px;
+}
+
+article.search-result-listing > div.listing-info > div.location {
+  font-size: 12px;
+  float: left;
+  clear: both;
+
+}
+
+article.search-result-listing > div.listing-info > div.post-date {
+  font-size: 12px;
+  float: right;
+/*  margin-top: 12px;*/
 }
 
 article.search-result-listing > div.listing-info > div.price {
-	color: rgb(200,7,0);
-	font-size: 16px;
-	float: right;
+  color: rgb(200,7,0);
+  font-size: 16px;
+  float: right;
 }

@@ -1,12 +1,17 @@
 <div class="page">
   <header class="">
-  	<h3><%= page_entries_info @listings %></h3>
-  	<nav class="page-nav">
-  	  <%= render partial: "page_nav_form", locals: {page_delta: -1} unless @listings.first_page? %>
+    <% range_end = @listings.count * @listings.current_page %>
+    <h3>
+      <%= "Displaying #{range_end+1 - @listings.count} - #{range_end} of
+      #{number_with_delimiter(@listings.total_count, delimiter: ",")}" %>
+    </h3>
+
+    <nav class="page-nav">
+      <%= render partial: "page_nav_form", locals: {page_delta: -1} unless @listings.first_page? %>
       <%= render partial: "page_nav_form", locals: {page_delta: 1} unless @listings.last_page? %>
-  	</nav>
+    </nav>
   </header>
-  
+
   <%= render @listings %>
 
   <h2 id="end-of-page">

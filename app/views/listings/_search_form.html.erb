@@ -50,7 +50,7 @@
   </tr>
   <tr>
     <td>
-      <%= label_tag :search_distance, "Within" %>
+      <%= label_tag :search_distance, "Distance:" %><br>
       <input placeholder="any" 
                     type="text" 
                     name="search[dist]"
@@ -58,7 +58,7 @@
                       id="search_distance"
                maxlength="4"
                    value="<%= params[:search][:dist] %>">
-      <%= label_tag :search_distance, "miles" %><br>
+      <%= label_tag :search_distance, "miles" %>
       <%= label_tag :search_zip, "from" %> 
       <input placeholder="zip"
                     type="text" 

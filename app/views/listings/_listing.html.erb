@@ -1,25 +1,34 @@
 <article class="search-result-listing clear-fix">
-	<div class="thumb-container">
+  <div class="thumb-container">
     <%# if !listing.thumbs.empty? %>
-	    <%= link_to(listing.thumbs[0] ? image_tag(listing.thumbs[0].src) : "NO PHOTO", listing, class: "thumb") 
+      <%= link_to(listing.thumbs[0] ? image_tag(listing.thumbs[0].src) : "NO PHOTO", listing, class: "thumb")
       %>
     <%# else %>
       <%#= link_to("", listing, class: "thumb") %>
-    <%# end %> 
-	</div>
-	
-	<div class="listing-info">
-		<%= link_to "#{listing.year}
-					 #{listing.make.name if listing.make} 
-					 #{listing.model.name if listing.model}", listing %>
-						 
-		<div class="price"><%= number_to_currency(listing.price, precision: 0) %></div>
-		<div class="seller">
-		    <%= "#{time_ago_in_words(listing.post_date)} ago by
-             #{listing.is_owner ? "<strong>OWNER</strong>" : 
-                                  "<strong>DEALER</strong>"} 
-             #{pluralize(listing.distance.to_f.round, 'mile') + ' away' if listing.respond_to?(:distance)} in     
-             #{listing.zip.city}, #{listing.zip.st}".html_safe %>
-		</div>
-	</div>
+    <%# end %>
+  </div>
+
+  <div class="listing-info">
+    <div class="car-and-seller-container clear-fix">
+      <%= link_to "#{listing.year}
+             #{listing.make.name if listing.make}
+             #{listing.model.name if listing.model}", listing %>
+
+      <div class="seller">
+        by <strong><%= listing.is_owner ? "OWNER" : "DEALER" %></strong>
+      </div>
+    </div>
+    <div class="price"><%= number_to_currency(listing.price, precision: 0) %></div>
+
+    <div class="location">
+      <%= "#{listing.zip.city}, #{listing.zip.st}" %>
+      <% if listing.respond_to?(:distance) %>
+        <%= "(#{pluralize(listing.distance.to_f.round, 'mile')} away)" %>
+      <% end %>
+    </div>
+
+    <div class="post-date">
+        <%= "Posted #{time_ago_in_words(listing.post_date)} ago" %>
+    </div>
+  </div>
 </article>
