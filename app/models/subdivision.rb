@@ -7,10 +7,14 @@ class Subdivision < ActiveRecord::Base
 
   has_many :spellings
 
+
+  def listings
+    Listing.where("listings.make_id=? OR listings.model_id=?", self.id, self.id)
+  end
+
   def average_price(args)
-    result = Listing.where("listings.make_id=? OR listings.model_id=?", id, id)
+    result = self.listings
     result = result.where(year: args[:year]) if args[:year]
     result.average("listings.price").to_i
-
   end
 end
