@@ -8,13 +8,24 @@ class Subdivision < ActiveRecord::Base
   has_many :spellings
 
 
-  def listings
-    Listing.where("listings.make_id=? OR listings.model_id=?", self.id, self.id)
+  def listings(years = nil)
+    result = Listing.where("listings.make_id=? OR listings.model_id=?", self.id, self.id)
+
+    result = result.where(year: years) if years
+    result
   end
 
   def average_price(args)
-    result = self.listings
-    result = result.where(year: args[:year]) if args[:year]
-    result.average("listings.price").to_i
+    self.listings(args[:years]).average("listings.price").to_i
   end
+
+  def std_dev(args)
+    self.listings(args[:years]).
+  end
+
+  def stats(args)
+    #preserve streak!!!
+    ActiveRecord::Base.connection.execute("SELECT \"results.")
+  end
+
 end
