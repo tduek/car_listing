@@ -15,14 +15,6 @@ class Subdivision < ActiveRecord::Base
     result
   end
 
-  def average_price(args)
-    self.listings(args[:years]).average("listings.price").to_i
-  end
-
-  def std_dev(args)
-    self.listings(args[:years])
-  end
-
   def stats(year = nil)
     yr_string = year ? " AND listings.year=#{year}" : ""
 
@@ -37,6 +29,13 @@ class Subdivision < ActiveRecord::Base
        HAVING count(listings.id) > 30")
 
     result.ntuples == 1 ? result[0] : {"name" => self.name,"avg" => nil, "std_dev" => nil}
+  end
+
+  def self.all_with_stats
+    Subdivision.select("subdivisions.*, avg(listings.price) AS avg, stddev_pop(listings.price) AS std_dev")
+               .joins("INNER JOIN listings ON listings.model_id=subdivisions.id OR listings.make_id=subdivisions.id")
+               .group("subdivisions.id").having("count(listings.id) > 30")
+
   end
 
 end
