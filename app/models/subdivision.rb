@@ -15,27 +15,15 @@ class Subdivision < ActiveRecord::Base
     result
   end
 
-  def stats(year = nil)
-    yr_string = year ? " AND listings.year=#{year}" : ""
-
-    result = ActiveRecord::Base.connection.execute(
-      "SELECT subdivisions.name AS name, avg(listings.price) AS avg, stddev_pop(listings.price) AS std_dev
-         FROM subdivisions
-        INNER JOIN listings
-           ON listings.model_id=#{self.id}
-           OR listings.make_id=#{self.id}
-        WHERE subdivisions.id=#{self.id}#{yr_string}
-        GROUP BY subdivisions.id
-       HAVING count(listings.id) > 30")
-
-    result.ntuples == 1 ? result[0] : {"name" => self.name,"avg" => nil, "std_dev" => nil}
+  def with_stats
+    Subdivision.all_with_stats.find_by_id(self.id)
   end
 
   def self.all_with_stats
     Subdivision.select("subdivisions.*, avg(listings.price) AS avg, stddev_pop(listings.price) AS std_dev")
                .joins("INNER JOIN listings ON listings.model_id=subdivisions.id OR listings.make_id=subdivisions.id")
-               .group("subdivisions.id").having("count(listings.id) > 30")
-
+               .group("subdivisions.id")
+               .having("count(listings.id) > 30")
   end
 
 end
