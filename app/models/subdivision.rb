@@ -20,7 +20,6 @@ class Subdivision < ActiveRecord::Base
   end
 
   def self.all_with_stats(parent_id = nil)
-    # Hi, i'm a streak booster.
     result = Subdivision.select("subdivisions.*,
                         avg(listings.price) AS avg,
                         stddev_pop(listings.price) AS std_dev")
