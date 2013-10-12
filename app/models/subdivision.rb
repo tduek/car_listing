@@ -31,4 +31,16 @@ class Subdivision < ActiveRecord::Base
     parent_id ? result.where(parent_id: parent_id) : result
   end
 
+  # Listing.find_by_sql(
+  #   "SELECT listings.*
+  #      FROM listings
+  #     WHERE listings.model_id=198
+  #       AND listings.year=2004
+  #       AND listings.price < (
+  #           SELECT avg(listings.price)-stddev_samp(listings.price)
+  #             FROM listings
+  #            WHERE listings.model_id=198
+  #         GROUP BY listings.make_id)"
+  #       ).count
+
 end
