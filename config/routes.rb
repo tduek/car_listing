@@ -2,6 +2,8 @@ CarListing::Application.routes.draw do
   root to: "listings#index"
   resources :listings, only: [:index, :show]
 
+  resources :pics, only: :show
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
