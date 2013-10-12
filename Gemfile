@@ -15,6 +15,7 @@ require 'open-uri'
 require 'timeout'
 gem 'addressable'
 
+gem 'paperclip', '~> 3.0'
 
 group :development do
   gem 'better_errors'

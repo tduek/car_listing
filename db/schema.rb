@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130812142538) do
+ActiveRecord::Schema.define(:version => 20131012212145) do
 
   create_table "craigs_sites", :force => true do |t|
     t.string   "city"
@@ -48,9 +48,13 @@ ActiveRecord::Schema.define(:version => 20130812142538) do
     t.integer  "scraping_id"
     t.integer  "listing_id"
     t.integer  "thumb_for"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
     t.boolean  "is_thumb"
+    t.string   "file_file_name"
+    t.string   "file_content_type"
+    t.integer  "file_file_size"
+    t.datetime "file_updated_at"
   end
 
   add_index "pics", ["listing_id"], :name => "index_pics_on_listing_id"
