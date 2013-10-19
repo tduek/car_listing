@@ -16,6 +16,10 @@ require 'timeout'
 gem 'addressable'
 
 gem 'paperclip', '~> 3.0'
+gem 'aws-sdk'
+
+gem 'figaro'
+
 
 group :development do
   gem 'better_errors'
