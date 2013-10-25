@@ -13,16 +13,6 @@
 
 ActiveRecord::Schema.define(:version => 20131012212145) do
 
-  create_table "craigs_sites", :force => true do |t|
-    t.string   "city"
-    t.string   "city_for_url"
-    t.integer  "zip"
-    t.float    "latitude"
-    t.float    "longitude"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
-  end
-
   create_table "listings", :force => true do |t|
     t.integer  "year"
     t.integer  "model_id"
@@ -31,7 +21,6 @@ ActiveRecord::Schema.define(:version => 20131012212145) do
     t.integer  "zipcode"
     t.integer  "miles"
     t.integer  "phone",       :limit => 8
-    t.integer  "scraping_id"
     t.datetime "created_at",               :null => false
     t.datetime "updated_at",               :null => false
     t.integer  "make_id"
@@ -45,7 +34,6 @@ ActiveRecord::Schema.define(:version => 20131012212145) do
 
   create_table "pics", :force => true do |t|
     t.string   "src"
-    t.integer  "scraping_id"
     t.integer  "listing_id"
     t.integer  "thumb_for"
     t.datetime "created_at",        :null => false
@@ -58,34 +46,6 @@ ActiveRecord::Schema.define(:version => 20131012212145) do
   end
 
   add_index "pics", ["listing_id"], :name => "index_pics_on_listing_id"
-  add_index "pics", ["scraping_id"], :name => "index_pics_on_scraping_id"
-
-  create_table "scrapings", :force => true do |t|
-    t.string   "title"
-    t.text     "description"
-    t.string   "url"
-    t.datetime "post_date"
-    t.integer  "guid",           :limit => 8
-    t.string   "seller_type"
-    t.string   "source"
-    t.integer  "craigs_site_id"
-    t.boolean  "parsed",                      :default => false
-    t.datetime "created_at",                                     :null => false
-    t.datetime "updated_at",                                     :null => false
-    t.boolean  "dqed",                        :default => false
-    t.integer  "price"
-  end
-
-  add_index "scrapings", ["guid"], :name => "index_scrapings_on_guid"
-
-  create_table "spellings", :force => true do |t|
-    t.string   "string"
-    t.integer  "subdivision_id"
-    t.datetime "created_at",     :null => false
-    t.datetime "updated_at",     :null => false
-  end
-
-  add_index "spellings", ["subdivision_id"], :name => "index_spellings_on_subdivision_id"
 
   create_table "subdivisions", :force => true do |t|
     t.string   "name"

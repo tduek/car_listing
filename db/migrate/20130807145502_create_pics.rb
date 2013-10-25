@@ -2,7 +2,6 @@ class CreatePics < ActiveRecord::Migration
   def change
     create_table :pics do |t|
       t.string :src
-      t.integer :scraping_id
       t.integer :listing_id
       t.integer :type
       t.integer :thumb_for

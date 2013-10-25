@@ -8,7 +8,6 @@ class CreateListings < ActiveRecord::Migration
       t.integer :zip
       t.integer :miles
       t.integer :phone
-      t.integer :scraping_id
 
       t.timestamps
     end
