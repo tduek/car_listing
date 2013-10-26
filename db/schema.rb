@@ -11,20 +11,20 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131012212145) do
+ActiveRecord::Schema.define(:version => 20130811195953) do
 
   create_table "listings", :force => true do |t|
     t.integer  "year"
+    t.integer  "make_id"
     t.integer  "model_id"
     t.integer  "price"
+    t.datetime "post_date"
     t.boolean  "is_owner"
     t.integer  "zipcode"
     t.integer  "miles"
-    t.integer  "phone",       :limit => 8
-    t.datetime "created_at",               :null => false
-    t.datetime "updated_at",               :null => false
-    t.integer  "make_id"
-    t.datetime "post_date"
+    t.integer  "phone",      :limit => 8
+    t.datetime "created_at",              :null => false
+    t.datetime "updated_at",              :null => false
   end
 
   add_index "listings", ["make_id"], :name => "index_listings_on_make_id"
@@ -35,14 +35,14 @@ ActiveRecord::Schema.define(:version => 20131012212145) do
   create_table "pics", :force => true do |t|
     t.string   "src"
     t.integer  "listing_id"
-    t.integer  "thumb_for"
-    t.datetime "created_at",        :null => false
-    t.datetime "updated_at",        :null => false
     t.boolean  "is_thumb"
+    t.integer  "thumb_for"
     t.string   "file_file_name"
     t.string   "file_content_type"
     t.integer  "file_file_size"
     t.datetime "file_updated_at"
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
   end
 
   add_index "pics", ["listing_id"], :name => "index_pics_on_listing_id"
@@ -50,9 +50,9 @@ ActiveRecord::Schema.define(:version => 20131012212145) do
   create_table "subdivisions", :force => true do |t|
     t.string   "name"
     t.integer  "parent_id"
+    t.integer  "level"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
-    t.integer  "level"
   end
 
   add_index "subdivisions", ["level"], :name => "index_subdivisions_on_level"
