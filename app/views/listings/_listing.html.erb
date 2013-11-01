@@ -1,13 +1,9 @@
 <article class="search-result-listing clear-fix">
   <div class="thumb-container">
-    <%# if !listing.thumbs.empty? %>
-      <%= link_to((listing.thumbs[0] ?
-                  image_tag(pic_url(listing.thumbs[0])) : "NO PHOTO"),
-                  listing, class: "thumb")
-      %>
-    <%# else %>
-      <%#= link_to("", listing, class: "thumb") %>
-    <%# end %>
+    <%= link_to((listing.thumbs[0] ?
+                image_tag(listing.thumbs[0].url) : "NO PHOTO"),
+                listing, class: "thumb")
+    %>
   </div>
 
   <div class="listing-info">
