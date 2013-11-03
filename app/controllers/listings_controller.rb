@@ -27,6 +27,6 @@ class ListingsController < ApplicationController
   end
 
   def show
-    @listing = Listing.find(params[:id])
+    @listing = Listing.includes(:make, :model, :thumbs, :main_pics).find(params[:id])
   end
 end

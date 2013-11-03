@@ -1,7 +1,6 @@
 class Listing < ActiveRecord::Base
-  attr_accessible :is_owner, :miles, :model_id, :phone, :price, :scraping_id, :year, :zipcode, :post_date, :make_id, :title, :description
+  attr_accessible :is_owner, :miles, :model_id, :phone, :price, :year, :zipcode, :post_date, :make_id, :title, :description
 
-  belongs_to :scraping
   belongs_to :zip, primary_key: :code, foreign_key: :zipcode
 
   belongs_to :make, class_name: "Subdivision", foreign_key: :make_id
@@ -79,4 +78,11 @@ class Listing < ActiveRecord::Base
 
     results.order("listings.post_date DESC")
   end
+
+
+
+  def name
+    [self.year, self.make.name, self.model.name].compact.join(" ")
+  end
+
 end
