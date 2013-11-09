@@ -1,6 +1,96 @@
 <h1><%= @listing.name %></h1>
 
-
 <h3><%= @listing.title %></h3>
 
-<p><%= @listing.description %></p>
+<section class="top-info clear-fix">
+  <section class="pics">
+    <div class="main-pic">
+      <%= image_tag @listing.main_pics.first.file.url, class: "car-pic" %>
+    </div>
+    <ul class="thumbs">
+      <% @listing.thumbs.each do |thumb| %>
+      <li><%= image_tag thumb.file.url, class: "car-pic" %></li>
+      <% end %>
+    </ul>
+  </section>
+
+
+  <section class="info">
+    <article class="car-info">
+      <header>Car</header>
+
+      <ul>
+        <li>
+          <label>Year:</label><span><%= @listing.year %></span>
+        </li>
+        <li>
+          <label>Make:</label><span><%= @listing.make.name %></span>
+        </li>
+        <li>
+          <label>Model:</label><span><%= @listing.model.name %></span>
+        </li>
+      </ul>
+    </article>
+
+    <article class="seller-info">
+      <header>Seller</header>
+
+      <ul>
+        <li>
+          <label>Type: </label>
+          <span><%= @listing.is_owner ? "OWNER" : "DEALER" %></span>
+        </li>
+        <li>
+          <label>Contact:</label>
+          <span>CAPTCHA_LINK</span>
+        </li>
+      </ul>
+    </article>
+  </section>
+</section>
+
+<section class="description">
+  <h2>Seller Description</h2>
+  <p><%= @listing.description %></p>
+</section>
+
+
+
+<script>
+$(document).ready(function() {
+  var $lightbox = $("div.lightbox");
+  var totalPics = <%= @listing.main_pics.count %>;
+  var currentPic = 1;
+  $("img.car-pic").click(function() {
+    $("body").toggleClass("no-scroll");
+    $lightbox.toggleClass("show");
+    var width = <%= @listing.main_pics.count * 600 %>
+    $("div.viewport > ul").css("width", width);
+    <% @listing.main_pics.each do |pic| %>
+    $("div.lightbox ul").append('<li><%= image_tag pic.file.url %></li>')
+    <% end %>
+  });
+
+  $(window).keydown(function(event) {
+    if (event.keyCode == 27) { // ESC pressed
+      $lightbox.removeClass("show");
+      $("body").toggleClass("no-scroll");
+    }
+    else if (event.keyCode == 37 && currentPic > 1 && $lightbox.hasClass("show")) {
+      currentPic--;
+      $("div.viewport > ul").css("left", function(i, val) {
+        return ""+(parseInt(val) + 600)+"px";
+      });
+    }
+    else if (event.keyCode == 39 && currentPic < totalPics && $lightbox.hasClass("show")) {
+      currentPic++;
+      $("div.viewport > ul").css("left", function(i, val) {
+        return ""+(parseInt(val) - 600)+"px";
+      })
+    }
+  });
+});
+</script>
+
+
+

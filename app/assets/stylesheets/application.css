@@ -33,7 +33,13 @@ input[type="submit"]:hover {cursor: pointer;}
 }
 
 body {
-  background-color: rgb(255,228,201);
+  background-color: #FFFCED;
+  padding-bottom: 100px;
+}
+
+body.no-scroll {
+  height: 100%;
+  overflow: hidden;
 }
 
 body > header {
@@ -94,7 +100,7 @@ body > header > nav > ul > li > a:hover {
 }
 
 #sidebar > form.search {
-  background: white;
+  background: #EDECEB;
   display: block;
   padding: 0;
   border: 1px solid black;
@@ -161,6 +167,7 @@ form.search label {
 .search select {
   -webkit-appearance: none;
   -moz-appearance: none;
+  appearance: none;
 }
 
 .search option:first-child {

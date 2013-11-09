@@ -1,3 +1,118 @@
 // Place all the styles related to the listings controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+section.pics {
+  display: block;
+  width: 436px;
+  border: 1px solid #333333;
+  float: left;
+  overflow: hidden;
+}
+
+section.top-info > section.pics > div.main-pic {
+  width: 428px;
+  padding: 4px;
+}
+
+div.main-pic > img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+img.car-pic:hover {
+  cursor: pointer;
+}
+
+section.pics > ul.thumbs {
+  margin: 0 4px;
+  list-style: none;
+  display: block;
+}
+
+ul.thumbs > li {
+  display: block;
+  float: left;
+  padding: 0 4px 4px 0;
+}
+
+ul.thumbs > li > img {
+  display: block;
+}
+
+ul.thumbs > li:nth-child(8) {
+  padding: 0;
+};
+
+section.info {
+  display: block;
+  float: left;
+  margin: 0 0 0 30px;
+}
+
+section.info > article > header {
+  font-size: 25px;
+  font-weight: normal;
+}
+
+section.info > article > ul {
+  margin-left: 20px;
+}
+
+section.info > article > ul > li > label {
+  display: inline-block;
+  width: 70px;
+  font-weight: 900;
+}
+
+section.description {
+  margin: 20px 0 0 0;
+  display: block;
+  clear: both;
+}
+
+div.lightbox {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.85);
+  margin-top: -20px;
+  z-index: 10;
+  display: none;
+  overflow-y: scroll;
+}
+
+div.lightbox.show {
+  display: block;
+}
+
+div.lightbox > div.viewport {
+  margin: 100px auto;
+  width: 600px;
+  max-height: 450px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 0 5px #FFFFFF, 10px 0px 25px #000000, -10px 0px 25px #000000,
+                               0px 10px 25px #000000, 0px -10px 25px #000000;
+}
+
+div.lightbox ul {
+  position: relative;
+  display: block;
+  left: 0;
+}
+
+div.lightbox ul > li {
+  display: block;
+  float: left;
+  width: 600px;
+}
+
+div.viewport > ul > li > img {
+  width: 100%;
+  height: auto;
+}
+
+
+
