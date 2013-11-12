@@ -104,7 +104,7 @@ body > header > nav > ul > li > a:hover {
   display: block;
   padding: 0;
   border: 1px solid black;
-  border-radius: 4px;
+/*  border-radius: 4px;*/
 
 }
 form.search > table {
@@ -112,7 +112,7 @@ form.search > table {
   margin: 0;
   width: 100%;
   border: 3px solid #333333;
-  border-radius: 3px;
+/*  border-radius: 3px;*/
   box-shadow: 5px 5px 10px rgba(0,0,0,0.7);
 }
 form.search tr {
@@ -313,7 +313,7 @@ article.search-result-listing > div.thumb-container {
   clear: none;
   float: left;
   border: 3px solid #333333;
-  border-radius: 3px;
+/*  border-radius: 3px;*/
 }
 
 article.search-result-listing > div.thumb-container > .thumb {

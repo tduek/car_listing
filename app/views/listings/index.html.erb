@@ -4,7 +4,7 @@
 
 <section id="search-results" class="clear-fix">
   <%= render partial: "search_results" %>
-  
+
   <%= render partial: "listings/infinite_scroll_params" %>
 </section>
 
@@ -13,18 +13,18 @@
 <script>
 $(document).ready(function () {
   var requestingNextPage = false;
-  
+
   $(window).scroll(function(event) {
     var distanceFromBottom = function () {
       var doc = $(document)
       return doc.height() - (window.innerHeight + doc.scrollTop())
-    }
-    
+    };
+
     if (distanceFromBottom() < 500 && !requestingNextPage) {
       requestingNextPage = true;
       var params = $("input[type='hidden'].scroll")
-      
-      if (parseInt(params.filter("#page").val()) <= 
+
+      if (parseInt(params.filter("#page").val()) <=
                               parseInt(params.filter("#total-pages").val())) {
         $.ajax({
           url: "<%= listings_url %>",
@@ -54,9 +54,9 @@ $(document).ready(function () {
         })
       } else {
         $("#end-of-list").show();
-      }   
+      }
     };
   })
-  
+
 });
 </script>

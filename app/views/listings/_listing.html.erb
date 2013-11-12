@@ -1,17 +1,14 @@
 <article class="search-result-listing clear-fix">
   <div class="thumb-container">
     <%= link_to((listing.thumbs[0] ?
-                image_tag(listing.thumbs[0].file.url) : "NO PHOTO"),
+                image_tag(listing.thumbs[0].file.url) : "NO PHOTO YET"),
                 listing, class: "thumb")
     %>
   </div>
 
   <div class="listing-info">
     <div class="car-and-seller-container clear-fix">
-      <%= link_to "#{listing.year}
-             #{listing.make.name if listing.make}
-             #{listing.model.name if listing.model}", listing %>
-
+      <%= link_to listing.name, listing %>
       <div class="seller">
         by <strong><%= listing.is_owner ? "OWNER" : "DEALER" %></strong>
       </div>
