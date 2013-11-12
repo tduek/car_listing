@@ -7,7 +7,7 @@
     <div class="main-pic">
       <%= image_tag @listing.main_pics.first.file.url, class: "car-pic" %>
     </div>
-    <ul class="thumbs">
+    <ul class="thumbs clear-fix">
       <% @listing.thumbs.each do |thumb| %>
       <li><%= image_tag thumb.file.url, class: "car-pic" %></li>
       <% end %>
@@ -17,7 +17,7 @@
 
   <section class="info">
     <article class="car-info">
-      <header>Car</header>
+      <header>It is what it is:</header>
 
       <ul>
         <li>
@@ -29,20 +29,14 @@
         <li>
           <label>Model:</label><span><%= @listing.model.name %></span>
         </li>
-      </ul>
-    </article>
-
-    <article class="seller-info">
-      <header>Seller</header>
-
-      <ul>
         <li>
-          <label>Type: </label>
-          <span><%= @listing.is_owner ? "OWNER" : "DEALER" %></span>
+          <label>Seller:</label><span><%= @listing.is_owner ? "OWNER" : "DEALER" %></span>
         </li>
         <li>
-          <label>Contact:</label>
-          <span>CAPTCHA_LINK</span>
+          <label>Contact:</label><span><%= number_to_phone(@listing.phone) %></span>
+        </li>
+        <li>
+          <label>Asking:</label><span><%= number_to_currency(@listing.price, precision: 0) %></span>
         </li>
       </ul>
     </article>
