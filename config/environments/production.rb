@@ -66,13 +66,13 @@ CarListing::Application.configure do
   # config.active_record.auto_explain_threshold_in_seconds = 0.5
 
   config.paperclip_defaults = {
-        :storage => :s3,
-        :s3_credentials => {
-          :bucket => "tommys-cars",
-          :access_key_id => ENV["S3_ACCESS_KEY"],
-          :secret_access_key => ENV["S3_SECRET_KEY"]
-        }
-      }
+    :storage => :s3,
+    :s3_credentials => {
+      :bucket => "tommys-cars",
+      :access_key_id => ENV["S3_ACCESS_KEY"],
+      :secret_access_key => ENV["S3_SECRET_KEY"]
+    }
+  }
 
-
+  config.action_mailer.default_url_options = {host: 'tommyscars.com'}
 end
