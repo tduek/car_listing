@@ -4,6 +4,8 @@ CarListing::Application.routes.draw do
 
   resources :pics, only: :show
 
+  resources :users
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
