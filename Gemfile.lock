@@ -34,6 +34,7 @@ GEM
       json (~> 1.4)
       nokogiri (>= 1.4.4)
       uuidtools (~> 2.1)
+    bcrypt-ruby (3.1.2)
     better_errors (0.9.0)
       coderay (>= 1.0.0)
       erubis (>= 2.6.6)
@@ -140,6 +141,7 @@ PLATFORMS
 DEPENDENCIES
   addressable
   aws-sdk
+  bcrypt-ruby
   better_errors
   binding_of_caller
   coffee-rails (~> 3.2.1)

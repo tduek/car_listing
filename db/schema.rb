@@ -13,16 +13,6 @@
 
 ActiveRecord::Schema.define(:version => 20131115173200) do
 
-  create_table "craigs_sites", :force => true do |t|
-    t.string   "city"
-    t.string   "city_for_url"
-    t.integer  "zip"
-    t.float    "latitude"
-    t.float    "longitude"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
-  end
-
   create_table "listings", :force => true do |t|
     t.integer  "year"
     t.integer  "make_id"
@@ -61,33 +51,6 @@ ActiveRecord::Schema.define(:version => 20131115173200) do
   add_index "pics", ["is_thumb"], :name => "index_pics_on_is_thumb"
   add_index "pics", ["listing_id"], :name => "index_pics_on_listing_id"
 
-  create_table "scrapings", :force => true do |t|
-    t.string   "title"
-    t.text     "description"
-    t.string   "url"
-    t.integer  "price"
-    t.datetime "post_date"
-    t.integer  "guid",           :limit => 8
-    t.string   "seller_type"
-    t.string   "source"
-    t.integer  "craigs_site_id"
-    t.boolean  "parsed",                      :default => false
-    t.boolean  "dqed",                        :default => false
-    t.datetime "created_at",                                     :null => false
-    t.datetime "updated_at",                                     :null => false
-  end
-
-  add_index "scrapings", ["guid"], :name => "index_scrapings_on_guid"
-
-  create_table "spellings", :force => true do |t|
-    t.string   "string"
-    t.integer  "subdivision_id"
-    t.datetime "created_at",     :null => false
-    t.datetime "updated_at",     :null => false
-  end
-
-  add_index "spellings", ["subdivision_id"], :name => "index_spellings_on_subdivision_id"
-
   create_table "subdivisions", :force => true do |t|
     t.string   "name"
     t.integer  "parent_id"
@@ -108,8 +71,9 @@ ActiveRecord::Schema.define(:version => 20131115173200) do
     t.string   "address_line_2"
     t.string   "city"
     t.integer  "zip"
-    t.datetime "created_at",     :null => false
-    t.datetime "updated_at",     :null => false
+    t.string   "password_digest"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
   end
 
   create_table "zips", :force => true do |t|
