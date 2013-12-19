@@ -1,0 +1,8 @@
+<%= form_tag activate_users_url, method: :put, class: "verify-form" do %>
+  <%= email_field_tag :user_email, nil, placeholder: "Email" %><br>
+  <%= password_field_tag :user_password, nil, placeholder: "Password" %><br>
+  <%= hidden_field_tag :activation_token, params[:activation_token] %>
+  <div class="links">
+  <%= submit_tag "Activate" %>
+  </div>
+<% end %>

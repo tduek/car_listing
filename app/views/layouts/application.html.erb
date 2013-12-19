@@ -8,6 +8,11 @@
   <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Oswald|Open+Sans">
 </head>
 <body>
+  <% if Rails.env.development? %>
+    <%= debug params %>
+    <hr>
+  <% end %>
+
   <div class="lightbox">
     <div class="viewport">
       <ul class="clearfix"></ul>
@@ -15,6 +20,30 @@
   </div>
   <header>
     <h1>TOMMY'S CARS</h1>
+
+    <% if params[:controller] != "user_sessions" %>
+    <div class="login">
+      <% if user_logged_in? %>
+        <%= button_to "Log out", user_session_url, method: :delete %>
+      <% else %>
+      <nav class="login-links">
+        <%= link_to "LOG IN", new_user_session_url, class: "login-form-link" %>
+        | <%= link_to "JOIN", new_user_url %>
+      </nav>
+        <%= render partial: "user_sessions/form" %>
+        <script>
+        $(document).ready(function () {
+          $(".login-form-link").click(function (event) {
+            event.preventDefault();
+            $("nav.login-links").toggle();
+            $("form.login-form").toggle();
+          });
+        });
+        </script>
+      <% end %>
+    </div>
+    <% end %>
+
     <nav>
       <ul>
         <li><a href="#">home</a></li>

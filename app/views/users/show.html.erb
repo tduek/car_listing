@@ -1,0 +1,5 @@
+<% if @user.is_activated? %>
+  <%= render partial: "dashboard", locals: {user: @user} %>
+<% else %>
+  <%= render partial: "inactive_user", locals: {user: @user} %>
+<% end %>

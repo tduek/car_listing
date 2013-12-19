@@ -4,7 +4,19 @@ CarListing::Application.routes.draw do
 
   resources :pics, only: :show
 
-  resources :users
+  resources :users, only: [:show, :new, :create, :edit, :update, :destroy] do
+    collection do
+      get "activate"
+      get "forgot_password"
+      post "reset_password"
+    end
+
+    member do
+      post "resend_initial_activation_email", as: :resend_initial_activation_email_for
+    end
+  end
+
+  resource :user_session, only: [:new, :create, :destroy]
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

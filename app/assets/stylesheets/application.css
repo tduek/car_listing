@@ -12,7 +12,7 @@
  *= require_tree .
  */
 html, body, article, div, img, a, h1, h2, h3, h4, h5, p,
-header, section, ul, li, input, form {
+header, section, ul, li, form {
   margin: 0; padding: 0; border: 0;
   font-family: "Open Sans", sans-serif; font-weight: 100; color: #333333;
 }
@@ -43,16 +43,70 @@ body.no-scroll {
 }
 
 body > header {
-  width: 100%;
+  position: relative;
+  width: 800px;
+  margin: 0 auto;
 }
 
 body > header > h1 {
   display: block;
   text-align: center;
+  vertical-align: bottom;
   font-size: 48px;
   font-weight: 100;
   margin: 20px 0 10px 0;
   letter-spacing: 5px;
+}
+
+body > header > div.login {
+  position: absolute;
+  top: 5px;
+  right: 0;
+  text-align: right;
+}
+
+div.login > nav.login-links {
+  vertical-align: top;
+}
+
+div.login > nav.login-links > a {
+  font-family: "Oswald";
+  font-weight: 100;
+  color: #333333;
+  font-size: 15px;
+}
+
+form.login-form input {
+  margin: 0;
+  background: none;
+}
+
+form.login-form a {
+  display: block;
+  float: left;
+  font-family: "Oswald";
+  font-weight: 100;
+  color: #333333;
+  font-size: 15px;
+}
+
+form.login-form input[type="submit"] {
+  font-family: "Oswald";
+  font-weight: 100;
+  color: #333333;
+  font-size: 15px;
+  display: block;
+  float: right;
+  border: 0;
+  margin: 0;
+  padding: 0 0 10px 10px;
+  text-transform: uppercase;
+  background: none;
+
+}
+
+div.login form.login-form {
+  display: none;
 }
 
 body > header > nav {
@@ -78,6 +132,7 @@ body > header > nav > ul > li > a {
   padding: 0px 10px;
   margin: 0 50px -4px 50px;
   color: #333333;
+  font-size: 15px;
   text-transform: uppercase;
   font-family: "Oswald";
 }

@@ -172,7 +172,9 @@ brands.each do |brand|
   end
 end
 
-lines = File.readlines("db/US_zips.txt").map { |line| line.split("\t") }
+
+Zip.delete_all
+lines = File.readlines("db/US_zips.txt").map { |line| line.chomp.split("  ") }
 
 lines.each do |line|
   Zip.create(code: line[1].to_i,
