@@ -15,11 +15,11 @@
     Click <%= button_to("here",
               resend_initial_activation_email_for_user_url(user),
               method: :post) %>
-    to send another activation email to <%= user.email %> if you still haven't received it.
+    to send a new activation email to <%= user.email %>.
   </p>
 <% end %>
 
-<p>Or, if we don't have the right email address, change it here:<span>
+<p>Or, if we don't have the right email address, change it here:
 <%= form_for(user, url: user_url(user), method: :put) do |f| %>
   <%= email_field :user, :email, placeholder: "email" %>
   <%= f.submit "Change email address" %>

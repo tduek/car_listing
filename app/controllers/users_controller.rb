@@ -1,4 +1,10 @@
 class UsersController < ApplicationController
+  before_filter :set_singular_resource, only:
+    [:show, :edit, :update, :destroy, :resend_initial_activation_email, :change_email]
+
+  before_filter :require_owner, only:
+    [:show, :edit, :update, :destroy, :resend_initial_activation_email, :change_email]
+
 
   def index
     @users = User.all
@@ -19,7 +25,7 @@ class UsersController < ApplicationController
     @user = User.new(params[:user])
 
     if @user.save
-      UserMailer.activation_email(@user).deliver!
+      UserMailer.initial_activation_email(@user).deliver!
       @user.update_attribute(:activation_email_sent_at, Time.now)
 
       redirect_to @user, notice: "Almost done! Check your inbox for the activation email."
@@ -54,21 +60,9 @@ class UsersController < ApplicationController
   end
 
 
-  def change_email
-    @user = User.find(params[:id])
-
-    if @user.update_attributes(params[:user])
-      UserMailer.change_email_verification_email(@user).deliver!
-      notice = "Please verify your new email address. We sent an email to #{@user.email}"
-    else
-      notice = "Couldn't save the new email address: #{params[:user][:email]}. Please edit below."
-    end
-
-    redirect_to @user, notice: notice
-  end
-
   def forgot_password
   end
+
 
   def reset_password
     @user = User.find_by_email(params[:email])
@@ -115,8 +109,9 @@ class UsersController < ApplicationController
 
 
   def destroy
-    @user.find(params[:id]).deactivate!
+    @user.deactivate!
     flash[:success] = "Account deactivated.. :("
     redirect_to root_url
   end
+
 end

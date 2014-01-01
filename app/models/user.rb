@@ -77,4 +77,8 @@ class User < ActiveRecord::Base
   def activate!
     self.update_attribute(:is_activated, true)
   end
+
+  def user
+    self
+  end
 end

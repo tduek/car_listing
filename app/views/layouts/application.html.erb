@@ -53,6 +53,9 @@
       <ul>
     </nav>
   </header>
+  <% flash.each do |type, msg| %>
+    <span><strong><%= type.to_s.titleize %>:</strong> <%= msg %></span>
+  <% end %>
 
   <section class="clear-fix" id="content">
     <%= yield %>
