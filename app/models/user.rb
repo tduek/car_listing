@@ -81,4 +81,10 @@ class User < ActiveRecord::Base
   def user
     self
   end
+
+  def reset_password!
+    self.password_required!
+    password = SecureRandom.base64
+    self.update_attributes(password: password, password_confirmation: password)
+  end
 end
