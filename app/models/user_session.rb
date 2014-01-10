@@ -6,11 +6,7 @@ class UserSession < ActiveRecord::Base
   before_create :set_unique_token
 
   def set_unique_token
-    begin
-      token = SecureRandom.base64(32)
-    end until !UserSession.exists?(token: token)
-
-    self.token = token
+    self.token = generate_unique_token_for_field(:token)
   end
 
 end
