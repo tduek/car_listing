@@ -28,6 +28,7 @@ class UsersController < ApplicationController
       UserMailer.initial_activation_email(@user).deliver!
       @user.update_attribute(:activation_email_sent_at, Time.now)
 
+      login_user!(@user)
       redirect_to @user, notice: "Almost done! Check your inbox for the activation email."
     else
       flash[:alert] = "Something went terribly wrong. Check below."
@@ -59,9 +60,6 @@ class UsersController < ApplicationController
     redirect_to @user, notice: "Almost done! Check your inbox for the activation email."
   end
 
-
-  def forgot_password
-  end
 
 
   def reset_password
