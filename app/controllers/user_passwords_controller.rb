@@ -21,7 +21,7 @@ class UserPasswordsController < ApplicationController
   # Step 3: Link on email. Has form for new password.
   def new
     @user = User.find_by_reset_password_token(params[:reset_password_token])
-    raise_404 unless @user
+    raise_404 unless @user && params[:reset_password_token]
 
     @user.reset_password!
   end
