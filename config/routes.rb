@@ -1,6 +1,6 @@
 CarListing::Application.routes.draw do
   root to: "listings#index"
-  resources :listings, only: [:index, :show]
+  resources :listings
 
   resources :pics, only: :show
 

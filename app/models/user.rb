@@ -13,6 +13,8 @@ class User < ActiveRecord::Base
 
   has_many :sessions, class_name: "UserSession"
 
+  has_many :listings
+
   validates :fname, :lname, :email, :phone, :address_line_1, :city, :zip, presence: true
 
   before_validation { [self.fname, self.lname].each { |n| n.capitalize! if n } }
