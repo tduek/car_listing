@@ -7,14 +7,14 @@ CarListing::Application.routes.draw do
   resources :users, only: [:show, :new, :create, :edit, :update, :destroy] do
     collection do
       get "activate"
-      get "forgot_password"
-      post "reset_password"
     end
 
     member do
       post "resend_initial_activation_email", as: :resend_initial_activation_email_for
     end
   end
+
+  resource :user_password, only: [:new, :create, :edit, :update]
 
   resource :user_session, only: [:new, :create, :destroy]
 

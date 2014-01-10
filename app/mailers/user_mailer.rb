@@ -18,10 +18,7 @@ class UserMailer < ActionMailer::Base
   end
 
   def reset_password_email(user)
-    user.password_required!
-    password = SecureRandom.base64
-    user.update_attributes(password: password, password_confirmation: password)
-
     mail(to: user.email, subject: "Password reset instructions.")
   end
+
 end

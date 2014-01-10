@@ -1,11 +1,20 @@
-<p>Dear <%= @user.fname %>,</p>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <p>Dear <%= @user.fname %>,</p>
 
-<p>
-  Please verify your new email address by clicking <%= link_to("here", activate_users_url(activation_token: @user.activation_token)) %>.
-</p>
+    <p>
+      Please verify your new email address by clicking <%= link_to("here", activate_users_url(activation_token: @user.activation_token)) %>.
+    </p>
 
-<p>
-  If you cannot click the link, you may instead visit this URL by copying and pasting it into your browser: <%= activate_users_url(activation_token: @user.activation_token) %>
-</p>
+    <p>
+      If you cannot click the link, you may instead visit this URL by copying and pasting it into your browser: <%= activate_users_url(activation_token: @user.activation_token) %>
+    </p>
 
-<p>Thanks!</p>
+    <p>Thanks!</p>
+
+  </body>
+</html>
