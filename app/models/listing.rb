@@ -13,24 +13,29 @@ class Listing < ActiveRecord::Base
   has_many :main_pics, class_name: "Pic",
                        conditions: "pics.thumb_for IS NULL"
 
+  validates :year, :make_id, :model_id, :miles, :price, :title, :description, :zipcode, :is_owner, presence: :true
+  validates :title, length: 15..100
+  validates :description, length: 25..150
+  validates :is_owner, inclusion: {in:      [true, false],
+                                   message: "should be BY OWNER or BY DEALER"}
+  validates :zipcode, :year, :miles, :price, numericality: true
 
- def self.within_miles_from_zip(dist, zip)
+  def self.within_miles_from_zip(dist, zip)
    Listing.select('listings.*, "near_zips"."distance"').
            joins("INNER JOIN (#{Zip.near(dist, zip).to_sql}) AS \"near_zips\" ON \"near_zips\".\"code\"=\"listings\".\"zipcode\"")
- end
+  end
 
- def self.search(terms, page)
-   if terms[:zip] && terms[:zip].length == 5 && Zip.find_by_code(terms[:zip])
-     dist = terms[:dist] && terms[:dist].length > 0 ? terms[:dist] : "3500"
-     result = Listing.within_miles_from_zip(dist, terms[:zip])
-   else
-     result = Listing
-   end
+  def self.search(terms, page)
+    if terms[:zip] && terms[:zip].length == 5 && Zip.find_by_code(terms[:zip])
+      dist = terms[:dist] && terms[:dist].length > 0 ? terms[:dist] : "3500"
+      result = Listing.within_miles_from_zip(dist, terms[:zip])
+    else
+      result = Listing
+    end
 
-   results = result.where("listings.model_id IS NOT NULL").
+    results = result.where("listings.model_id IS NOT NULL").
                     includes(:thumbs, :make, :model, :zip).
                     page(page)
-
 
     if terms
       if terms[:year_from].to_i > 0 && terms[:year_to].to_i > 0
