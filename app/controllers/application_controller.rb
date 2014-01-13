@@ -5,6 +5,8 @@ class ApplicationController < ActionController::Base
   include ActiveSupport::Inflector
 
   def set_singular_resource
+    return @resource if @resource
+
     model_str = self.class.to_s.gsub("Controller", "").singularize
     model_class = model_str.constantize
     resource = model_class.find(params[:id])
@@ -14,8 +16,11 @@ class ApplicationController < ActionController::Base
 
   def singular_resource
     return @resource if @resource
+
     ivar = "@#{self.class.to_s.gsub("Controller", "").singularize.downcase}"
     @resource ||= instance_variable_get(ivar)
+
+    @resource ? @resource : set_singular_resource
   end
 
   def raise_404
@@ -24,11 +29,14 @@ class ApplicationController < ActionController::Base
 
 
   def require_owner
-    if user_logged_in? && current_user == singular_resource.user
-      # Do nothing.
-    elsif user_logged_in? && current_user != singular_resource.user
+    if singular_resource.user != current_user
       redirect_to :back, alert: "You don't have access to that!"
-    elsif !user_logged_in?
+    end
+  end
+
+  def require_user_logged_in
+    unless user_logged_in?
+      session[:friendly_redirect] = request.env["REQUEST_URI"]
       redirect_to new_user_session_url, alert: "You must be logged in for that!"
     end
   end

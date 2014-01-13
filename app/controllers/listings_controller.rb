@@ -1,4 +1,7 @@
 class ListingsController < ApplicationController
+  before_filter :require_user_logged_in, only: [:new, :create, :edit, :update, :destroy]
+  before_filter :require_owner, only: [:edit, :update, :destroy]
+
   def index
     params[:search] ||= {}
     params[:page] ||= 1
@@ -28,5 +31,49 @@ class ListingsController < ApplicationController
 
   def show
     @listing = Listing.includes(:make, :model, :thumbs, :main_pics).find(params[:id])
+  end
+
+  def new
+    @listing = Listing.new
+  end
+
+
+  def create
+    @listing = current_user.listings.new(params[:listing])
+
+    if @listing.save
+      flash[:success] = "Successfully listed your #{@listing.name}"
+      redirect_to @listing
+    else
+      flash.now[:alert] = "Couldn't save your listing. Check below."
+      render :new
+    end
+  end
+
+
+  def edit
+    @listing = Listing.find(params[:id])
+  end
+
+
+  def update
+    @listing = Listing.find(params[:id])
+
+    if @listing.update_attributes(params[:listing])
+      flash[:success] = "Successfully saved changes to your #{@listing.name}"
+      redirect_to @listing
+    else
+      flash.now[:alert] = "Couldn't save changes to your #{@liasting.name || 'listing'}. Check below."
+      render :edit
+    end
+  end
+
+  def destroy
+    @listing = Listing.find(params[:id])
+
+    @listing.destroy
+
+    flash[:succes] = "Successfully removed your #{@listing.name} from our listings."
+    redirect_to current_user
   end
 end

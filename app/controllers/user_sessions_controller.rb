@@ -10,7 +10,8 @@ class UserSessionsController < ApplicationController
     if user
       login_user!(user)
 
-      redirect_to user, notice: "Welcome back #{user.fname}!"
+      flash[:success] =  "Welcome back #{user.fname}!"
+      redirect_to session[:friendly_redirect] || user
     else
       flash[:login] = "Incorrect email/password combination."
       redirect_to new_user_session_url
