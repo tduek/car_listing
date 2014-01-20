@@ -34,7 +34,7 @@ class ListingsController < ApplicationController
   end
 
   def new
-    @listing = Listing.new
+    @listing = current_user.listings.new
   end
 
 

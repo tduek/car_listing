@@ -8,17 +8,32 @@ class Listing < ActiveRecord::Base
   belongs_to :make, class_name: "Subdivision", foreign_key: :make_id
   belongs_to :model, class_name: "Subdivision", foreign_key: :model_id
 
-  has_many :thumbs, class_name: "Pic",
-                    conditions: "pics.thumb_for IS NOT NULL"
-  has_many :main_pics, class_name: "Pic",
-                       conditions: "pics.thumb_for IS NULL"
+  has_one :main_pic, class_name: "Pic", conditions: '"pics"."ord" = 1'
+  has_many :pics
 
-  validates :year, :make_id, :model_id, :miles, :price, :title, :description, :zipcode, :is_owner, presence: :true
+  before_validation :fix_year
+  before_validation :format_phone
+  before_validation :remove_phone_if_same_as_user
+
+  validates :year, :make_id, :model_id, :miles, :price, :title, :description, :zipcode, presence: :true
+  validates :year, inclusion: {in: (1920..Time.now.year+1).to_a}
   validates :title, length: 15..100
   validates :description, length: 25..150
-  validates :is_owner, inclusion: {in:      [true, false],
-                                   message: "should be BY OWNER or BY DEALER"}
   validates :zipcode, :year, :miles, :price, numericality: true
+
+  def by_owner?
+    (self.user && !self.user.is_dealer?) || self.is_owner
+  end
+
+  def format_phone
+    self.phone = self.phone.gsub(/\D/, '').to_i
+  end
+
+  def remove_phone_if_same_as_user
+    if self.phone == self.user.phone
+
+    end
+  end
 
   def self.within_miles_from_zip(dist, zip)
    Listing.select('listings.*, "near_zips"."distance"').
@@ -89,7 +104,7 @@ class Listing < ActiveRecord::Base
 
 
   def name
-    [self.year, self.make.name, self.model.name].compact.join(" ")
+    [self.year, self.make && self.make.name, self.model && self.model.name].compact.join(" ")
   end
 
 end

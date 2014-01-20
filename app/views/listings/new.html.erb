@@ -1,0 +1,150 @@
+
+<%= form_for @listing do |f| %>
+
+<h1 class="listing-name">Fill info below</h1>
+
+<h3><%= f.text_field :title, placeholder: "Enter catchy title here (ex: Awesome car!)" %></h3>
+
+<section class="top-info clear-fix">
+  <section class="pics">
+    <div class="main-pic">
+      <%= image_tag "camera_icon.png", class: "car-pic" %>
+    </div>
+    <ul class="thumbs clear-fix">
+      <% 8.times do %>
+      <li><%= image_tag "camera_icon.png", class: "car-pic" %></li>
+      <% end %>
+    </ul>
+  </section>
+
+
+  <section class="info">
+    <article class="car-info">
+      <header>What it is:</header>
+
+      <ul>
+        <li>
+          <%= f.label :year %>
+          <%= f.number_field :year, max: Time.now.year+1, min: 1920 %>
+        </li>
+        <li>
+          <%= f.label :make %>
+          <span>
+            <%= f.collection_select(:make_id, Subdivision.all_makes, :id, :name, prompt: true) %>
+          </span>
+        </li>
+        <li>
+          <%= f.label :model %>
+          <span>
+            <select id="listing_model" name=listing[model_id]></select>
+          </span>
+        </li>
+        <li>
+          <label>Seller:</label><span><%= @listing.by_owner? ? "BY OWNER" : "DEALER" %></span>
+        </li>
+        <li>
+          <label>Contact:</label>
+          <span>
+            <%= f.text_field :phone, value: number_to_phone(current_user.phone) %>
+          </span>
+        </li>
+        <li>
+          <label>Asking:</label><span>$<%= f.number_field :price, min: 0 %></span>
+        </li>
+      </ul>
+    </article>
+  </section>
+</section>
+
+<input class="pic" type="file" name="listing[pics][]">
+<span id="add-new-pic">Add another photo</span>
+<script>
+$(document).ready(function() {
+  $("span#add-new-pic").on("click", function(event) {
+    console.log("hit");
+    var newUpload = $("input.pic").first().clone()
+    newUpload.val(null)
+
+    $(this).after(newUpload);
+  });
+
+  function readUrl(input) {
+    if (input.files && input.files[0]) {
+      var reader = new FileReader();
+
+      reader.onload = function(e) {
+        $(".car-pic").attr("src", e.target.result);
+      };
+
+      reader.readAsDataURL(input.files[0]);
+    }
+  };
+
+  $("input.pic").on("change", function(event) {
+    readUrl(this);
+  });
+
+});
+</script>
+
+<section class="description">
+  <span><h2>Description</h2>Must be at least 150 characters. You're at
+    <span class="description-char-count">
+      <%= @listing.description && @listing.description.length || 0 %>
+    </span> now.
+  </span>
+  <p><%= f.text_area :description %></p>
+</section>
+
+  <%= f.submit "Save" %>
+<% end %>
+
+
+
+<div style="display:none;" class="hidden-select-options">
+  <% Subdivision.all_models.each do |model| %>
+  <option value="<%= model.id %>" data-make-id="<%= model.parent_id %>">
+    <%= model.name %>
+  </option>
+  <% end %>
+</div>
+
+
+<script>
+$(document).ready(function() {
+  var makeSelect = $("select#listing_make_id");
+  var modelSelect = $("select#listing_model");
+
+  if (!parseInt(makeSelect.val())) {
+    modelSelect.prop("disabled", true);
+    modelSelect.append("<option>Select make first</option>");
+  }
+
+  makeSelect.on("change", function(event) {
+    modelSelect.empty();
+    var selectedMakeId = makeSelect.val();
+
+    if (makeSelect.val()) {
+      modelSelect.prop('disabled', false);
+      modelSelect.append("<option>Please select</option>")
+      $("div.hidden-select-options > option").each(function(_, option) {
+        var $option = $(option);
+        var optionMakeId = $option.attr("data-make-id");
+        if (optionMakeId === selectedMakeId) {
+          modelSelect.append($option.clone());
+        }
+      });
+    }
+    else {
+      modelSelect.prop('disabled', true);
+      modelSelect.append("<option>Select make first</option>");
+    }
+
+  });
+
+  var $description = $("textarea#listing_description")
+  $description.on("keyup", function(event) {
+    $("span.description-char-count").html($description.val().length);
+  });
+});
+</script>

@@ -11,6 +11,11 @@ class CreateUsers < ActiveRecord::Migration
       t.string :state
       t.integer :zip
       t.string :password_digest
+      t.string :reset_password_token
+      t.boolean :is_activated
+      t.string :activation_token
+      t.datetime :activation_email_sent_at
+      t.boolean :is_dealer
 
       t.timestamps
     end

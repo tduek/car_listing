@@ -1,6 +1,7 @@
 class CreateListings < ActiveRecord::Migration
   def change
     create_table :listings do |t|
+      t.integer :user_id
       t.integer :year
       t.integer :make_id
       t.integer :model_id
@@ -16,6 +17,7 @@ class CreateListings < ActiveRecord::Migration
       t.timestamps
     end
 
+    add_index :listings, :user_id
     add_index :listings, :make_id
     add_index :listings, :model_id
     add_index :listings, :year

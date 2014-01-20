@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140110224733) do
+ActiveRecord::Schema.define(:version => 20140117161348) do
 
   create_table "listings", :force => true do |t|
     t.integer  "year"
@@ -87,6 +87,7 @@ ActiveRecord::Schema.define(:version => 20140110224733) do
     t.string   "activation_token"
     t.datetime "activation_email_sent_at"
     t.string   "reset_password_token"
+    t.boolean  "is_dealer"
   end
 
   create_table "zips", :force => true do |t|

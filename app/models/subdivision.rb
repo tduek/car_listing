@@ -7,6 +7,17 @@ class Subdivision < ActiveRecord::Base
 
   has_many :spellings
 
+  scope :all_makes, -> { where(parent_id: nil).order(:name) }
+  scope :all_models, -> { where(level: 1).order(:name) }
+
+  scope :makes,  -> do where(parent_id: nil).order(:name).
+                       joins("INNER JOIN listings ON listings.make_id=subdivisions.id")
+                    end
+
+  scope :models, -> do where(level: 1).order(:name)
+                       joins("INNER JOIN listings ON listings.model_id=subdivisions.id")
+                    end
+
 
   def listings(years = nil)
     result = Listing.where("listings.make_id=? OR listings.model_id=?", self.id, self.id)
