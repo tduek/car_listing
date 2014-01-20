@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140117161348) do
+ActiveRecord::Schema.define(:version => 20140120234613) do
 
   create_table "listings", :force => true do |t|
     t.integer  "year"
@@ -47,6 +47,7 @@ ActiveRecord::Schema.define(:version => 20140117161348) do
     t.datetime "file_updated_at"
     t.datetime "created_at",        :null => false
     t.datetime "updated_at",        :null => false
+    t.integer  "ord"
   end
 
   add_index "pics", ["is_thumb"], :name => "index_pics_on_is_thumb"
