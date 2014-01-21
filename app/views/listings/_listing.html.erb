@@ -1,7 +1,7 @@
 <article class="search-result-listing clear-fix">
   <div class="thumb-container">
     <%= link_to((listing.main_pic ?
-                image_tag(listing.main_pic.file.url : "NO PHOTO YET"),
+                image_tag(listing.main_pic.file.url) : "NO PHOTO YET"),
                 listing, class: "thumb")
     %>
   </div>
