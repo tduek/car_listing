@@ -4,11 +4,11 @@
 
 <section class="top-info clear-fix">
   <section class="pics">
-  <% if @listing.main_pics.empty? %>
+  <% if @listing.pics.empty? %>
     <p>Sorry, no pics :(</p>
   <% else %>
     <div class="main-pic">
-      <%= image_tag @listing.main_pics.first.file.url, class: "car-pic" %>
+      <%= image_tag @listing.pics.first.file.url(:full_size), class: "car-pic" %>
     </div>
     <ul class="thumbs clear-fix">
       <% @listing.pics.each do |thumb| %>
@@ -21,26 +21,32 @@
 
   <section class="info">
     <article class="car-info">
-      <header>It is what it is:</header>
+      <header>What it is:</header>
 
       <ul>
         <li>
-          <label>Year:</label><span><%= @listing.year %></span>
+          <label>Year:</label>
+          <span><%= @listing.year %></span>
         </li>
         <li>
-          <label>Make:</label><span><%= @listing.make.name %></span>
+          <label>Make:</label>
+          <span><%= @listing.make.name %></span>
         </li>
         <li>
-          <label>Model:</label><span><%= @listing.model.name %></span>
+          <label>Model:</label>
+          <span><%= @listing.model.name %></span>
         </li>
         <li>
-          <label>Seller:</label><span><%= @listing.is_owner ? "OWNER" : "DEALER" %></span>
+          <label>Seller:</label>
+          <span><%= @listing.is_owner ? "OWNER" : "DEALER" %></span>
         </li>
         <li>
-          <label>Contact:</label><span><%= number_to_phone(@listing.phone) %></span>
+          <label>Contact:</label>
+          <span><%= number_to_phone(@listing.phone) %></span>
         </li>
         <li>
-          <label>Asking:</label><span><%= number_to_currency(@listing.price, precision: 0) %></span>
+          <label>Asking:</label>
+          <span><%= number_to_currency(@listing.price, precision: 0) %></span>
         </li>
       </ul>
     </article>
@@ -57,14 +63,14 @@
 <script>
 $(document).ready(function() {
   var $lightbox = $("div.lightbox");
-  var totalPics = <%= @listing.main_pics.count %>;
+  var totalPics = <%= @listing.pics.count %>;
   var currentPic = 1;
   $("img.car-pic").click(function() {
     $("body").toggleClass("no-scroll");
     $lightbox.toggleClass("show");
-    var width = <%= @listing.main_pics.count * 600 %>
+    var width = <%= @listing.pics.count * 600 %>
     $("div.viewport > ul").css("width", width);
-    <% @listing.main_pics.each do |pic| %>
+    <% @listing.pics.each do |pic| %>
     $("div.lightbox ul").append('<li><%= image_tag pic.file.url %></li>')
     <% end %>
   });
