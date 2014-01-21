@@ -8,11 +8,11 @@
     <p>Sorry, no pics :(</p>
   <% else %>
     <div class="main-pic">
-      <%= image_tag @listing.pics.first.file.url(:full_size), class: "car-pic" %>
+      <%= image_tag @listing.main_pic.file.url, class: "car-pic" %>
     </div>
     <ul class="thumbs clear-fix">
       <% @listing.pics.each do |thumb| %>
-      <li><%= image_tag thumb.file.url(:sthumb), class: "car-pic" %></li>
+      <li><%= image_tag thumb.file.url, class: "car-pic" %></li>
       <% end %>
     </ul>
   <% end %>
