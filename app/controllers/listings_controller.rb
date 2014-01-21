@@ -30,7 +30,7 @@ class ListingsController < ApplicationController
   end
 
   def show
-    @listing = Listing.includes(:make, :model, :thumbs, :main_pics).find(params[:id])
+    @listing = Listing.includes(:make, :model, :pics, :main_pic).find(params[:id])
   end
 
   def new
