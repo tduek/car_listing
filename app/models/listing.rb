@@ -49,7 +49,7 @@ class Listing < ActiveRecord::Base
     end
 
     results = result.where("listings.model_id IS NOT NULL").
-                    includes(:thumbs, :make, :model, :zip).
+                    includes(:pics, :main_pic, :make, :model, :zip).
                     page(page)
 
     if terms
