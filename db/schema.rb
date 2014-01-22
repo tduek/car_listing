@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140120234613) do
+ActiveRecord::Schema.define(:version => 20140122170017) do
 
   create_table "listings", :force => true do |t|
     t.integer  "year"
@@ -23,11 +23,13 @@ ActiveRecord::Schema.define(:version => 20140120234613) do
     t.boolean  "is_owner"
     t.integer  "zipcode"
     t.integer  "miles"
-    t.integer  "phone",       :limit => 8
+    t.integer  "phone",        :limit => 8
     t.datetime "post_date"
-    t.datetime "created_at",               :null => false
-    t.datetime "updated_at",               :null => false
+    t.datetime "created_at",                :null => false
+    t.datetime "updated_at",                :null => false
     t.integer  "user_id"
+    t.string   "vin"
+    t.integer  "transmission"
   end
 
   add_index "listings", ["is_owner"], :name => "index_listings_on_is_owner"
