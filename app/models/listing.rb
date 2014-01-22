@@ -1,5 +1,5 @@
 class Listing < ActiveRecord::Base
-  attr_accessible :is_owner, :miles, :model_id, :phone, :price, :year, :zipcode, :post_date, :make_id, :title, :description
+  attr_accessible :is_owner, :miles, :model_id, :phone, :price, :year, :zipcode, :post_date, :make_id, :title, :description, :vin, :transmission
 
   belongs_to :user
 
