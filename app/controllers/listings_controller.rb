@@ -10,7 +10,7 @@ class ListingsController < ApplicationController
     @models_array = Subdivision.where(level: 1).order(:name).
                                 all.map { |model| [model.name, model.id] }
 
-    @listings = Listing.search(params[:search], params[:page]).order(:post_date)
+    @listings = Listing.search(params[:search], params[:page])
 
     @sort_options = [["oldest first", "post_date_asc"],
                      ["newest first", "post_date_desc"],
