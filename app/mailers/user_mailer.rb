@@ -1,5 +1,5 @@
 class UserMailer < ActionMailer::Base
-  default from: "from@example.com"
+  default from: "no-reply@tommyscars.com"
 
   def initial_activation_email(user)
     user.reset_activation_token!
