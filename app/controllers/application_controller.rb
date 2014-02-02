@@ -30,7 +30,8 @@ class ApplicationController < ActionController::Base
 
   def require_owner
     if singular_resource.user != current_user
-      redirect_to :back, alert: "You don't have access to that!"
+      flash[:alert] = "You don't have access to that!"
+      redirect_to request.referer || root_url
     end
   end
 
