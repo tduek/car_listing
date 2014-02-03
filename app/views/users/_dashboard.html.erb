@@ -1,1 +1,8 @@
 <h1><%= @user.name %>'s Dashboard</h1>
+
+<%= link_to "Sell a car!", new_listing_url %>
+
+<% unless @user.listings.empty? %>
+  <h2>Your <%= pluralize("listing") %></h2>
+  <%= render @user.listings %>
+<% end %>
