@@ -40,6 +40,7 @@ class ListingsController < ApplicationController
 
   def create
     @listing = current_user.listings.new(params[:listing])
+    @listing.pics.new(params[:pics])
 
     if @listing.save
       flash[:success] = "Successfully listed your #{@listing.name}"

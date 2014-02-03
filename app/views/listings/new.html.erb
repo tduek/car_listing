@@ -1,9 +1,9 @@
 
-<%= form_for @listing do |f| %>
+<%= form_for @listing, html: {multipart: true} do |f| %>
 
 <h1 class="listing-name">Fill info below</h1>
 
-<h3><%= f.text_field :title, placeholder: "Enter catchy title here (ex: Awesome car!)" %></h3>
+<h3><%= f.text_field :title, placeholder: "Enter catchy title here (ex: This car is blue, like the Aegan Sea. It's new to you, but it's old to me.)" %></h3>
 
 <section class="top-info clear-fix">
   <section class="pics">
@@ -24,39 +24,65 @@
 
       <ul>
         <li>
-          <%= f.label :year %>
-          <%= f.number_field :year, max: Time.now.year+1, min: 1920 %>
+          <%= f.label :year, "Year:" %>
+          <span>
+            <%= f.number_field :year, max: Time.now.year+1, min: 1920 %>
+          </span>
         </li>
         <li>
-          <%= f.label :make %>
+          <%= f.label :make, "Make:" %>
           <span>
             <%= f.collection_select(:make_id, Subdivision.all_makes, :id, :name, prompt: true) %>
           </span>
         </li>
         <li>
-          <%= f.label :model %>
+          <%= f.label :model, "Model:" %>
           <span>
             <select id="listing_model" name=listing[model_id]></select>
           </span>
         </li>
         <li>
-          <label>Seller:</label><span><%= @listing.by_owner? ? "BY OWNER" : "DEALER" %></span>
+          <%= f.label :miles, "Miles:" %>
+          <span>
+            <%= f.number_field :miles, min: 0 %>
+          </span>
         </li>
         <li>
-          <label>Contact:</label>
+          <%= f.label :transmission, "Transmission:" %>
+          <span>
+            <%= f.radio_button :transmission, 1 %>
+            <%= f.label :transmission_1, "Automatic" %>
+            <br>
+            <%= f.radio_button :transmission, 2 %>
+            <%= f.label :transmission_2, "Manual" %>
+          </span>
+        </li>
+        <li>
+          <%= f.label :vin, "VIN:" %>
+          <span>
+            <%= f.text_field :vin %>
+          </span>
+        </li>
+        <li>
+          <label>Seller:</label>
+          <span><%= @listing.by_owner? ? "BY OWNER" : "DEALER" %></span>
+        </li>
+        <li>
+          <%= f.label :phone, "Phone:" %>
           <span>
             <%= f.text_field :phone, value: number_to_phone(current_user.phone) %>
           </span>
         </li>
         <li>
-          <label>Asking:</label><span>$<%= f.number_field :price, min: 0 %></span>
+          <label>Asking:</label>
+          <span>$<%= f.number_field :price, min: 0 %></span>
         </li>
       </ul>
     </article>
   </section>
 </section>
 
-<input class="pic" type="file" name="listing[pics][]">
+<input class="pic" type="file" name="pics[][file]">
 <span id="add-new-pic">Add another photo</span>
 <script>
 $(document).ready(function() {
