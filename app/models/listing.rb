@@ -12,26 +12,54 @@ class Listing < ActiveRecord::Base
   has_many :pics
 
   before_validation :fix_year
-  before_validation :format_phone
-  before_validation :remove_phone_if_same_as_user
+  after_validation :remove_phone_if_same_as_user
 
-  validates :year, :make_id, :model_id, :miles, :price, :title, :description, :zipcode, presence: :true
-  validates :year, inclusion: {in: (1920..Time.now.year+1).to_a}
+  validate :ensure_phone_format, if: :phone
+  validates :year, :make_id, :model_id, :miles, :transmission, :phone, :price, :title, :description, :zipcode, presence: true
+  validates :zipcode, :year, :miles, :price, numericality: {message: "must be a number"}
+  validates :year, inclusion: {in: 1920..Time.now.year, message: "must be between 1920 - #{Time.now.year + 1}"}
+  validate :miles_arent_shortened
+  validates :is_owner, inclusion: {in: [true, false], message: "must specify whether it's 'by-owner or not"}
   validates :title, length: 15..100
   validates :description, length: 25..150
-  validates :zipcode, :year, :miles, :price, numericality: true
+
+  def miles_arent_shortened
+    msg = "must specify the full number of miles (ie: 49000 miles and not just 49 or 49k). The system doesn't allow a car of this year to have less than "
+    if year && miles
+      if miles < 300 && year < Time.now.year - 2
+        errors[:miles] << msg + "300 miles"
+      elsif miles < 120 && year == Time.now.year - 2
+        errors[:miles] << msg + "120 miles"
+      elsif miles < 34 && year == Time.now.year - 1
+        errors[:miles] << msg + "34 miles"
+      end
+    end
+  end
 
   def by_owner?
     (self.user && !self.user.is_dealer?) || self.is_owner
   end
 
-  def format_phone
-    self.phone = self.phone.gsub(/\D/, '').to_i
+  def ensure_phone_format
+    unless self.phone.to_s.length.between?(10, 11)
+      errors[:phone] << "is invalid."
+    end
+  end
+
+  def fix_year
+    if self.year && self.year.to_s.length == 2
+      self.year = self.year.to_s.gsub(/\D/, "")
+      if self.year.to_i <= (Time.now.year + 1) % 100
+        self.year = "19#{self.year}".to_i
+      else
+        self.year = "20#{self.year}".to_i
+      end
+    end
   end
 
   def remove_phone_if_same_as_user
     if self.phone == self.user.phone
-
+      self.phone = nil
     end
   end
 

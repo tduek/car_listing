@@ -39,6 +39,7 @@ class ListingsController < ApplicationController
 
 
   def create
+    params[:listing][:phone].gsub!(/\D/, '') if params[:listing][:phone]
     @listing = current_user.listings.new(params[:listing])
     @listing.pics.new(params[:pics])
 

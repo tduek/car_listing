@@ -3,19 +3,99 @@
 
 <h1 class="listing-name">Fill info below</h1>
 
-<h3><%= f.text_field :title, placeholder: "Enter catchy title here (ex: This car is blue, like the Aegan Sea. It's new to you, but it's old to me.)" %></h3>
+<h3>
+  <% title_errors = @listing.errors[:title] %>
+  <div class="<%= "field-with-errors" if !title_errors.empty? %>">
+
+    <% unless title_errors.empty? %>
+    <p>Title <%= title_errors.to_sentence %>.</p>
+    <% end %>
+
+    <%= f.text_field :title, placeholder: "Catchy title here (ex: This car is blue, like the Aegean Sea. It's new to you, but it's old to me.)" %>
+  </div>
+</h3>
 
 <section class="top-info clear-fix">
   <section class="pics">
     <div class="main-pic">
-      <%= image_tag "camera_icon.png", class: "car-pic" %>
+      <div class="image-file-input-wrapper">
+        <%= image_tag "camera_icon.png", class: "car-pic" %>
+        <input class="pic_file" type="file" name="pics[][file]" data-ord="1">
+
+      </div>
     </div>
     <ul class="thumbs clear-fix">
-      <% 8.times do %>
-      <li><%= image_tag "camera_icon.png", class: "car-pic" %></li>
-      <% end %>
+      <li>
+        <div class="image-file-input-wrapper">
+          <%= image_tag "camera_icon.png", class: "car-pic" %>
+          <input class="pic_file" type="file" name="pics[][file]">
+        </div>
+      </li>
     </ul>
   </section>
+
+  <script>
+  $(document).ready(function() {
+    var $picLi = $("ul.thumbs > li").clone();
+
+    $("section.pics").on("click", "span.remove", function() {
+      console.log($(this).parents("li"))
+      $(this).parents("li").remove();
+      keepOneEmpty();
+    });
+
+    function keepOneEmpty() {
+      var $wrapper = $picLi.clone();
+      $wrapper.find("input[type='file']").val("");
+      $wrapper.find("img").attr("src", "<%= asset_path 'camera_icon.png' %>");
+
+      var empties = []
+      $("ul.thumbs input.pic_file").each(function(i, el) {
+        var $inputVal = $(el).val();
+
+        if ($inputVal.length == 0) {
+          empties.push(el);
+          $(el).siblings(".remove").remove();
+        }
+      });
+
+      if (empties.length === 0) {
+        console.log("hit")
+       $("ul.thumbs").append($wrapper.clone());
+      }
+    };
+
+    $("section.pics").on("change", "input.pic_file", function(event) {
+      readUrl(this);
+      $(this).parent().append('<span class="remove"></span>')
+      if ($("input.pic_file").last().val().length > 0) {
+        $("ul.thumbs").append($picLi.clone());
+      }
+    });
+
+
+    $("span#add-new-pic").on("click", function(event) {
+      var $lastUpload = $("input.pic_file").last()
+      var $newUpload = $lastUpload.clone()
+      $newUpload.attr("data-ord", parseInt($lastUpload.attr("data-ord")) + 1);
+      $newUpload.val(null);
+      $(".pic_files").append($newUpload);
+    });
+
+    function readUrl(input) {
+      if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function(e) {
+          $(input).siblings("img.car-pic").attr("src", e.target.result);
+        };
+
+        reader.readAsDataURL(input.files[0]);
+      }
+    };
+
+  });
+  </script>
 
 
   <section class="info">
@@ -24,94 +104,131 @@
 
       <ul>
         <li>
-          <%= f.label :year, "Year:" %>
-          <span>
-            <%= f.number_field :year, max: Time.now.year+1, min: 1920 %>
-          </span>
+          <% year_errors = @listing.errors[:year] %>
+          <div class="clear-fix<%= " field-with-errors" if !year_errors.empty? %>">
+
+            <% unless year_errors.empty? %>
+            <p>Year <%= year_errors.to_sentence %>.</p>
+            <% end %>
+
+            <%= f.label :year, "Year:" %>
+            <span>
+              <%= f.number_field :year, max: Time.now.year+1, min: 1920 %>
+            </span>
+          </div>
         </li>
         <li>
-          <%= f.label :make, "Make:" %>
-          <span>
-            <%= f.collection_select(:make_id, Subdivision.all_makes, :id, :name, prompt: true) %>
-          </span>
+          <% make_errors = @listing.errors[:make_id] %>
+          <div class="clear-fix<%= " field-with-errors" if !make_errors.empty? %>">
+            <% unless make_errors.empty? %>
+            <p>Make <%= make_errors.to_sentence %>.</p>
+            <% end %>
+            <%= f.label :make, "Make:" %>
+            <span>
+              <%= f.collection_select(:make_id, Subdivision.all_makes, :id, :name, prompt: true) %>
+            </span>
+          </div>
         </li>
         <li>
-          <%= f.label :model, "Model:" %>
-          <span>
-            <select id="listing_model" name=listing[model_id]></select>
-          </span>
+          <% model_errors = @listing.errors[:model_id] %>
+          <div class="clear-fix<%= " field-with-errors" if !model_errors.empty? %>">
+            <% unless model_errors.empty? %>
+              <p>Model <%= model_errors.to_sentence %>.</p>
+            <% end %>
+
+            <%= f.label :model, "Model:" %>
+            <span>
+              <select id="listing_model" name=listing[model_id]></select>
+            </span>
+          </div>
         </li>
         <li>
-          <%= f.label :miles, "Miles:" %>
-          <span>
-            <%= f.number_field :miles, min: 0 %>
-          </span>
+          <% miles_errors = @listing.errors[:miles] %>
+          <div class="clear-fix<%= " field-with-errors" if !miles_errors.empty? %>">
+          <% unless miles_errors.empty? %>
+          <p>Miles <%= miles_errors.to_sentence %>.</p>
+          <% end %>
+            <%= f.label :miles, "Miles:" %>
+            <span>
+              <%= f.number_field :miles, min: 0 %>
+            </span>
+          </div>
+        </li>
+
+        <li>
+          <% tranny_errors = @listing.errors[:transmission] %>
+          <div class="clear-fix<%= " field-with-errors" if !tranny_errors.empty? %>">
+
+            <% unless tranny_errors.empty? %>
+            <p>Transmission <%= tranny_errors.to_sentence %>.</p>
+            <% end %>
+
+            <%= f.label :transmission, "Transmission:" %>
+            <span>
+              <%= f.radio_button :transmission, 1 %>
+              <%= f.label :transmission_1, "Automatic" %>
+              <br>
+              <%= f.radio_button :transmission, 2 %>
+              <%= f.label :transmission_2, "Manual" %>
+            </span>
+          </div>
+        </li>
+
+        <li>
+          <% vin_errors = @listing.errors[:vin] %>
+          <div class="clear-fix<%= " field-with-errors" if !vin_errors.empty? %>">
+            <% unless vin_errors.empty? %>
+            <p>VIN <%= vin_errors.to_sentence %>.</p>
+            <% end %>
+
+            <%= f.label :vin, "VIN:" %>
+            <span>
+              <%= f.text_field :vin %>
+            </span>
+          </div>
         </li>
         <li>
-          <%= f.label :transmission, "Transmission:" %>
-          <span>
-            <%= f.radio_button :transmission, 1 %>
-            <%= f.label :transmission_1, "Automatic" %>
-            <br>
-            <%= f.radio_button :transmission, 2 %>
-            <%= f.label :transmission_2, "Manual" %>
-          </span>
+          <% by_owner_errors = @listing.errors[:by_owner] %>
+          <div class="clear-fix<%= " field-with-errors" if !by_owner_errors.empty? %>">
+
+            <% unless by_owner_errors.empty? %>
+            <p>By Owner <%= by_owner_errors.to_sentence %>.</p>
+            <% end %>
+
+            <label>Seller:</label>
+            <span><%= @listing.by_owner? ? "BY OWNER" : "DEALER" %></span>
+          </div>
         </li>
         <li>
-          <%= f.label :vin, "VIN:" %>
-          <span>
-            <%= f.text_field :vin %>
-          </span>
+          <% phone_errors = @listing.errors[:phone] %>
+          <div class="clear-fix<%= " field-with-errors" if !phone_errors.empty? %>">
+
+            <% unless phone_errors.empty? %>
+            <p>Phone <%= phone_errors.to_sentence %>.</p>
+            <% end %>
+
+            <%= f.label :phone, "Phone:" %>
+            <span>
+              <%= f.text_field :phone, value: number_to_phone(current_user.phone) %>
+            </span>
+          </div>
         </li>
         <li>
-          <label>Seller:</label>
-          <span><%= @listing.by_owner? ? "BY OWNER" : "DEALER" %></span>
-        </li>
-        <li>
-          <%= f.label :phone, "Phone:" %>
-          <span>
-            <%= f.text_field :phone, value: number_to_phone(current_user.phone) %>
-          </span>
-        </li>
-        <li>
-          <label>Asking:</label>
-          <span>$<%= f.number_field :price, min: 0 %></span>
+          <% price_errors = @listing.errors[:price] %>
+          <div class="clear-fix<%= " field-with-errors" if !price_errors.empty? %>">
+
+            <% unless price_errors.empty? %>
+            <p>Asking price <%= price_errors.to_sentence %>.</p>
+            <% end %>
+
+            <label>Asking:</label>
+            <span>$<%= f.number_field :price, min: 0 %></span>
+          </div>
         </li>
       </ul>
     </article>
   </section>
 </section>
-
-<input class="pic" type="file" name="pics[][file]">
-<span id="add-new-pic">Add another photo</span>
-<script>
-$(document).ready(function() {
-  $("span#add-new-pic").on("click", function(event) {
-    console.log("hit");
-    var newUpload = $("input.pic").first().clone()
-    newUpload.val(null)
-
-    $(this).after(newUpload);
-  });
-
-  function readUrl(input) {
-    if (input.files && input.files[0]) {
-      var reader = new FileReader();
-
-      reader.onload = function(e) {
-        $(".car-pic").attr("src", e.target.result);
-      };
-
-      reader.readAsDataURL(input.files[0]);
-    }
-  };
-
-  $("input.pic").on("change", function(event) {
-    readUrl(this);
-  });
-
-});
-</script>
 
 <section class="description">
   <span><h2>Description</h2>Must be at least 150 characters. You're at

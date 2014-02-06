@@ -48,19 +48,65 @@ ul.thumbs > li {
   display: block;
   float: left;
   padding: 2px;
-}
-
-ul.thumbs > li > img {
-  display: block;
   width: 50px;
   height: 50px;
+}
+
+div.image-file-input-wrapper {
+  width: 100%;
+  height: auto;
+  position: relative;
+}
+
+div.image-file-input-wrapper > img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+ul.thumbs div.image-file-input-wrapper > img {
+  height: 50px;
+}
+
+div.image-file-input-wrapper > input[type="file"] {
+  position: absolute;
+  display: block;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  opacity: 0;
+}
+
+div.image-file-input-wrapper > input[type="file"]:hover {
+ cursor: pointer;
+}
+
+div.image-file-input-wrapper > .remove {
+  position: absolute;
+  display: block;
+  width: 15%;
+  height: 15%;
+  top: -5px;
+  right: -5px;
+  background: black;
+
+}
+
+
+
+
+
+ul.thumbs > li > div {
+  display: block;
+
 }
 
 section.info {
   display: block;
   float: left;
   margin: 0 0 0 50px;
-  width: 250px;
+  width: 290px;
 }
 
 section.info > article > header {
@@ -72,19 +118,25 @@ section.info > article > ul {
   margin-left: 20px;
 }
 
-section.info > article > ul > li > label {
+section.info > article > ul > li label {
   display: inline-block;
-  width: 100%;
+  width: 80%;
 //  margin: 0 15px 0 0;
   text-align: left;
   font-weight: 900;
+  float: left;
 }
 
-section.info > article > ul > li > span {
+section.info > article > ul > li input[type="radio"] {
+  float: left;
+}
+
+section.info > article > ul > li span {
   display: block;
   float: left;
   clear: both;
-  margin-left: 60px;
+  margin-left: 50px;
+  width: 200px;
 }
 
 section.description {
