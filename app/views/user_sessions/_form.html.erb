@@ -1,8 +1,8 @@
-<%= form_tag user_session_url, class: "login-form" do %>
+<%= form_tag user_session_url, class: "signin-form" do %>
   <%= email_field_tag :user_email, nil, placeholder: "Email" %><br>
   <%= password_field_tag :user_password, nil, placeholder: "Password" %><br>
   <div class="links">
   <%= link_to "JOIN", new_user_url %>
-  <%= submit_tag "Log in" %>
+  <%= submit_tag "SIGN IN" %>
   </div>
 <% end %>

@@ -58,30 +58,30 @@ body > header > h1 {
   letter-spacing: 5px;
 }
 
-body > header > div.login {
+body > header > div.signin {
   position: absolute;
   top: 5px;
   right: 0;
   text-align: right;
 }
 
-div.login > nav.login-links {
+div.signin > nav.signin-links {
   vertical-align: top;
 }
 
-div.login > nav.login-links > a {
+div.signin > nav.signin-links > a {
   font-family: "Oswald";
   font-weight: 100;
   color: #333333;
   font-size: 15px;
 }
 
-form.login-form input {
+form.signin-form input {
   margin: 0;
   background: none;
 }
 
-form.login-form a {
+form.signin-form a {
   display: block;
   float: left;
   font-family: "Oswald";
@@ -90,7 +90,7 @@ form.login-form a {
   font-size: 15px;
 }
 
-form.login-form input[type="submit"] {
+form.signin-form input[type="submit"] {
   font-family: "Oswald";
   font-weight: 100;
   color: #333333;
@@ -105,7 +105,7 @@ form.login-form input[type="submit"] {
 
 }
 
-div.login form.login-form {
+div.signin form.signin-form {
   display: none;
 }
 
@@ -139,6 +139,25 @@ body > header > nav > ul > li > a {
 
 body > header > nav > ul > li > a:hover {
   text-decoration: none;
+}
+
+span.flash {
+  margin: 10px 0;
+  display: block;
+  width: 100%;
+  border-bottom: 1px solid #333333;
+}
+
+span.flash.success {
+  background: #47D147;
+}
+
+span.flash.alert, span.flash.failure, span.flash.error {
+  background: #FF1975;
+}
+
+span.flash.notice {
+  background: yellow;
 }
 
 #content {
@@ -283,6 +302,7 @@ form.search label {
   font-weight: 100;
   border-radius: 2px;
   border: 1px solid black;
+  margin: 0;
 }
 
 .search input[type="submit"]:active {

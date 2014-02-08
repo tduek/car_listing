@@ -236,7 +236,14 @@
       <%= @listing.description && @listing.description.length || 0 %>
     </span> now.
   </span>
-  <p><%= f.text_area :description %></p>
+  <% description_errors = @listing.errors[:description] %>
+  <div class="clear-fix<%= " field-with-errors" if !description_errors.empty? %>">
+    <% unless description_errors.empty? %>
+    <p>Description <%= description_errors.to_sentence %>.</p>
+    <% end %>
+
+    <p><%= f.text_area :description %></p>
+  </div>
 </section>
 
   <%= f.submit "Save" %>

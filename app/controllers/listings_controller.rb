@@ -1,5 +1,5 @@
 class ListingsController < ApplicationController
-  before_filter :require_user_logged_in, only: [:new, :create, :edit, :update, :destroy]
+  before_filter :require_user_signed_in, only: [:new, :create, :edit, :update, :destroy]
   before_filter :require_owner, only: [:edit, :update, :destroy]
 
   def index

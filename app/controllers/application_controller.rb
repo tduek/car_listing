@@ -35,10 +35,10 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def require_user_logged_in
-    unless user_logged_in?
+  def require_user_signed_in
+    unless user_signed_in?
       session[:friendly_redirect] = request.env["REQUEST_URI"]
-      redirect_to new_user_session_url, alert: "You must be logged in for that!"
+      redirect_to new_user_session_url, alert: "You must be signed in for that!"
     end
   end
 

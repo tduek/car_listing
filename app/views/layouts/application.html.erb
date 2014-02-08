@@ -22,21 +22,21 @@
     <h1>TOMMY'S CARS</h1>
 
     <% if params[:controller] != "user_sessions" %>
-    <div class="login">
-      <% if user_logged_in? %>
-        <%= button_to "Log out", user_session_url, method: :delete %>
+    <div class="signin">
+      <% if user_signed_in? %>
+        <%= button_to "sign out", user_session_url, method: :delete %>
       <% else %>
-      <nav class="login-links">
-        <%= link_to "LOG IN", new_user_session_url, class: "login-form-link" %>
+      <nav class="signin-links">
+        <%= link_to "SIGN IN", new_user_session_url, class: "signin-form-link" %>
         | <%= link_to "JOIN", new_user_url %>
       </nav>
         <%= render partial: "user_sessions/form" %>
         <script>
         $(document).ready(function () {
-          $(".login-form-link").click(function (event) {
+          $(".signin-form-link").click(function (event) {
             event.preventDefault();
-            $("nav.login-links").toggle();
-            $("form.login-form").toggle();
+            $("nav.signin-links").toggle();
+            $("form.signin-form").toggle();
           });
         });
         </script>
@@ -46,16 +46,19 @@
 
     <nav>
       <ul>
-        <li><a href="#">home</a></li>
+        <li><%= link_to "HOME", root_url %></li>
         <li><a href="#">about</a></li>
         <li><a href="#">contact</a></li>
-        <li><a href="#">sign in</a></li>
+        <li><%= user_signed_in? ? link_to("DASHBOARD", current_user) : link_to("sign IN", new_user_session_url) %></li>
       <ul>
     </nav>
+    <% flash.each do |type, msg| %>
+    <span class="flash <%= type.to_s.downcase %>">
+      <strong><%= type.to_s.titleize %>:</strong> <%= msg %>
+    </span>
+    <% end %>
   </header>
-  <% flash.each do |type, msg| %>
-    <span><strong><%= type.to_s.titleize %>:</strong> <%= msg %></span>
-  <% end %>
+
 
   <section class="clear-fix" id="content">
     <%= yield %>

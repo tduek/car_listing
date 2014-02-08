@@ -1,6 +1,6 @@
 module UserSessionsHelper
 
-  def login_user!(user)
+  def signin_user!(user)
     @current_user = user
 
     user_session = user.sessions.create
@@ -13,11 +13,11 @@ module UserSessionsHelper
     @current_user ||= user_session.user if user_session
   end
 
-  def user_logged_in?
+  def user_signed_in?
     !!current_user
   end
 
-  def logout_current_user!
+  def signout_current_user!
     user_session = UserSession.find_by_token(session[:user_session_token])
 
     user_session.destroy if user_session

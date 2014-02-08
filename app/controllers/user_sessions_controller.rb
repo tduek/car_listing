@@ -8,7 +8,7 @@ class UserSessionsController < ApplicationController
     user = User.find_by_credentials(params[:user_email], params[:user_password])
 
     if user
-      login_user!(user)
+      signin_user!(user)
 
       flash[:success] =  "Welcome back #{user.fname}!"
       redirect_to session[:friendly_redirect] || user
@@ -20,8 +20,8 @@ class UserSessionsController < ApplicationController
 
   def destroy
     user = current_user
-    logout_current_user!
-    redirect_to root_url, notice: "Logged out successfuly. Bye #{user.fname}."
+    signout_current_user!
+    redirect_to root_url, notice: "Signed out successfuly. Bye #{user.fname}."
   end
 
 end
