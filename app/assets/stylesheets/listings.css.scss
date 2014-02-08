@@ -171,12 +171,29 @@ div.lightbox.show {
 }
 
 div.lightbox > div.viewport {
+  z-index: 1;
   margin: 100px auto;
   width: 600px;
   overflow: hidden;
   position: relative;
   box-shadow: 0 0 5px #FFFFFF, 10px 0px 25px #000000, -10px 0px 25px #000000,
                                0px 10px 25px #000000, 0px -10px 25px #000000;
+}
+
+div.viewport > div#scroll-viewport-left {
+  position: absolute;
+  height: 100%;
+  width: 50%;
+  float: left;
+  z-index: 2;
+}
+
+div.viewport > div#scroll-viewport-right {
+  position: absolute;
+  height: 100%;
+  width: 50%;
+  margin-left: 50%;
+  z-index: 2;
 }
 
 div.lightbox ul {

@@ -8,13 +8,11 @@
   <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Oswald|Open+Sans">
 </head>
 <body>
-  <% if Rails.env.development? %>
-    <%= debug params %>
-    <hr>
-  <% end %>
 
   <div class="lightbox">
     <div class="viewport">
+      <div id="scroll-viewport-left"></div>
+      <div id="scroll-viewport-right"></div>
       <ul class="clearfix"></ul>
     </div>
   </div>
