@@ -64,16 +64,34 @@
 $(document).ready(function() {
   var $lightbox = $("div.lightbox");
   var totalPics = <%= @listing.pics.count %>;
-  var currentPic = 1;
+  currentPic = 1;
+
+  var width = <%= @listing.pics.count * 600 %>
+  $("div.viewport > ul").css("width", width);
+  <% @listing.pics.each do |pic| %>
+    $("div.lightbox ul").append('<li><%= image_tag pic.file.url %></li>');
+  <% end %>
+
   $("img.car-pic").click(function() {
     $("body").toggleClass("no-scroll");
     $lightbox.toggleClass("show");
-    var width = <%= @listing.pics.count * 600 %>
-    $("div.viewport > ul").css("width", width);
-    <% @listing.pics.each do |pic| %>
-    $("div.lightbox ul").append('<li><%= image_tag pic.file.url %></li>')
-    <% end %>
+    setViewportCSS();
   });
+
+  function setViewportCSS() {
+    var imgHeight = $($("div.viewport > ul > li > img")[currentPic-1]).css("height");
+
+    $("div.viewport").css("height", imgHeight);
+
+    $("div.viewport").css("margin", function() {
+      var viewPortHeight = parseInt($("div.viewport").css("height"));
+      var newMargin = (viewPortHeight - imgHeight)/2;
+      if (newMargin > 0) { newMargin = 0 }
+
+      return "" + newMargin + "px auto";
+    });
+  };
+
 
   $(window).keydown(function(event) {
     if (event.keyCode == 27) { // ESC pressed
@@ -85,12 +103,16 @@ $(document).ready(function() {
       $("div.viewport > ul").css("left", function(i, val) {
         return ""+(parseInt(val) + 600)+"px";
       });
+
+      setViewportCSS();
     }
     else if (event.keyCode == 39 && currentPic < totalPics && $lightbox.hasClass("show")) {
       currentPic++;
       $("div.viewport > ul").css("left", function(i, val) {
         return ""+(parseInt(val) - 600)+"px";
-      })
+      });
+
+      setViewportCSS();
     }
   });
 });
