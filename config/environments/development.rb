@@ -38,7 +38,7 @@ CarListing::Application.configure do
   config.paperclip_defaults = {
     :storage => :s3,
     :s3_credentials => {
-      :bucket => "tommys-cars",
+      :bucket => ENV["S3_DEV_BUCKET"],
       :access_key_id => ENV["S3_ACCESS_KEY"],
       :secret_access_key => ENV["S3_SECRET_KEY"]
     }
