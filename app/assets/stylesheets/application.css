@@ -148,6 +148,10 @@ span.flash {
   border-bottom: 1px solid #333333;
 }
 
+span.flash > strong {
+  margin-left: 5px;
+}
+
 span.flash.success {
   background: #47D147;
 }

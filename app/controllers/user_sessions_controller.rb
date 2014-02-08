@@ -13,7 +13,7 @@ class UserSessionsController < ApplicationController
       flash[:success] =  "Welcome back #{user.fname}!"
       redirect_to session[:friendly_redirect] || user
     else
-      flash[:login] = "Incorrect email/password combination."
+      flash[:alert] = "Incorrect email/password combination."
       redirect_to new_user_session_url
     end
   end
