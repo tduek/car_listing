@@ -52,6 +52,11 @@ ul.thumbs > li {
   height: 50px;
 }
 
+ul.thumbs > li > img {
+  width: 100%;
+  height: 100%;
+}
+
 div.image-file-input-wrapper {
   width: 100%;
   height: auto;
