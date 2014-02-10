@@ -42,9 +42,11 @@ class ListingsController < ApplicationController
     params[:listing][:phone].gsub!(/\D/, '') if params[:listing][:phone]
     @listing = current_user.listings.new(params[:listing])
 
-    params[:pics].each_with_index do |pic_attrs, i|
+    params[:pics] && params[:pics].values.each_with_index do |pic_attrs, i|
+      next unless pic_attrs[:file] || pic_attrs[:src].length > 0
       @listing.pics.new(pic_attrs.merge({ord: i+1}))
     end
+
 
     if @listing.save
       flash[:success] = "Successfully listed your #{@listing.name}"

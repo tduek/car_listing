@@ -17,77 +17,78 @@
 
 <section class="top-info clear-fix">
   <section class="pics">
-    <div class="main-pic">
-      <div class="image-file-input-wrapper">
-        <%= image_tag "camera_icon.png", class: "car-pic" %>
-        <input class="pic_file" type="file" name="pics[][file]" data-ord="1">
-
-      </div>
-    </div>
-    <ul class="thumbs clear-fix">
-      <li>
-        <div class="image-file-input-wrapper">
-          <%= image_tag "camera_icon.png", class: "car-pic" %>
-          <input class="pic_file" type="file" name="pics[][file]">
-        </div>
-      </li>
-    </ul>
+    <div class="main-pic"></div>
+    <ul class="thumbs clear-fix"></ul>
   </section>
+
+  <script type="text/template" id="image-file-input-wrapper">
+  <%% var timeStamp = new Date().getTime().toString() %>
+  <%%= (!main) ? "<li>" : ""  %>
+    <div class="image-file-input-wrapper">
+      <img class="car-pic" src="<%%= src %>">
+      <input class="pic_file" type="file" name="pics[<%%= timeStamp %>][file]">
+      <input type="hidden" class="pic-src" name="pics[<%%= timeStamp %>][src]" value="<%%= (empty) ? "" : src %>">
+      <span style="<%%= (empty) ? "display:none;" : ""  %>" class="remove"></span>
+    </div>
+  <%%= (!main)  ? "</li>" : ""  %>
+  </script>
+
+
 
   <script>
   $(document).ready(function() {
-    var $picLi = $("ul.thumbs > li").clone();
+    var picTemplateFn = _.template($("#image-file-input-wrapper").html());
 
-    $("section.pics").on("click", "span.remove", function() {
-      console.log($(this).parents("li"))
-      $(this).parents("li").remove();
-      keepOneEmpty();
-    });
+    $("div.main-pic").html(
+      <% if @listing.pics[0] %>
+      picTemplateFn({src: "<%= @listing.pics[0].src %>", main: true, empty: false})
+      <% else %>
+      picTemplateFn({empty: true, main: true, src: "<%= asset_path "camera_icon.png" %>"})
+      <% end %>
+    );
 
-    function keepOneEmpty() {
-      var $wrapper = $picLi.clone();
-      $wrapper.find("input[type='file']").val("");
-      $wrapper.find("img").attr("src", "<%= asset_path 'camera_icon.png' %>");
-
-      var empties = []
-      $("ul.thumbs input.pic_file").each(function(i, el) {
-        var $inputVal = $(el).val();
-
-        if ($inputVal.length == 0) {
-          empties.push(el);
-          $(el).siblings(".remove").remove();
-        }
-      });
-
-      if (empties.length === 0) {
-        console.log("hit")
-       $("ul.thumbs").append($wrapper.clone());
-      }
-    };
-
-    $("section.pics").on("change", "input.pic_file", function(event) {
+    $("div.main-pic").on("change", "input.pic_file", function() {
       readUrl(this);
-      $(this).parent().append('<span class="remove"></span>')
-      if ($("input.pic_file").last().val().length > 0) {
-        $("ul.thumbs").append($picLi.clone());
+      $(this).siblings(".remove").show();
+    });
+
+    $("div.main-pic").on("click", ".remove", function() {
+      $("div.main-pic").html(picTemplateFn({main: true, empty: true, src: "<%= asset_path "camera_icon.png" %>"}));
+    });
+
+
+    <% thumbs = @listing.pics[1..-1] %>
+    <% thumbs && thumbs.each do |pic| %>
+    $("ul.thumbs").append(picTemplateFn({src: "<%= pic.src %>", empty: false, main: false}));
+    <% end %>
+    $("ul.thumbs").append(picTemplateFn({empty: true, main: false, src: "<%= asset_path "camera_icon.png" %>"}));
+
+    $("ul.thumbs").on("change", "input.pic_file", function(event) {
+      readUrl(this);
+      $(this).siblings(".remove").show();
+      var lastFileInputVal = $($("input.pic_file").last()).val();
+      var lastSrcInputVal = $($("input[name='pics[][src]']").last()).val();
+      if (lastFileInputVal.length > 0 || lastSrcInputVal.length > 0) {
+        $("ul.thumbs").append(picTemplateFn({empty: true,
+                                             main: false,
+                                             src: "<%= asset_path "camera_icon.png" %>"}));
       }
     });
 
-
-    $("span#add-new-pic").on("click", function(event) {
-      var $lastUpload = $("input.pic_file").last()
-      var $newUpload = $lastUpload.clone()
-      $newUpload.attr("data-ord", parseInt($lastUpload.attr("data-ord")) + 1);
-      $newUpload.val(null);
-      $(".pic_files").append($newUpload);
+    $("ul.thumbs").on("click", "span.remove", function() {
+      $(this).parents("li").remove();
     });
+
 
     function readUrl(input) {
       if (input.files && input.files[0]) {
         var reader = new FileReader();
 
         reader.onload = function(e) {
-          $(input).siblings("img.car-pic").attr("src", e.target.result);
+          var src = e.target.result;
+          var localFile = $(input).val();
+          $(input).siblings("img.car-pic").attr("src", src);
+          $(input).siblings("input.pic-src").val(src);
         };
 
         reader.readAsDataURL(input.files[0]);
@@ -265,12 +266,10 @@ $(document).ready(function() {
   var makeSelect = $("select#listing_make_id");
   var modelSelect = $("select#listing_model");
 
-  if (!parseInt(makeSelect.val())) {
-    modelSelect.prop("disabled", true);
-    modelSelect.append("<option>Select make first</option>");
-  }
+  updateModelSelect();
+  makeSelect.on("change", updateModelSelect);
 
-  makeSelect.on("change", function(event) {
+  function updateModelSelect() {
     modelSelect.empty();
     var selectedMakeId = makeSelect.val();
 
@@ -289,8 +288,7 @@ $(document).ready(function() {
       modelSelect.prop('disabled', true);
       modelSelect.append("<option>Select make first</option>");
     }
-
-  });
+  };
 
   var $description = $("textarea#listing_description")
   $description.on("keyup", function(event) {

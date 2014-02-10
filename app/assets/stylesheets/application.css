@@ -157,7 +157,7 @@ span.flash.success {
 }
 
 span.flash.alert, span.flash.failure, span.flash.error {
-  background: #FF1975;
+  background: red;
 }
 
 span.flash.notice {

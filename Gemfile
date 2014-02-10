@@ -10,6 +10,8 @@ gem 'rails', '3.2.13'
 gem 'pg'
 
 gem 'kaminari'
+gem 'underscore-rails'
+
 require 'open-uri'
 require 'timeout'
 gem 'addressable'
@@ -18,6 +20,8 @@ gem 'bcrypt-ruby', require: 'bcrypt'
 
 gem 'paperclip', '~> 3.0'
 gem 'aws-sdk'
+
+
 
 gem 'figaro'
 
