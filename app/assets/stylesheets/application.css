@@ -33,7 +33,7 @@ input[type="submit"]:hover {cursor: pointer;}
 }
 
 body {
-  background-color: #FFFCED;
+  background-color: white;
   padding-bottom: 100px;
 }
 
@@ -52,10 +52,17 @@ body > header > h1 {
   display: block;
   text-align: center;
   vertical-align: bottom;
-  font-size: 48px;
+  font-size: 55px;
   font-weight: 100;
-  margin: 20px 0 10px 0;
-  letter-spacing: 5px;
+  margin: 30px 0 15px 0;
+  letter-spacing: 1px;
+  font-family: "Trebuchet MS";
+}
+
+body > header > h1 > img {
+  width: 65px;
+  height: auto;
+  margin: 0 25px -7px 0;
 }
 
 body > header > div.signin {
