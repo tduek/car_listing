@@ -59,15 +59,14 @@ body > header > h1 {
   font-size: 55px;
   font-weight: 100;
   letter-spacing: 1px;
-  font-family: "Trebuchet MS";
 }
 
 body > header > h1 > img {
-  width: 65px;
+  width: 70px;
   height: auto;
   margin: 0 25px 0 0;
   position: relative;
-  top: 10px;
+  top: 7px;
 }
 
 body > header > div.signin {
