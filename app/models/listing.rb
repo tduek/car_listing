@@ -9,7 +9,7 @@ class Listing < ActiveRecord::Base
   belongs_to :model, class_name: "Subdivision", foreign_key: :model_id
 
   has_one :main_pic, class_name: "Pic", conditions: '"pics"."ord" = 1'
-  has_many :pics
+  has_many :pics, dependent: :destroy
 
   before_validation :fix_year
   after_validation :remove_phone_if_same_as_user
@@ -21,7 +21,7 @@ class Listing < ActiveRecord::Base
   validate :miles_arent_shortened
   validates :is_owner, inclusion: {in: [true, false], message: "must specify whether it's 'by-owner or not"}
   validates :title, length: 15..100
-  validates :description, length: 25..150
+  validates :description, length: {minimum: 150}
 
   def miles_arent_shortened
     msg = "must specify the full number of miles (ie: 49000 miles and not just 49 or 49k). The system doesn't allow a car of this year to have less than "
@@ -55,12 +55,16 @@ class Listing < ActiveRecord::Base
         self.year = "20#{self.year}".to_i
       end
     end
+
+    true
   end
 
   def remove_phone_if_same_as_user
     if self.phone == self.user.phone
       self.phone = nil
     end
+
+    true
   end
 
   def self.within_miles_from_zip(dist, zip)
