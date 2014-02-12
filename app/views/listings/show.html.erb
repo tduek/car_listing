@@ -97,12 +97,11 @@ $(document).ready(function() {
 
   function setViewportCSS() {
     var imgHeight = $($("div.viewport img")[currentPic-1]).css("height");
-
     $("div.viewport").css("height", imgHeight);
 
     $("div.viewport").css("margin", function() {
-      var lightboxHeight = parseInt($(document).css("height"));
-      var newMargin = (lightboxHeight - imgHeight)/2;
+      var lightboxHeight = parseInt($(".lightbox").css("height"));
+      var newMargin = (lightboxHeight - parseInt(imgHeight))/2;
       if (newMargin < 0) { newMargin = 50 }
 
       return "" + newMargin + "px auto";
