@@ -32,10 +32,8 @@ input[type="submit"]:hover {cursor: pointer;}
   clear: both;
 }
 
-/*html { margin-top: -30px;}*/
-
 body {
-  background-color: white;
+  background-color: #EEEEEE;
   padding-bottom: 100px;
 }
 
