@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>CarListing</title>
+  <title><%= @title %>Tommy's Cars</title>
   <%= stylesheet_link_tag    "application", :media => "all" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
@@ -46,8 +46,14 @@
       <ul>
         <li><%= link_to "HOME", root_url %></li>
         <li><a href="#">about</a></li>
-        <li><a href="#">contact</a></li>
-        <li><%= user_signed_in? ? link_to("DASHBOARD", current_user) : link_to("sign IN", new_user_session_url) %></li>
+        <li><%= link_to "sell your car", new_listing_url %></li>
+        <li>
+          <% if user_signed_in? %>
+            <%= link_to("DASHBOARD", current_user) %>
+          <% else %>
+            <%= link_to("sign IN", new_user_session_url) %>
+          <% end %>
+        </li>
       <ul>
     </nav>
     <% flash.each do |type, msg| %>

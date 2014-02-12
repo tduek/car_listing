@@ -31,6 +31,7 @@ class ListingsController < ApplicationController
 
   def show
     @listing = Listing.includes(:make, :model, :pics, :main_pic).find(params[:id])
+    @title = "#{@listing.name} | "
   end
 
   def new
