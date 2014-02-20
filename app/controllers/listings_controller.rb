@@ -45,23 +45,18 @@ class ListingsController < ApplicationController
     @listing.zipcode = current_user.zip
     @listing.is_owner = !current_user.is_dealer
 
-    temp_files = []
     params[:pics] && params[:pics].values.each_with_index do |pic_params, i|
-      next unless pic_params[:file] || pic_params[:src].length > 0
+      next unless pic_params[:file] || pic_params[:token].length > 0
 
       pic_params.merge!({ord: i + 1})
 
       if pic_params[:file]
         @listing.pics.new(pic_params)
-      elsif extension = pic_params[:src][11..14][/jpeg|jpg|png/]
-        file = Tempfile.new(["pic", ".#{extension}"])
-        temp_files << file
-
-        raw_data = pic_params[:src]["data:image/#{extension};base64,".length..-1]
-        file.binmode
-        file.write(Base64.decode64(raw_data))
-
-        @listing.pics.new(pic_params.merge(file: file))
+      elsif pic_params[:token]
+        pic = Pic.find_by_token(pic_params[:token])
+        pic.token = nil
+        pic.ord = i + 1
+        @listing.pics << pic
       end
 
     end
@@ -73,8 +68,6 @@ class ListingsController < ApplicationController
       flash.now[:alert] = "Couldn't save your listing. Check below."
       render :new
     end
-
-    temp_files.each(&:close!)
   end
 
 

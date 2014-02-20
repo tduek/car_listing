@@ -27,8 +27,12 @@
     <div class="image-file-input-wrapper">
       <img class="car-pic" src="<%%= src %>">
       <input class="pic_file" type="file" name="pics[<%%= timeStamp %>][file]">
-      <input type="hidden" class="pic-src" name="pics[<%%= timeStamp %>][src]" value="<%%= (empty) ? "" : src %>">
-      <span style="<%%= (empty) ? "display:none;" : ""  %>" class="remove"></span>
+      <input type="hidden" class="pic_token" name="pics[<%%= timeStamp %>][token]" value="<%%= (empty) ? "" : src %>">
+      <span style="<%%= (empty) ? "display:none;" : ""  %>"
+            class="remove">
+      </span>
+      <img class="spinner" src="<%= asset_path "ajax-snake-loader.gif" %>">
+      <span class="progress"></span>
     </div>
   <%%= (!main)  ? "</li>" : ""  %>
   </script>
@@ -49,7 +53,6 @@
 
     $("div.main-pic").on("change", "input.pic_file", function() {
       readUrl(this);
-      $(this).siblings(".remove").show();
     });
 
     $("div.main-pic").on("click", ".remove", function() {
@@ -65,36 +68,79 @@
 
     $("ul.thumbs").on("change", "input.pic_file", function(event) {
       readUrl(this);
-      $(this).siblings(".remove").show();
-      var lastFileInputVal = $($("input.pic_file").last()).val();
-      var lastSrcInputVal = $($("input[name='pics[][src]']").last()).val();
-      if (lastFileInputVal.length > 0 || lastSrcInputVal.length > 0) {
-        $("ul.thumbs").append(picTemplateFn({empty: true,
-                                             main: false,
-                                             src: "<%= asset_path "camera_icon.png" %>"}));
-      }
+      ensureLastEmptyPic();
     });
 
     $("ul.thumbs").on("click", "span.remove", function() {
       $(this).parents("li").remove();
     });
 
-
     function readUrl(input) {
       if (input.files && input.files[0]) {
-        var reader = new FileReader();
+        var $fileInput = $(input);
 
+        $fileInput.parent().addClass('prepping');
+        $fileInput.siblings('.remove').show();
+
+        var reader = new FileReader();
         reader.onload = function(e) {
-          var src = e.target.result;
-          var localFile = $(input).val();
-          $(input).siblings("img.car-pic").attr("src", src);
-          $(input).siblings("input.pic-src").val(src);
+          var picData = e.target.result;
+
+          postAttachment(picData, $fileInput);
+          $(input).siblings("img.car-pic").attr("src", picData);
         };
 
         reader.readAsDataURL(input.files[0]);
       }
     };
 
+    function postAttachment(picData, $fileInput) {
+      $.ajax({
+        method: "POST",
+        enctype: 'multipart/form-data',
+        url: "<%= pics_url %>",
+        data: {pic_data: picData},
+        xhr: function () {
+          var xhr = new window.XMLHttpRequest();
+          xhr.addEventListener('progress', progressHandler.bind($fileInput), false);
+          return xhr;
+        },
+        beforeSend: function() {
+          $fileInput.parent().removeClass('prepping');
+          $fileInput.parent().addClass('busy');
+          // Set Spinner. Now handled in #readUrl
+        },
+        success: function(data) {
+          $fileInput.removeAttr("name");
+          $fileInput.siblings('input.pic_token').val(data['token']);
+          $fileInput.parent().removeClass('busy');
+        },
+        error: function() {
+          // Display error.
+        }
+      });
+    };
+
+    function progressHandler (e) {
+      // Bound to fileInput
+      if (e.lengthComputable) {
+        var percentComplete = (e.loaded / e.total) * 100;
+        var percentCompleteString = "" + percentComplete + "%"
+        var reverseHeightString = "" + (100 - percentComplete) + "%";
+        this.siblings('.progress').css({height: reverseHeightString});
+        this.siblings('.progress').html(percentCompleteString);
+      }
+    };
+
+    function ensureLastEmptyPic() {
+      var lastFileInputVal = $("input.pic_file").last().val();
+      var lastSrcInputVal = $("input.pic_token").last().val();
+      if (lastFileInputVal.length > 0 || lastSrcInputVal.length > 0) {
+        $("ul.thumbs").append(picTemplateFn({empty: true,
+                                             main: false,
+                                             src: "<%= asset_path "camera_icon.png" %>"}));
+       }
+     };
   });
   </script>
 

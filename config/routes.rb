@@ -2,7 +2,7 @@ CarListing::Application.routes.draw do
   root to: "listings#index"
   resources :listings
 
-  resources :pics, only: :show
+  resources :pics, only: :create
 
   resources :users, only: [:show, :new, :create, :edit, :update, :destroy] do
     collection do
