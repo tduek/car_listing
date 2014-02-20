@@ -102,7 +102,8 @@
         data: {pic_data: picData},
         xhr: function () {
           var xhr = new window.XMLHttpRequest();
-          xhr.addEventListener('progress', progressHandler.bind($fileInput), false);
+          //xhr.addEventListener('progress', progressHandler.bind($fileInput), false);
+          xhr.upload.onprogress = progressHandler.bind($fileInput);
           return xhr;
         },
         beforeSend: function() {
@@ -123,6 +124,10 @@
 
     function progressHandler (e) {
       // Bound to fileInput
+      console.log("loaded "+e.loaded);
+      console.log("total "+e.total);
+      console.log((e.loaded / e.total) * 100);
+
       if (e.lengthComputable) {
         var percentComplete = (e.loaded / e.total) * 100;
         var percentCompleteString = "" + percentComplete + "%"
