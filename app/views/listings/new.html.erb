@@ -124,10 +124,6 @@
 
     function progressHandler (e) {
       // Bound to fileInput
-      console.log("loaded "+e.loaded);
-      console.log("total "+e.total);
-      console.log(Math.round((e.loaded / e.total) * 100));
-
       if (e.lengthComputable) {
         var percentComplete = Math.round((e.loaded / e.total) * 100);
         var percentCompleteString = "" + percentComplete + "%"
