@@ -128,7 +128,7 @@
         var percentComplete = Math.round((e.loaded / e.total) * 100);
         var percentCompleteString = "" + percentComplete + "%"
         var inverseHeightString = "" + (100 - percentComplete) + "%";
-        this.siblings('.progress').css({height: inverseHeightString});
+        this.siblings('.progress').animate({height: inverseHeightString}, 100);
         this.siblings('.progress').html(percentCompleteString);
       }
     };
