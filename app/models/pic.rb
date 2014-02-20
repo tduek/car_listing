@@ -4,7 +4,7 @@ class Pic < ActiveRecord::Base
   has_attached_file :file
   validates_attachment :file, presence:     true,
                               content_type: {content_type: /\Aimage\/.*\Z/},
-                              size:         {in: 0..2.megabytes}
+                              size:         {in: 0..5.megabytes}
 
   belongs_to :listing
 
