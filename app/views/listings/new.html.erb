@@ -31,7 +31,6 @@
       <span style="<%%= (empty) ? "display:none;" : ""  %>"
             class="remove">
       </span>
-      <img class="spinner" src="<%= asset_path "ajax-snake-loader.gif" %>">
       <span class="progress"></span>
     </div>
   <%%= (!main)  ? "</li>" : ""  %>
@@ -79,7 +78,8 @@
       if (input.files && input.files[0]) {
         var $fileInput = $(input);
 
-        $fileInput.parent().addClass('prepping');
+        $fileInput.parent().addClass('busy');
+        $fileInput.siblings('.progress').html('0%')
         $fileInput.siblings('.remove').show();
 
         var reader = new FileReader();
@@ -102,22 +102,22 @@
         data: {pic_data: picData},
         xhr: function () {
           var xhr = new window.XMLHttpRequest();
-          //xhr.addEventListener('progress', progressHandler.bind($fileInput), false);
           xhr.upload.onprogress = progressHandler.bind($fileInput);
           return xhr;
         },
         beforeSend: function() {
-          $fileInput.parent().removeClass('prepping');
-          $fileInput.parent().addClass('busy');
           // Set Spinner. Now handled in #readUrl
         },
         success: function(data) {
           $fileInput.removeAttr("name");
           $fileInput.siblings('input.pic_token').val(data['token']);
-          $fileInput.parent().removeClass('busy');
         },
         error: function() {
+
           // Display error.
+        },
+        complete: function () {
+          $fileInput.parent().removeClass('busy');
         }
       });
     };
@@ -126,13 +126,13 @@
       // Bound to fileInput
       console.log("loaded "+e.loaded);
       console.log("total "+e.total);
-      console.log((e.loaded / e.total) * 100);
+      console.log(Math.round((e.loaded / e.total) * 100));
 
       if (e.lengthComputable) {
-        var percentComplete = (e.loaded / e.total) * 100;
+        var percentComplete = Math.round((e.loaded / e.total) * 100);
         var percentCompleteString = "" + percentComplete + "%"
-        var reverseHeightString = "" + (100 - percentComplete) + "%";
-        this.siblings('.progress').css({height: reverseHeightString});
+        var inverseHeightString = "" + (100 - percentComplete) + "%";
+        this.siblings('.progress').css({height: inverseHeightString});
         this.siblings('.progress').html(percentCompleteString);
       }
     };
