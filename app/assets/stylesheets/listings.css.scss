@@ -109,6 +109,7 @@ div.image-file-input-wrapper > .progress {
   text-align: center;
   display: none;
   z-index: 3;
+  overflow: visible !important;
 }
 
 div.image-file-input-wrapper.busy > .progress {

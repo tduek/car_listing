@@ -44,7 +44,7 @@
 
     $("div.main-pic").html(
       <% if @listing.pics[0] %>
-      picTemplateFn({src: "<%= @listing.pics[0].src %>", main: true, empty: false})
+      picTemplateFn({src: "<%= @listing.pics[0].file.url %>", main: true, empty: false})
       <% else %>
       picTemplateFn({empty: true, main: true, src: "<%= asset_path "camera_icon.png" %>"})
       <% end %>
