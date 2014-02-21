@@ -32,6 +32,10 @@
             class="remove">
       </span>
       <span class="progress"></span>
+      <ul class="errors">
+        <div class="triangle"></div>
+        <span class="remove"></span>
+      </ul>
     </div>
   <%%= (!main)  ? "</li>" : ""  %>
   </script>
@@ -109,14 +113,20 @@
           // Set Spinner. Now handled in #readUrl
         },
         success: function(data) {
-          $fileInput.removeAttr("name");
           $fileInput.siblings('input.pic_token').val(data['token']);
         },
-        error: function() {
-
-          // Display error.
+        error: function(xhr) {
+          var errors = xhr.responseJSON;
+          console.log(errors);
+          for (var i in errors) {
+            if (i % 2 == 0) {
+              $fileInput.siblings('.errors').append('<li>'+errors[i]+'</li>');
+            }
+          }
+          $fileInput.parent().addClass('errors');
         },
         complete: function () {
+          $fileInput.removeAttr("name");
           $fileInput.parent().removeClass('busy');
         }
       });
@@ -125,7 +135,7 @@
     function progressHandler (e) {
       // Bound to fileInput
       if (e.lengthComputable) {
-        var percentComplete = Math.round((e.loaded / e.total) * 100);
+        var percentComplete = Math.round((e.loaded / e.total) * 96);
         var percentCompleteString = "" + percentComplete + "%"
         var inverseHeightString = "" + (100 - percentComplete) + "%";
         this.siblings('.progress').html(percentCompleteString);

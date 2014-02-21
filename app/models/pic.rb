@@ -3,8 +3,8 @@ class Pic < ActiveRecord::Base
 
   has_attached_file :file
   validates_attachment :file, presence:     true,
-                              content_type: {content_type: /\Aimage\/.*\Z/},
-                              size:         {in: 0..5.megabytes}
+                              content_type: {content_type: /\Aimage\/(jpeg|jpg|png|bmp)\Z/, message: "must be a .jpeg, .jpg, or .bmp image"},
+                              size:         {less_than: 1.megabytes, message: "must be under 5 Mb"}
 
   belongs_to :listing
 
