@@ -1,10 +1,13 @@
 class Pic < ActiveRecord::Base
   attr_accessible :listing_id, :thumb_for, :is_thumb, :file, :ord, :src
 
+  MAX_SIZE = 4.megabytes
+  ACCEPTED_TYPES = %w(jpeg jpg png bmp)
+
   has_attached_file :file
   validates_attachment :file, presence:     true,
-                              content_type: {content_type: /\Aimage\/(jpeg|jpg|png|bmp)\Z/, message: "must be a .jpeg, .jpg, or .bmp image"},
-                              size:         {less_than: 1.megabytes, message: "must be under 5 Mb"}
+                              content_type: {content_type: /\Aimage\/(#{ACCEPTED_TYPES.join('|')})\Z/, message: "must be a .jpeg, .jpg, or .bmp image"},
+                              size:         {less_than: MAX_SIZE, message: "must be under #{ MAX_SIZE / 1.megabyte }Mb"}
 
   belongs_to :listing
 

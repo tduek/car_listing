@@ -23,84 +23,140 @@
 
   <script type="text/template" id="image-file-input-wrapper">
   <%% var timeStamp = new Date().getTime().toString() %>
-  <%%= (!main) ? "<li>" : ""  %>
-    <div class="image-file-input-wrapper">
-      <img class="car-pic" src="<%%= src %>">
+  <%%= (!opts.main) ? '<li>' : ''  %>
+    <div class="image-file-input-wrapper <%%= (opts.errors) ? 'errors' : '' %>">
+      <img class="car-pic" src="<%%= opts.src %>">
       <input class="pic_file" type="file" name="pics[<%%= timeStamp %>][file]">
-      <input type="hidden" class="pic_token" name="pics[<%%= timeStamp %>][token]" value="<%%= (empty) ? "" : src %>">
-      <span style="<%%= (empty) ? "display:none;" : ""  %>"
+      <input type="hidden" class="pic_token" name="pics[<%%= timeStamp %>][token]" value="<%%= opts.token %>">
+      <span style="<%%= (opts.empty) ? 'display:none;' : ''  %>"
             class="remove">
       </span>
       <span class="progress"></span>
-      <ul class="errors">
+      <span class="errors">
         <div class="triangle"></div>
         <span class="remove"></span>
-      </ul>
+        <p class="message">
+          File must be a picture of type
+          <%= Pic::ACCEPTED_TYPES.to_sentence(last_word_connector: ' or ') %>
+          under <%= Pic::MAX_SIZE / 1.megabyte %>Mb in size.
+          <br><br>
+          Please select another file. This one will not be uploaded.
+        </p>
+      </span>
     </div>
-  <%%= (!main)  ? "</li>" : ""  %>
+  <%%= (!opts.main)  ? '</li>' : ''  %>
   </script>
 
 
 
   <script>
   $(document).ready(function() {
-    var picTemplateFn = _.template($("#image-file-input-wrapper").html());
+    var picTemplateFn = _.template($('#image-file-input-wrapper').html());
 
-    $("div.main-pic").html(
+    $('div.main-pic').html(
       <% if @listing.pics[0] %>
-      picTemplateFn({src: "<%= @listing.pics[0].file.url %>", main: true, empty: false})
+      picTemplateFn({opts:
+                      {src: '<%= @listing.pics[0].file.url %>',
+                       main: true,
+                       errors: <%= @listing.pics[0].invalid? %>,
+                       token: '<%= @listing.pics[0].token %>'}
+                    })
       <% else %>
-      picTemplateFn({empty: true, main: true, src: "<%= asset_path "camera_icon.png" %>"})
+      picTemplateFn({opts:
+                      {empty:  true,
+                       main:   true,
+                       src:    '<%= asset_path "camera_icon.png" %>'}
+                    })
       <% end %>
     );
 
-    $("div.main-pic").on("change", "input.pic_file", function() {
+    $('div.main-pic').on('change', 'input.pic_file', function() {
       readUrl(this);
     });
 
-    $("div.main-pic").on("click", ".remove", function() {
-      $("div.main-pic").html(picTemplateFn({main: true, empty: true, src: "<%= asset_path "camera_icon.png" %>"}));
+    $('div.main-pic').on('click', '.remove', function() {
+      var picWrap = picTemplateFn({opts:
+                                    {main: true,
+                                     empty: true,
+                                     src: '<%= asset_path "camera_icon.png" %>'}
+                                  });
+      $('div.main-pic').html(picWrap);
     });
 
 
     <% thumbs = @listing.pics[1..-1] %>
     <% thumbs && thumbs.each do |pic| %>
-    $("ul.thumbs").append(picTemplateFn({src: "<%= pic.src %>", empty: false, main: false}));
+    $('ul.thumbs').append(picTemplateFn({opts:
+                                          {src: '<%= pic.file.url %>',
+                                           errors: <%= pic.invalid? %>,
+                                           token: '<%= pic.token %>'}
+                                        }));
     <% end %>
-    $("ul.thumbs").append(picTemplateFn({empty: true, main: false, src: "<%= asset_path "camera_icon.png" %>"}));
+    var picWrap = picTemplateFn({opts:
+                                  {empty: true,
+                                   src: '<%=asset_path "camera_icon.png" %>'}
+                                });
+    $('ul.thumbs').append(picWrap);
 
-    $("ul.thumbs").on("change", "input.pic_file", function(event) {
+    $('ul.thumbs').on('change', 'input.pic_file', function(event) {
       readUrl(this);
       ensureLastEmptyPic();
     });
 
-    $("ul.thumbs").on("click", "span.remove", function() {
-      $(this).parents("li").remove();
+    $('ul.thumbs').on('click', 'span.remove', function() {
+      $(this).parents('li').remove();
     });
 
     function readUrl(input) {
       if (input.files && input.files[0]) {
+        var file = input.files[0]
         var $fileInput = $(input);
 
-        $fileInput.parent().addClass('busy');
-        $fileInput.siblings('.progress').html('0%')
-        $fileInput.siblings('.remove').show();
+        if ( validateImageSize(file) && validateImageType(file) ) {
+          $fileInput.parent().removeClass('errors');
+          $fileInput.parent().addClass('busy');
+          $fileInput.siblings('.progress').html('0%')
+          $fileInput.siblings('.remove').show();
 
-        var reader = new FileReader();
-        reader.onload = function(e) {
-          var picData = e.target.result;
 
-          postAttachment(picData, $fileInput);
-          $(input).siblings("img.car-pic").attr("src", picData);
-        };
+          var reader = new FileReader();
+          reader.onload = function(e) {
+            var picData = e.target.result;
 
-        reader.readAsDataURL(input.files[0]);
+            postAttachment(picData, $fileInput);
+            $(input).siblings('img.car-pic').attr('src', picData);
+          };
+          reader.onerror = function(e) {
+            $fileInput.parent().addClass('errors');
+            var oopsMsg = 'Oops. Something went wrong. Please close \
+                           this dialog box and try again.';
+            $fileInput.siblings('.errors').find('.message').html(oopsMsg);
+          };
+
+
+          reader.readAsDataURL(input.files[0]);
+        }
+        else {
+          $fileInput.parent().addClass('errors');
+        }
+      }
+    };
+
+    function validateImageType(file) {
+      if (/jpg|jpeg|png|bmp/.exec(file.type)) {
+        return true;
+      }
+    };
+
+    function validateImageSize(file) {
+      if (file.size / (1024 * 1024) < 4) {
+        return true;
       }
     };
 
     function postAttachment(picData, $fileInput) {
       $.ajax({
-        method: "POST",
+        method: 'POST',
         enctype: 'multipart/form-data',
         url: "<%= pics_url %>",
         data: {pic_data: picData},
@@ -110,24 +166,20 @@
           return xhr;
         },
         beforeSend: function() {
-          // Set Spinner. Now handled in #readUrl
+          // Set spinner. Now handled in #readUrl with .progress.
         },
         success: function(data) {
           $fileInput.siblings('input.pic_token').val(data['token']);
         },
         error: function(xhr) {
-          var errors = xhr.responseJSON;
-          console.log(errors);
-          for (var i in errors) {
-            if (i % 2 == 0) {
-              $fileInput.siblings('.errors').append('<li>'+errors[i]+'</li>');
-            }
-          }
           $fileInput.parent().addClass('errors');
         },
         complete: function () {
-          $fileInput.removeAttr("name");
-          $fileInput.parent().removeClass('busy');
+          $bar = $fileInput.siblings('.progress')
+          liftProgressVeil($bar, 100, 500, function() {
+            $fileInput.removeAttr('name');
+            $fileInput.parent().removeClass('busy');
+          });
         }
       });
     };
@@ -135,21 +187,27 @@
     function progressHandler (e) {
       // Bound to fileInput
       if (e.lengthComputable) {
-        var percentComplete = Math.round((e.loaded / e.total) * 96);
-        var percentCompleteString = "" + percentComplete + "%"
-        var inverseHeightString = "" + (100 - percentComplete) + "%";
-        this.siblings('.progress').html(percentCompleteString);
-        this.siblings('.progress').animate({height: inverseHeightString}, 100);
+        var percentComplete = Math.round(e.loaded / e.total * 92);
+        var $bar = this.siblings('.progress');
+        liftProgressVeil($bar, percentComplete, 100);
       }
     };
 
+    function liftProgressVeil ($bar, percent, duration, cb) {
+      $bar.html('' + percent + '%' );
+      var height = '' + (100 - percent) + '%';
+      $bar.animate({height: height}, {duration: duration, complete: cb});
+    };
+
     function ensureLastEmptyPic() {
-      var lastFileInputVal = $("input.pic_file").last().val();
-      var lastSrcInputVal = $("input.pic_token").last().val();
+      var lastFileInputVal = $('input.pic_file').last().val();
+      var lastSrcInputVal = $('input.pic_token').last().val();
       if (lastFileInputVal.length > 0 || lastSrcInputVal.length > 0) {
-        $("ul.thumbs").append(picTemplateFn({empty: true,
-                                             main: false,
-                                             src: "<%= asset_path "camera_icon.png" %>"}));
+        var picWrap = picTemplateFn({opts:
+                                      {empty: true,
+                                       src: '<%=asset_path "camera_icon.png"%>'}
+                                    });
+        $('ul.thumbs').append(picWrap);
        }
      };
   });

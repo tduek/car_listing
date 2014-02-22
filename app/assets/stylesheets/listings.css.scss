@@ -138,30 +138,30 @@ ul.thumbs .progress {
   line-height: 300px;
 }
 
-div.image-file-input-wrapper > ul.errors {
+div.image-file-input-wrapper > .errors {
   list-style: square;
   font-size: 13px;
   display: none;
   position: absolute;
   left: 20%;
   bottom: 58px;
-  width: 350px;
+  width: 215px;
   border: 2px solid red;
-  padding: 5px 0 5px 25px;
+  padding: 8px;
   background: white;
   z-index: 6;
 }
 
-ul.errors > .remove {
+.errors > .remove {
   z-index: 7;
 }
 
-.main-pic div.image-file-input-wrapper > ul.errors {
-  top: -20px;
+.main-pic div.image-file-input-wrapper > .errors {
+  top: -110px;
   bottom: inherit;
 }
 
-ul.errors > .triangle {
+.errors > .triangle {
   position: absolute;
   bottom: -20px;
   left: 10px;
@@ -171,7 +171,7 @@ ul.errors > .triangle {
   border-top: 10px solid red;
 }
 
-div.image-file-input-wrapper.errors > ul.errors {
+div.image-file-input-wrapper.errors > .errors {
   display: block;
 }
 
@@ -181,7 +181,6 @@ div.image-file-input-wrapper.errors > ul.errors {
 
 ul.thumbs > li > div {
   display: block;
-
 }
 
 section.info {

@@ -54,7 +54,6 @@ class ListingsController < ApplicationController
         @listing.pics.new(pic_params)
       elsif pic_params[:token]
         pic = Pic.find_by_token(pic_params[:token])
-        pic.token = nil
         pic.ord = i + 1
         @listing.pics << pic
       end
@@ -62,6 +61,7 @@ class ListingsController < ApplicationController
     end
 
     if @listing.save
+      @listing.pics.update_all(token: nil)
       flash[:success] = "Successfully listed your #{@listing.name}"
       redirect_to @listing
     else
