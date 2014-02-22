@@ -25,39 +25,39 @@
 
       <ul>
         <li>
-          <label>Year:</label>
+          <label><strong>Year:</strong></label>
           <span><%= @listing.year %></span>
         </li>
         <li>
-          <label>Make:</label>
+          <label><strong>Make:</strong></label>
           <span><%= @listing.make.name %></span>
         </li>
         <li>
-          <label>Model:</label>
+          <label><strong>Model:</strong></label>
           <span><%= @listing.model.name %></span>
         </li>
         <li>
-          <label>Miles:</label>
+          <label><strong>Miles:</strong></label>
           <span><%= @listing.miles || 'N/A' %></span>
         </li>
         <li>
-          <label>Transmission</label>
+          <label><strong>Transmission:</strong></label>
           <span><%= @listing.transmission || 'N/A' %></span>
         </li>
         <li>
-          <label>VIN:</label>
+          <label><strong>VIN:</strong></label>
           <span><%= @listing.vin || 'N/A' %></span>
         </li>
         <li>
-          <label>Seller:</label>
+          <label><strong>Seller:</strong></label>
           <span><%= @listing.is_owner ? "BY OWNER" : "DEALER" %></span>
         </li>
         <li>
-          <label>Contact:</label>
+          <label><strong>Contact:</strong></label>
           <span><%= number_to_phone(@listing.phone) %></span>
         </li>
         <li>
-          <label>Asking:</label>
+          <label><strong>Asking:</strong></label>
           <span><%= number_to_currency(@listing.price, precision: 0) %></span>
         </li>
 
