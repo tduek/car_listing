@@ -37,8 +37,20 @@
           <span><%= @listing.model.name %></span>
         </li>
         <li>
+          <label>Miles:</label>
+          <span><%= @listing.miles || 'N/A' %></span>
+        </li>
+        <li>
+          <label>Transmission</label>
+          <span><%= @listing.transmission || 'N/A' %></span>
+        </li>
+        <li>
+          <label>VIN:</label>
+          <span><%= @listing.vin || 'N/A' %></span>
+        </li>
+        <li>
           <label>Seller:</label>
-          <span><%= @listing.is_owner ? "OWNER" : "DEALER" %></span>
+          <span><%= @listing.is_owner ? "BY OWNER" : "DEALER" %></span>
         </li>
         <li>
           <label>Contact:</label>
@@ -48,6 +60,7 @@
           <label>Asking:</label>
           <span><%= number_to_currency(@listing.price, precision: 0) %></span>
         </li>
+
       </ul>
     </article>
   </section>
