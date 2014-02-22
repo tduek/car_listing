@@ -1,6 +1,8 @@
 class Listing < ActiveRecord::Base
   attr_accessible :is_owner, :miles, :model_id, :phone, :price, :year, :zipcode, :post_date, :make_id, :title, :description, :vin, :transmission
 
+
+
   belongs_to :user
 
   belongs_to :zip, primary_key: :code, foreign_key: :zipcode
@@ -133,7 +135,23 @@ class Listing < ActiveRecord::Base
     results
   end
 
+  def transmission
+    case read_attribute(:transmission)
+    when 1; 'Automatic'
+    when 2; 'Manual'
+    else; 'N/A'
+    end
+  end
 
+  def transmission=(tranny)
+    if tranny && [1, 2].include?(tranny.to_i)
+      write_attribute(:transmission, tranny.to_i)
+    elsif tranny.is_a?(String) && tranny[/auto/i]
+      write_attribute(:transmission, 1)
+    else tranny.is_a?(String) && tranny[/manual/i]
+      write_attribute(:transmission, 2)
+    end
+  end
 
   def name
     [self.year, self.make && self.make.name, self.model && self.model.name].compact.join(" ")

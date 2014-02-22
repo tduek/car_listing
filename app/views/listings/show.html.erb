@@ -42,11 +42,11 @@
         </li>
         <li>
           <label><strong>Transmission:</strong></label>
-          <span><%= @listing.transmission || 'N/A' %></span>
+          <span><%= @listing.transmission %></span>
         </li>
         <li>
           <label><strong>VIN:</strong></label>
-          <span><%= @listing.vin || 'N/A' %></span>
+          <span><%= @listing.vin.try(:empty?) ? 'N/A' : @listing.vin %></span>
         </li>
         <li>
           <label><strong>Seller:</strong></label>

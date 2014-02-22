@@ -44,6 +44,7 @@ class ListingsController < ApplicationController
     @listing = current_user.listings.new(params[:listing])
     @listing.zipcode = current_user.zip
     @listing.is_owner = !current_user.is_dealer
+    @listing.post_date = Time.now
 
     params[:pics] && params[:pics].values.each_with_index do |pic_params, i|
       next unless pic_params[:file] || pic_params[:token].length > 0
@@ -52,7 +53,7 @@ class ListingsController < ApplicationController
 
       if pic_params[:file]
         @listing.pics.new(pic_params)
-      elsif pic_params[:token]
+      elsif !pic_params[:token].empty?
         pic = Pic.find_by_token(pic_params[:token])
         pic.ord = i + 1
         @listing.pics << pic

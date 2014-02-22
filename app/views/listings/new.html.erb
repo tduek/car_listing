@@ -381,10 +381,10 @@ $(document).ready(function() {
   var makeSelect = $("select#listing_make_id");
   var modelSelect = $("select#listing_model");
 
-  updateModelSelect();
+  updateModelSelect(<%= @listing.model_id %>);
   makeSelect.on("change", updateModelSelect);
 
-  function updateModelSelect() {
+  function updateModelSelect(selected) {
     modelSelect.empty();
     var selectedMakeId = makeSelect.val();
 
@@ -392,10 +392,13 @@ $(document).ready(function() {
       modelSelect.prop('disabled', false);
       modelSelect.append("<option>Please select</option>")
       $("div.hidden-select-options > option").each(function(_, option) {
-        var $option = $(option);
+        var $option = $(option).clone();
         var optionMakeId = $option.attr("data-make-id");
         if (optionMakeId === selectedMakeId) {
-          modelSelect.append($option.clone());
+          modelSelect.append($option);
+          if (selected && parseInt($option.val()) === selected) {
+            $option.prop('selected', true);
+          }
         }
       });
     }
