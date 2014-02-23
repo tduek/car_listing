@@ -153,6 +153,15 @@ class Listing < ActiveRecord::Base
     end
   end
 
+  def vin
+    vin = read_attribute(:vin)
+    if vin && vin.length > 0
+      vin
+    else
+      'N/A'
+    end
+  end
+
   def name
     [self.year, self.make && self.make.name, self.model && self.model.name].compact.join(" ")
   end
