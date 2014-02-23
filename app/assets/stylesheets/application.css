@@ -347,39 +347,35 @@ form.search tr:last-child {
 
 .page > header > nav.page-nav {
   display: block;
-  margin: 0 0 15px 0;
   float: right;
-  clear: none;
-  width: 100px;
+}
+
+.page-nav > form {
+  float: left;
+}
+
+.page-nav > form > input[type="submit"] {
+  display: block;
+  font-size: 17px;
+  border: none;
+  background: none;
+  margin: 0;
+}
+
+form.nav-prev input[type="submit"] {
+}
+
+form.nav-next input[type="submit"] {
+}
+
+nav.page-nav > form > input[type="submit"]:hover {
+  text-decoration: underline;
 }
 
 .page > h2#end-of-page, .page > h2#end-of-list {
   text-align: center;
   margin: 20px 0 20px 80px;
   display: none;
-}
-
-nav.page-nav > form > input[type="submit"] {
-  display: block;
-  clear: none;
-  font-size: 19px;
-  border: none;
-  background: none;
-}
-
-form.nav-prev input[type="submit"] {
-  float: left;
-  padding-right: 5px;
-}
-
-form.nav-next input[type="submit"] {
-  float: right;
-  padding-left: 0;
-  font-size: 19px;
-}
-
-nav.page-nav > form > input[type="submit"]:hover {
-  text-decoration: underline;
 }
 
 article.search-result-listing {
