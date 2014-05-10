@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140219015548) do
+ActiveRecord::Schema.define(:version => 20140510032312) do
 
   create_table "listings", :force => true do |t|
     t.integer  "year"
@@ -60,8 +60,10 @@ ActiveRecord::Schema.define(:version => 20140219015548) do
     t.string   "name"
     t.integer  "parent_id"
     t.integer  "level"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+    t.string   "ed_id"
+    t.string   "ed_niceName"
   end
 
   add_index "subdivisions", ["level"], :name => "index_subdivisions_on_level"
