@@ -128,7 +128,7 @@ class Listing < ActiveRecord::Base
       when "distance"
         results = results.order("near_zips.distance ASC")
       else
-        results = results.order("listings.post_date ASC")
+        results = results.order("listings.post_date DESC")
       end
     end
 
