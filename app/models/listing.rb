@@ -82,7 +82,7 @@ class Listing < ActiveRecord::Base
       result = Listing
     end
 
-    results = result.where("listings.model_id IS NOT NULL").
+    results = result.where('listings.model_id IS NOT NULL').
                     includes(:pics, :main_pic, :make, :model, :zip).
                     page(page)
 
@@ -112,23 +112,23 @@ class Listing < ActiveRecord::Base
       end
 
       results.order_values = []
-      if terms[:sort] == "distance" && (terms[:zip] && terms[:zip].length != 5)
-        terms[:sort] = ""
+      if terms[:sort] == 'distance' && (terms[:zip] && terms[:zip].length != 5)
+        terms[:sort] = ''
       end
 
       case terms[:sort]
-      when "post_date_asc"
+      when 'post_date_asc'
         results = results.order(:post_date)
-      when "post_date_desc"
+      when 'post_date_desc'
         results = results.order("listings.post_date DESC")
-      when "price_asc"
+      when 'price_asc'
         results = results.order(:price)
-      when "price_desc"
-        results = results.order("listings.price DESC")
-      when "distance"
-        results = results.order("near_zips.distance ASC")
+      when 'price_desc'
+        results = results.order('listings.price DESC')
+      when 'distance'
+        results = results.order('near_zips.distance ASC')
       else
-        results = results.order("listings.transmission ASC, listings.phone, listings.miles ASC")
+        results = results.order('random()')
       end
     end
 
