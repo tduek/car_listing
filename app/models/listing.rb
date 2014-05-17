@@ -131,7 +131,7 @@ class Listing < ActiveRecord::Base
     when 'distance'
       results = results.order('near_zips.distance ASC')
     else
-      results = results.where(<<-SQL)
+      results = results.where(<<-SQL).page(1)
         listings.id IN (
           SELECT floor(random() * (max_id - min_id + 1))::integer + min_id
           FROM generate_series(1, 25),
