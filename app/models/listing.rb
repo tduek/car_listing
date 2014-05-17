@@ -25,6 +25,15 @@ class Listing < ActiveRecord::Base
   validates :title, length: 15..100
   validates :description, length: {minimum: 150}
 
+  def self.cached_count(refresh = false)
+    if !refresh && @cached_count && @cached_count_updated_at > 2.hours.ago
+      return @cached_count
+    end
+
+    @cached_count_updated_at = Time.now
+    @cached_count = Listing.count
+  end
+
   def miles_arent_shortened
     msg = "must specify the full number of miles (ie: 49000 miles and not just 49 or 49k). The system doesn't allow a car of this year to have less than "
     if year && miles
@@ -131,7 +140,7 @@ class Listing < ActiveRecord::Base
     when 'distance'
       results = results.order('near_zips.distance ASC')
     else
-      results = results.where(<<-SQL).page(1)
+      results = results.where(<<-SQL)
         listings.id IN (
           SELECT floor(random() * (max_id - min_id + 1))::integer + min_id
           FROM generate_series(1, 25),

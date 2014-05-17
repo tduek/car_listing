@@ -1,32 +1,32 @@
-<%= hidden_field_tag(:year_from, params[:search][:year_from], 
+<%= hidden_field_tag(:year_from, params[:search][:year_from],
                       class: "scroll", id: "year-from") %>
 
-<%= hidden_field_tag(:year_to, params[:search][:year_to], 
+<%= hidden_field_tag(:year_to, params[:search][:year_to],
                       class: "scroll", id: "year-to") %>
 
-<%= hidden_field_tag(:make_id, params[:search][:make_id], 
+<%= hidden_field_tag(:make_id, params[:search][:make_id],
                       class: "scroll", id: "make-id") %>
 
 <%= hidden_field_tag(:model_id, params[:search][:model_id],
                       class: "scroll", id: "model-id") %>
 
-<%= hidden_field_tag(:price_from, params[:search][:price_from], 
+<%= hidden_field_tag(:price_from, params[:search][:price_from],
                       class: "scroll", id: "price-from") %>
-                      
-<%= hidden_field_tag(:price_to, params[:search][:price_to], 
+
+<%= hidden_field_tag(:price_to, params[:search][:price_to],
                       class: "scroll", id: "price-to") %>
-                        
-<%= hidden_field_tag(:sort_by, params[:search][:sort], 
+
+<%= hidden_field_tag(:sort_by, params[:search][:sort],
                       class: "scroll", id: "sort") %>
-                        
-<%= hidden_field_tag(:total_pages, @listings.total_pages,
-                      class: "scroll", id: "total-pages") %>
-                        
+
+<input type="hidden" class="scroll" id="total-pages" name="total_pages"
+value="<%= @listings.respond_to?(:total_pages) ? @listing.total_pages : '40' %>">
+
 <%= hidden_field_tag(:zip, params[:search][:zip],
                       class: "scroll", id: "zip") %>
-                        
+
 <%= hidden_field_tag(:dist, params[:search][:dist],
                       class: "scroll", id: "dist") %>
-                      
-<%= hidden_field_tag(:page, params[:page].to_i+1, 
+
+<%= hidden_field_tag(:page, params[:page].to_i+1,
                       class: "scroll", id: "page") %>

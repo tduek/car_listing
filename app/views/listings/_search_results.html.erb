@@ -1,15 +1,24 @@
 <div class="page">
   <header class="">
-    <% range_end = @listings.count * @listings.current_page %>
     <h3>
-      <%= "Displaying #{range_end+1 - @listings.count} - #{range_end} of
-      #{number_with_delimiter(@listings.total_count, delimiter: ",")}" %>
+      Displaying
+      <% if @listings.respond_to?(:total_pages) %>
+        <% range_end = @listings.count * @listings.current_page %>
+        <%= " #{range_end+1 - @listings.count} - #{range_end} of
+        #{number_with_delimiter(@listings.total_count, delimiter: ',')}" %>
+      <% else %>
+         all
+         <%= number_with_delimiter(Listing.cached_count(params[:refresh_count])) %>
+         listings
+      <% end %>
     </h3>
 
-    <nav class="page-nav">
-      <%= render partial: "page_nav_form", locals: {page_delta: -1} unless @listings.first_page? %>
-      <%= render partial: "page_nav_form", locals: {page_delta: 1} unless @listings.last_page? %>
-    </nav>
+    <% if @listings.respond_to?(:total_pages) %>
+      <nav class="page-nav">
+        <%= render partial: "page_nav_form", locals: {page_delta: -1} unless @listings.first_page? %>
+        <%= render partial: "page_nav_form", locals: {page_delta: 1} unless @listings.last_page? %>
+      </nav>
+    <% end %>
   </header>
 
   <%= render @listings %>

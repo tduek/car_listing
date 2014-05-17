@@ -89,13 +89,35 @@ div.image-file-input-wrapper > input[type="file"]:hover {
 div.image-file-input-wrapper .remove {
   position: absolute;
   display: block;
-  width: 10px;
-  height: 10px;
-  top: -5px;
-  right: -5px;
+
   background: black;
   z-index: 5;
+  color: white;
+  text-align: center;
+  border-radius: 50%;
 }
+
+.remove:hover {
+  cursor: pointer;
+};
+
+ul.thumbs .remove {
+  width: 17px;
+  height: 17px;
+  top: -5px;
+  right: -5px;
+  line-height: 17px;
+}
+
+.main-pic .remove {
+  width: 30px;
+  height: 30px;
+  top: -10px;
+  right: -10px;
+  line-height: 30px;
+  font-weight: 20px;
+}
+
 
 div.image-file-input-wrapper > .progress {
   position: absolute;

@@ -12,6 +12,6 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require jquery.serializeJSON
 //= require underscore
-//= require serializeJSON
 //= require_tree .
