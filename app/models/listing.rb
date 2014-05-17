@@ -74,7 +74,9 @@ class Listing < ActiveRecord::Base
            joins("INNER JOIN (#{Zip.near(dist, zip).to_sql}) AS \"near_zips\" ON \"near_zips\".\"code\"=\"listings\".\"zipcode\"")
   end
 
-  def self.search(terms, page)
+  def self.search(terms, page = nil)
+    page = 1 if [nil, 0].include?(page)
+
     if terms[:zip] && terms[:zip].length == 5 && Zip.find_by_code(terms[:zip])
       dist = terms[:dist] && terms[:dist].length > 0 ? terms[:dist] : "3500"
       result = Listing.within_miles_from_zip(dist, terms[:zip])
@@ -82,54 +84,61 @@ class Listing < ActiveRecord::Base
       result = Listing
     end
 
-    results = result.where('listings.model_id IS NOT NULL').
-                    includes(:pics, :main_pic, :make, :model, :zip).
-                    page(page)
+    results = result.where('listings.model_id IS NOT NULL')
+                    .includes(:pics, :main_pic, :make, :model, :zip)
 
-    if terms
-      if terms[:year_from].to_i > 0 && terms[:year_to].to_i > 0
-        results = results.where(year: terms[:year_from]..terms[:year_to])
-      elsif terms[:year_from].to_i > 0
-        results = results.where("listings.year >= '#{terms[:year_from]}'")
-      elsif terms[:year_to].to_i > 0
-        results = results.where("listings.year <= '#{terms[:year_to]}'")
-      end
 
-      if terms[:make_id].to_i > 0
-        results = results.where(make_id: terms[:make_id])
-      end
+    results = results.page(page) unless terms.keys.empty?
 
-      if terms[:model_id].to_i > 0
-        results = results.where(model_id: terms[:model_id])
-      end
+    if terms[:year_from].to_i > 0 && terms[:year_to].to_i > 0
+      results = results.where(year: terms[:year_from]..terms[:year_to])
+    elsif terms[:year_from].to_i > 0
+      results = results.where("listings.year >= '#{terms[:year_from]}'")
+    elsif terms[:year_to].to_i > 0
+      results = results.where("listings.year <= '#{terms[:year_to]}'")
+    end
 
-      if terms[:price_from].to_i > 0 && terms[:price_to].to_i > 0
-        results = results.where(price: terms[:price_from]..terms[:price_to])
-      elsif terms[:price_from].to_i > 0
-        results = results.where("listings.price >= '#{terms[:price_from]}'")
-      elsif terms[:price_to].to_i > 0
-        results = results.where("listings.price <= '#{terms[:price_to]}'")
-      end
+    if terms[:make_id].to_i > 0
+      results = results.where(make_id: terms[:make_id])
+    end
 
-      results.order_values = []
-      if terms[:sort] == 'distance' && (terms[:zip] && terms[:zip].length != 5)
-        terms[:sort] = ''
-      end
+    if terms[:model_id].to_i > 0
+      results = results.where(model_id: terms[:model_id])
+    end
 
-      case terms[:sort]
-      when 'post_date_asc'
-        results = results.order(:post_date)
-      when 'post_date_desc'
-        results = results.order("listings.post_date DESC")
-      when 'price_asc'
-        results = results.order(:price)
-      when 'price_desc'
-        results = results.order('listings.price DESC')
-      when 'distance'
-        results = results.order('near_zips.distance ASC')
-      else
-        results = results.order('random()')
-      end
+    if terms[:price_from].to_i > 0 && terms[:price_to].to_i > 0
+      results = results.where(price: terms[:price_from]..terms[:price_to])
+    elsif terms[:price_from].to_i > 0
+      results = results.where("listings.price >= '#{terms[:price_from]}'")
+    elsif terms[:price_to].to_i > 0
+      results = results.where("listings.price <= '#{terms[:price_to]}'")
+    end
+
+    results.order_values = []
+    if terms[:sort] == 'distance' && (terms[:zip] && terms[:zip].length != 5)
+      terms[:sort] = ''
+    end
+
+    case terms[:sort]
+    when 'post_date_asc'
+      results = results.order(:post_date)
+    when 'post_date_desc'
+      results = results.order("listings.post_date DESC")
+    when 'price_asc'
+      results = results.order(:price)
+    when 'price_desc'
+      results = results.order('listings.price DESC')
+    when 'distance'
+      results = results.order('near_zips.distance ASC')
+    else
+      results = results.where(<<-SQL)
+        listings.id IN (
+          SELECT floor(random() * (max_id - min_id + 1))::integer + min_id
+          FROM generate_series(1, 25),
+               (SELECT max(listings.id) AS max_id, min(listings.id) AS min_id
+                FROM listings) AS s1
+          )
+      SQL
     end
 
     results
