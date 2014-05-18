@@ -10,8 +10,7 @@ class ListingsController < ApplicationController
     @models_array = Subdivision.where(level: 1).order(:name).
                                 all.map { |model| [model.name, model.id] }
 
-    @listings = Listing.search(params[:search], params[:page])
-
+    @listings = Listing.search(search_params, params[:page])
     @sort_options = [["oldest first", "post_date_asc"],
                      ["newest first", "post_date_desc"],
                      ["lowest price", "price_asc"],
@@ -96,5 +95,11 @@ class ListingsController < ApplicationController
 
     flash[:succes] = "Successfully removed your #{@listing.name} from our listings."
     redirect_to current_user
+  end
+
+  private
+
+  def search_params
+    params[:search].select { |k, v| v.present? }
   end
 end
