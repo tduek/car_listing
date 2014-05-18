@@ -11,9 +11,10 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140510032312) do
+ActiveRecord::Schema.define(:version => 20140517224017) do
 
   create_table "listings", :force => true do |t|
+    t.integer  "user_id"
     t.integer  "year"
     t.integer  "make_id"
     t.integer  "model_id"
@@ -27,7 +28,6 @@ ActiveRecord::Schema.define(:version => 20140510032312) do
     t.datetime "post_date"
     t.datetime "created_at",                :null => false
     t.datetime "updated_at",                :null => false
-    t.integer  "user_id"
     t.string   "vin"
     t.integer  "transmission"
   end
@@ -36,13 +36,12 @@ ActiveRecord::Schema.define(:version => 20140510032312) do
   add_index "listings", ["make_id"], :name => "index_listings_on_make_id"
   add_index "listings", ["model_id"], :name => "index_listings_on_model_id"
   add_index "listings", ["price"], :name => "index_listings_on_price"
+  add_index "listings", ["user_id"], :name => "index_listings_on_user_id"
   add_index "listings", ["year"], :name => "index_listings_on_year"
   add_index "listings", ["zipcode"], :name => "index_listings_on_zipcode"
 
   create_table "pics", :force => true do |t|
     t.integer  "listing_id"
-    t.boolean  "is_thumb"
-    t.integer  "thumb_for"
     t.string   "file_file_name"
     t.string   "file_content_type"
     t.integer  "file_file_size"
@@ -53,7 +52,6 @@ ActiveRecord::Schema.define(:version => 20140510032312) do
     t.string   "token"
   end
 
-  add_index "pics", ["is_thumb"], :name => "index_pics_on_is_thumb"
   add_index "pics", ["listing_id"], :name => "index_pics_on_listing_id"
 
   create_table "subdivisions", :force => true do |t|
@@ -84,17 +82,26 @@ ActiveRecord::Schema.define(:version => 20140510032312) do
     t.string   "address_line_1"
     t.string   "address_line_2"
     t.string   "city"
+    t.string   "state"
     t.integer  "zip"
     t.string   "password_digest"
-    t.datetime "created_at",               :null => false
-    t.datetime "updated_at",               :null => false
-    t.string   "state"
+    t.string   "reset_password_token"
     t.boolean  "is_activated"
     t.string   "activation_token"
     t.datetime "activation_email_sent_at"
-    t.string   "reset_password_token"
     t.boolean  "is_dealer"
+    t.datetime "created_at",               :null => false
+    t.datetime "updated_at",               :null => false
   end
+
+  create_table "years", :force => true do |t|
+    t.integer  "year"
+    t.integer  "model_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "years", ["model_id"], :name => "index_years_on_model_id"
 
   create_table "zips", :force => true do |t|
     t.integer  "code"
