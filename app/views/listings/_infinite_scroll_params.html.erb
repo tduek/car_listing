@@ -20,7 +20,7 @@
                       class: "scroll", id: "sort") %>
 
 <input type="hidden" class="scroll" id="total-pages" name="total_pages"
-value="<%= @listings.respond_to?(:total_pages) ? @listing.total_pages : '40' %>">
+value="<%= @listings.respond_to?(:total_pages) ? @listings.total_pages : '40' %>">
 
 <%= hidden_field_tag(:zip, params[:search][:zip],
                       class: "scroll", id: "zip") %>
