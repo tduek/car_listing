@@ -21,9 +21,9 @@ gem 'bcrypt-ruby', require: 'bcrypt'
 gem 'paperclip', '~> 3.0'
 gem 'aws-sdk'
 
-
-
 gem 'figaro'
+
+gem 'backbone-on-rails'
 
 
 group :development do
@@ -52,8 +52,6 @@ gem 'jquery-rails'
 
 # To use Jbuilder templates for JSON
 # gem 'jbuilder'
-
-# Use unicorn as the app server
 
 gem 'unicorn'
 

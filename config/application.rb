@@ -16,7 +16,7 @@ module CarListing
     # -- all .rb files in that directory are automatically loaded.
 
     # Custom directories with classes and modules you want to be autoloadable.
-    # config.autoload_paths += %W(#{config.root}/extras)
+    #config.autoload_paths << "#{config.root}/app/assets/templates"
 
     # Only load the plugins named here, in the order given (default is alphabetical).
     # :all can be used as a placeholder for all plugins not explicitly named.
@@ -62,5 +62,14 @@ module CarListing
     config.action_view.field_error_proc = Proc.new do |html_tag, instance|
       html_tag.html_safe
     end
+
+    config.paperclip_defaults = {
+      :storage => :s3,
+      :s3_credentials => {
+        :bucket =>            ENV["S3_BUCKET"],
+        :access_key_id =>     ENV["S3_ACCESS_KEY"],
+        :secret_access_key => ENV["S3_SECRET_KEY"]
+      }
+    }
   end
 end

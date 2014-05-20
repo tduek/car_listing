@@ -35,15 +35,6 @@ CarListing::Application.configure do
   # Expands the lines which load the assets
   config.assets.debug = true
 
-  config.paperclip_defaults = {
-    :storage => :s3,
-    :s3_credentials => {
-      :bucket => ENV["S3_DEV_BUCKET"],
-      :access_key_id => ENV["S3_ACCESS_KEY"],
-      :secret_access_key => ENV["S3_SECRET_KEY"]
-    }
-  }
-
   config.action_mailer.delivery_method = :letter_opener
   config.action_mailer.default_url_options = {host: 'localhost:7777'}
 end
