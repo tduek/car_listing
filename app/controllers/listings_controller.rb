@@ -5,12 +5,20 @@ class ListingsController < ApplicationController
   def index
     params[:search] ||= {}
     params[:page] ||= 1
-    @makes_array = Subdivision.where(level: 0).order(:name).
-                               all.map { |make| [make.name, make.id] }
-    @models_array = Subdivision.where(level: 1).order(:name).
-                                all.map { |model| [model.name, model.id] }
 
     @listings = Listing.search(search_params, params[:page])
+
+    if request.xhr?
+      #sleep 1 if Rails.env.development?
+      render(partial: 'listings/index.json') && return
+    end
+
+    @makes = Subdivision.makes.includes(:active_models).order(:name)
+    @years = Year.select('years.year').order('years.year').uniq.map(&:year)
+
+    @search_params = {}
+    params[:search].each { |k, v| @search_params[k] = v.to_i }
+
     @sort_options = [["oldest first", "post_date_asc"],
                      ["newest first", "post_date_desc"],
                      ["lowest price", "price_asc"],
@@ -21,16 +29,11 @@ class ListingsController < ApplicationController
     if zip && zip.length > 1 && !Zip.find_by_code(zip)
       flash[:alert] = "Invalid zipcode. Please check your input."
     end
-
-    if request.xhr?
-      #sleep 1 if Rails.env.development?
-      render @listings
-    end
   end
 
   def show
     @listing = Listing.includes(:make, :model, :pics, :main_pic).find(params[:id])
-    @title = "#{@listing.name} | "
+    @title = "#{@listing.ymm} | "
   end
 
   def new
@@ -62,7 +65,7 @@ class ListingsController < ApplicationController
 
     if @listing.save
       @listing.pics.update_all(token: nil)
-      flash[:success] = "Successfully listed your #{@listing.name}"
+      flash[:success] = "Successfully listed your #{@listing.ymm}"
       redirect_to @listing
     else
       flash.now[:alert] = "Couldn't save your listing. Check below."
@@ -80,7 +83,7 @@ class ListingsController < ApplicationController
     @listing = Listing.find(params[:id])
 
     if @listing.update_attributes(params[:listing])
-      flash[:success] = "Successfully saved changes to your #{@listing.name}"
+      flash[:success] = "Successfully saved changes to your #{@listing.ymm}"
       redirect_to @listing
     else
       flash.now[:alert] = "Couldn't save changes to your #{@liasting.name || 'listing'}. Check below."
@@ -93,13 +96,13 @@ class ListingsController < ApplicationController
 
     @listing.destroy
 
-    flash[:succes] = "Successfully removed your #{@listing.name} from our listings."
+    flash[:succes] = "Successfully removed your #{@listing.ymm} from our listings."
     redirect_to current_user
   end
 
   private
 
   def search_params
-    params[:search].select { |k, v| v.present? }
+    params[:search].select { |k, v| v.present? }.with_indifferent_access
   end
 end

@@ -13,6 +13,8 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery.serializeJSON
+//= require jquery.timeago
+//= require accounting
 //= require underscore
 //= require backbone
 //= require car_listing
@@ -22,3 +24,6 @@
 //= require_tree ./views
 //= require_tree ./routers
 //= require_tree .
+
+accounting.settings.currency.precision = 0;
+

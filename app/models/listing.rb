@@ -1,7 +1,9 @@
 class Listing < ActiveRecord::Base
+  include ActiveSupport::Inflector
+
   attr_accessible :is_owner, :miles, :model_id, :phone, :price, :year, :zipcode, :post_date, :make_id, :title, :description, :vin, :transmission
 
-  belongs_to :user
+  belongs_to :seller, class_name: 'User'
 
   belongs_to :zip, primary_key: :code, foreign_key: :zipcode
 
@@ -83,7 +85,7 @@ class Listing < ActiveRecord::Base
 
   def self.search(terms, page = nil)
     page = 1 if [nil, 0].include?(page)
-
+    p terms
     if terms[:zip] && terms[:zip].length == 5 && Zip.find_by_code(terms[:zip])
       dist = terms[:dist] && terms[:dist].length > 0 ? terms[:dist] : "3500"
       result = Listing.within_miles_from_zip(dist, terms[:zip])
@@ -126,18 +128,16 @@ class Listing < ActiveRecord::Base
       terms[:sort] = ''
     end
 
-    case terms[:sort]
-    when 'post_date_asc'
-      results = results.order(:post_date)
-    when 'post_date_desc'
-      results = results.order("listings.post_date DESC")
-    when 'price_asc'
-      results = results.order(:price)
-    when 'price_desc'
-      results = results.order('listings.price DESC')
-    when 'distance'
-      results = results.order('near_zips.distance ASC')
-    else
+    sorts = {'post_date_asc' => 'listings.post_date ASC',
+             'post_date_desc' => 'istings.post_date DESC',
+             'price_asc' => 'listings.price ASC',
+             'price_desc' => 'listings.price DESC',
+             'distance' => 'near_zips.distance ASC'}
+
+
+    if sorts[terms[:sort]]
+      results = results.order(sorts[terms[:sort]])
+    elsif terms.count == 0 || (terms[:sort] && terms.count == 1)
       results = results.where(<<-SQL)
         listings.id IN (
           SELECT floor(random() * (max_id - min_id + 1))::integer + min_id
@@ -169,16 +169,36 @@ class Listing < ActiveRecord::Base
     end
   end
 
-  def vin
-    vin = read_attribute(:vin)
-    if vin && vin.length > 0
-      vin
-    else
-      'N/A'
-    end
+  def phone
+    phone = read_attribute(:phone)
+    return phone if phone
+
+    self.seller && self.seller.phone
   end
 
-  def name
+  def location
+    location = "#{ self.zip.city }, #{ self.zip.st }"
+    if self.respond_to?(:distance)
+      location += " (#{ self.distance.to_f.round } #{ 'mile'.pluralize(self.distance.to_f.round) } away)"
+    end
+
+    location
+  end
+
+  def post_date_iso8601
+    self.post_date.getutc.iso8601
+  end
+
+  # def vin
+  #   vin = read_attribute(:vin)
+  #   if vin && vin.length > 0
+  #     vin
+  #   else
+  #     'N/A'
+  #   end
+  # end
+
+  def ymm
     [self.year, self.make && self.make.name, self.model && self.model.name].compact.join(" ")
   end
 

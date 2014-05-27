@@ -1,0 +1,32 @@
+<article class="search-result-listing clear-fix">
+  <div class="thumb-container">
+    <a class="thumb" href="/listings/<%= listing.id %>">
+      <% if (listing.get('main_pic_url')) { %>
+        <img src="<%= listing.get('main_pic_url') %>">
+      <% } else { %>
+        NO PHOTO YET
+      <% } %>
+    </a>
+  </div>
+
+  <div class="listing-info">
+    <div class="car-and-seller-container clear-fix">
+      <a href="/listings/<%= listing.id %>"><%= listing.get('ymm') %></a>
+      <div class="seller">
+        by <strong>
+          <%= listing.get('seller').by_owner ? "OWNER" : "DEALER" %>
+        </strong>
+      </div>
+    </div>
+    <div class="price"><%= listing.price() %></div>
+
+    <div class="location">
+      <%= listing.get('location') %>
+    </div>
+
+    <div class="post-date">
+      Posted
+      <time class="timeago" datetime="<%= listing.get('post_date') %>"></time>
+    </div>
+  </div>
+</article>

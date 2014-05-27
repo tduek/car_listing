@@ -1,64 +1,23 @@
-<section id="sidebar">
-<%= render partial: "listings/search_form" %>
-</section>
-
-<section id="search-results" class="clear-fix">
-  <%= render partial: "search_results" %>
-
-  <%= render partial: "listings/infinite_scroll_params" %>
-</section>
-
+<% cache(expires_in: 10.minutes, race_condition_ttl: 10.seconds) do %>
 <script type="application/json" id="bootstrapped-listings">
-  <%= @listings.to_json.html_safe %>
+  {"listings":
+      <%=
+            render('listings/index.json.jbuilder').html_safe %>,
+   "subdivisions":
+      <%=
+            render('subdivisions/index.json.jbuilder').html_safe
+       %>,
+    "years": <%= @years.to_json %>
+  }
 </script>
+<% end %>
 
 <script>
-$(document).ready(function () {
-  var requestingNextPage = false;
-
-  $(window).scroll(function(event) {
-    var distanceFromBottom = function () {
-      var doc = $(document);
-      return doc.height() - (window.innerHeight + doc.scrollTop())
-    };
-
-    if (distanceFromBottom() < 500 && !requestingNextPage) {
-      requestingNextPage = true;
-      var params = $("input[type='hidden'].scroll")
-
-      if (parseInt(params.filter("#page").val()) <=
-                              parseInt(params.filter("#total-pages").val())) {
-        $.ajax({
-          url: "<%= listings_url %>",
-          dataType: "html",
-          data: {
-            "search[year_from]": params.filter("#year-from").val(),
-            "search[year_to]": params.filter("#year-to").val(),
-            "search[make_id]": params.filter("#make-id").val(),
-            "search[model_id]": params.filter("#model-id").val(),
-            "search[price_from]": params.filter("#price-from").val(),
-            "search[price_to]": params.filter("#price-to").val(),
-            "search[zip]": params.filter("#zip").val(),
-            "search[dist]": params.filter("#dist").val(),
-            "search[sort]": params.filter("#sort").val(),
-            "page": params.filter("#page").val()
-          },
-          beforeSend: function () {
-            $("#end-of-page").show();
-          },
-          success: function (data) {
-            $("#end-of-page").hide();
-            $("#end-of-page").before(data);
-            var nextPageNum = (parseInt(params.filter("#page").val())+1);
-            params.filter("#page").val(nextPageNum);
-            requestingNextPage = false;
-          }
-        })
-      } else {
-        $("#end-of-list").show();
-      }
-    };
-  })
-
-});
+if (window.CarListing) {
+  var context = window.CarListing;
+}
+else {
+  var context = window;
+}
+context.searchParams = <%= @search_params.to_json.html_safe %>;
 </script>

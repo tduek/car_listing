@@ -1,0 +1,174 @@
+<table>
+  <tr>
+    <td>
+      <label for="search-year_from">Year</label>
+      <select id="search-year_from" name="year_from">
+        <option value="">from</option>
+        <option value="2014">2014</option>
+      </select>
+      ▰
+      <select id="search-year_to" name="year_to">
+        <option value="">to</option>
+        <option value="2014">2014</option>
+      </select>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <select name="make_id" id="search-make_id">
+        <option value="">Make</option>
+        <% CarListing.subdivisions.models.forEach(function (make) { %>
+        <option value="<%= make.id %>"
+          <%= (CarListing.searchParams.make_id === make.id) ? 'selected' : '' %>>
+          <%= make.escape('name') %>
+        </option>
+        <% }); %>
+      </select>
+    </td>
+  </tr>
+  <tr>
+    <td class="contains-tooltip contains-mask">
+      <div class="tooltip">
+        Select a make first, please.
+        <div class="triangle"></div>
+      </div>
+      <select name="model_id" id="search-model_id" title="Select make first">
+        <option value="">Model</option>
+      </select>
+      <div class="mask"></div>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <label for="search-price_from">Price</label><br>
+      <label for="search-price_from">$</label>
+      <input placeholder="from"
+                    type="text"
+                    name="price_from"
+                 pattern="[0-9]*"
+                      id="search-price_from"
+               maxlength="5"
+                   value="">
+                   ▰
+      <label for="search-price_to">$</label>
+      <input placeholder="to"
+                    type="text"
+                    name="price_to"
+                 pattern="[0-9]*"
+                      id="search-price_to"
+               maxlength="6"
+                   value="">
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <label for="search-distance">Distance:</label><br>
+      <input placeholder="any"
+                    type="text"
+                    name="dist"
+                 pattern="[0-9]*"
+                      id="search-distance"
+               maxlength="4"
+                   value="">
+      <label for="search-distance">miles</label>
+      <label for="search-zip">from</label>
+      <input placeholder="zip"
+                    type="text"
+                    name="zip"
+                 pattern="[0-9]*"
+                      id="search-zip"
+               maxlength="5"
+                   value="">
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <label for="search-sort_by">Sort by</label>
+      <select name="sort" id="search-sort_by">
+        <option value="">random</option>
+      </select>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <input type="submit" value="Search">
+    </td>
+  </tr>
+</table>
+
+<script>
+
+var disableNewerThanYearFrom = function () {
+  var yearFrom = parseInt($("#year_from").val());
+  var options = $("#year_to").children("option")
+  options.each(function (i) {
+    var option = $(options[i])
+    if (option.val() < yearFrom) {
+      option.prop("disabled", "true");
+    } else if (isNaN(yearFrom)) {
+      option.removeAttr("disabled");
+    }
+  });
+};
+
+var disableOlderThanYearTo = function () {
+  var yearTo = parseInt($("#year_to").val());
+  var options = $("#year_from").children("option")
+  options.each(function (i) {
+    var option = $(options[i])
+    if (option.val() > yearTo) {
+     option.prop("disabled", "true");
+    } else if (isNaN(yearTo)) {
+      option.removeAttr("disabled");
+    }
+  });
+};
+
+var updateSortByDistance = function () {
+  var distanceOption = $("select#sort_by").find("option[value='distance']")
+  if ($("#search_zip").val().length === 5) {
+    distanceOption.removeAttr("disabled");
+  } else {
+    distanceOption.prop("disabled", "true");
+  }
+};
+
+$(document).ready(function () {
+  disableNewerThanYearFrom();
+  disableOlderThanYearTo();
+  $("#year_from").on("change", disableNewerThanYearFrom)
+
+  $("#year_to").on("change", disableOlderThanYearTo)
+
+
+  var allModelsForSelect = $("#model_id").children("option");
+  var updateModelSelect = function() {
+    var currentMakeID = parseInt($("#make_id").val());
+    if (isNaN(currentMakeID)) {
+      $("#model_id").prop("disabled", "true");
+    } else {
+      $("#model_id").removeAttr("disabled");
+      var nextMakeID = $("#make_id").find("option[value="+currentMakeID+"]").next().val();
+      $("#model_id").empty();
+
+      if (currentMakeID) {
+        $("#model_id").prepend("<option value=''>Model ▾</option>")
+      }
+
+      allModelsForSelect.each(function (i) {
+        var modelOption = $(allModelsForSelect[i])
+        var modelID = parseInt(modelOption.val());
+        if ((!currentMakeID || modelID > currentMakeID) && (!nextMakeID || modelID < nextMakeID)) {
+          $("#model_id").append(modelOption)
+        }
+      });
+    }
+  };
+
+  updateModelSelect();
+  $("#make_id").on("change", updateModelSelect);
+
+  updateSortByDistance();
+  $("#search_zip").on("change", updateSortByDistance);
+});
+</script>

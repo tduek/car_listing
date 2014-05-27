@@ -1,7 +1,20 @@
 class Subdivision < ActiveRecord::Base
   attr_accessible :name, :parent_id, :level
 
-  has_many :children, class_name: "Subdivision", foreign_key: :parent_id
+  has_many :children, class_name: 'Subdivision', foreign_key: :parent_id
+
+  # ONLY CALLABLE ON MAKES - level = 0
+  has_many :active_models,
+    class_name: 'Subdivision',
+    foreign_key: :parent_id,
+    conditions: <<-SQL
+      subdivisions.id IN (
+        SELECT DISTINCT
+          listings.model_id
+        FROM
+          listings
+      )
+    SQL
 
   belongs_to :parent, class_name: "Subdivision", foreign_key: :parent_id
 
@@ -10,12 +23,32 @@ class Subdivision < ActiveRecord::Base
   scope :all_makes, -> { where(parent_id: nil).order(:name) }
   scope :all_models, -> { where(level: 1).order(:name) }
 
-  scope :makes,  -> do where(parent_id: nil).order(:name).
-                       joins("INNER JOIN listings ON listings.make_id=subdivisions.id")
+  scope :makes,  -> do
+                       where(parent_id: nil)
+                       .order(:name)
+                       .joins(<<-SQL)
+                         INNER JOIN (
+                           SELECT DISTINCT
+                             listings.make_id
+                           FROM
+                             listings
+                         )
+                         AS listings_make_ids
+                         ON listings_make_ids.make_id=subdivisions.id
+                       SQL
                     end
 
-  scope :models, -> do where(level: 1).order(:name)
-                       joins("INNER JOIN listings ON listings.model_id=subdivisions.id")
+  scope :models, -> do
+                      where(level: 1)
+                      .order(:name)
+                      .joins(<<-SQL)
+                        INNER JOIN (
+                          SELECT DISTINCT
+                            listings.model_id
+                          FROM listings
+                        ) AS listings_model_ids
+                        ON listings_model_ids.model_id=subdivisions.id
+                      SQL
                     end
 
 

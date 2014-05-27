@@ -77,6 +77,9 @@ GEM
       rails (>= 3, < 5)
     hike (1.2.3)
     i18n (0.6.1)
+    jbuilder (2.0.7)
+      activesupport (>= 3.0.0, < 5)
+      multi_json (~> 1.2)
     journey (1.0.4)
     jquery-rails (3.0.4)
       railties (>= 3.0, < 5.0)
@@ -154,6 +157,7 @@ GEM
       rack
       raindrops (~> 0.7)
     uuidtools (2.1.4)
+    yajl-ruby (1.2.0)
 
 PLATFORMS
   ruby
@@ -167,9 +171,11 @@ DEPENDENCIES
   binding_of_caller
   coffee-rails (~> 3.2.1)
   figaro
+  jbuilder
   jquery-rails
   kaminari
   letter_opener
+  nokogiri
   paperclip (~> 3.0)
   pg
   rails (= 3.2.13)
@@ -177,3 +183,4 @@ DEPENDENCIES
   uglifier (>= 1.0.3)
   underscore-rails
   unicorn
+  yajl-ruby

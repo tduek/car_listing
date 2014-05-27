@@ -183,7 +183,7 @@ span.flash.notice {
 #sidebar {
   display: block;
   float: left;
-  width: 230px;
+  width: 245px;
 }
 
 #sidebar > form.search {
@@ -204,7 +204,7 @@ form.search > table {
 }
 form.search tr {
   display: block;
-  padding: 8px 5px;
+  padding: 10px 10px;
   border-bottom: 1px solid lightgray;
 }
 
@@ -227,29 +227,32 @@ form.search label {
   font-size: 18px;
   border: 0;
   outline: none;
+  margin-top: 8px;
 }
 
-.search > input:hover, .search select:hover, .search input[type=number] {
+.search input:hover, .search select:hover {
   cursor: pointer;
 }
 
 
-.search select#year_from, .search select#year_to {
+.search select#search-year_from, .search select#search-year_to {
   display: inline-block;
   clear: none;
   margin: 0 0 0 0;
   width: 40px;
-  color: #AAAAAA;
+
 }
 
-.search select#year_from {
+.search select { color: #AAAAAA; }
+.search select.selected { color: black; }
+
+.search select#search-year_from {
   margin: 0 4px 0 13px;
-  direction: rtl;
 }
 
-.search select#year_from option {float: right;}
+.search select#search-year_from option {float: right;}
 
-.search select#year_to { margin-left: -1px;}
+.search select#search-year_to { margin-left: -1px;}
 
 .search select {
   -webkit-appearance: none;
@@ -257,51 +260,90 @@ form.search label {
   appearance: none;
 }
 
-.search option:first-child {
-  color: lightgray;
-}
-
-.search select#make_id, .search #model_id, .search input[type="submit"] {
+.search select#search-make_id, .search #search-model_id, .search input[type="submit"] {
   width: 100%;
 }
 
-.search #price_from, .search #price_to {
+#search-model_id {
+  position: relative;
+}
+
+.search .contains-tooltip {
+  position: relative;
+}
+
+.tooltip {
+  position: absolute;
+  z-index: 10;
+  display: none;
+}
+
+.search .tooltip {
+  top: -60px;
+  left: 30%;
+  width: 100px;
+  border: 3px solid red;
+  background: white;
+  padding: 5px;
+}
+
+.search .tooltip > .triangle {
+  position: absolute;
+  top: 15px;
+  left: -23px;
+  border-top: 10px solid transparent;
+  border-right: 10px solid red;
+  border-bottom: 10px solid transparent;
+  border-left: 10px solid transparent;
+}
+
+.mask {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+#serach-model_id[disabled]:hover .tooltip {
+  display: block;
+}
+
+.search input, .search select {
+  border-radius: 0;
+  border-bottom: 1px solid #333333;
+  padding-bottom: 1px;
+  margin-bottom: -3px;
+  text-align: center;
+}
+
+.search #search-price_from, .search #search-price_to {
 }
 
 .search input:hover, .search label:hover {
   cursor: pointer;
 }
 
-.search #price_from {
-  width: 50px;
-  margin-right: 4px;
-  text-align: right;
+.search #search-price_from {
+  width: 80px;
+  text-align: center;
 }
 
-.search #price_to {
+.search #search-price_to {
   margin-left: -1px;
-  width: 65px;
+  width: 80px;
 }
 
-.search label[for="search_distance"] {
-  margin: 0;
+.search #search-distance {
+  width: 45px;
+/*  text-align: right;*/
 }
 
-.search #search_distance {
-  margin-left: 10px;
-  width: 40px;
-  text-align: right;
+.search #search-zip {
+  width: 60px;
 }
 
-.search label[for="search_zip"]{
-  margin: 0;
-}
-
-.search #search_zip {
-  width: 55px;
-}
-
-.search label[for="sort_by"] {
+.search label[for="search-sort_by"] {
   margin-right: 0;
 }
 
