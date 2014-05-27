@@ -264,10 +264,6 @@ form.search label {
   width: 100%;
 }
 
-#search-model_id {
-  position: relative;
-}
-
 .search .contains-tooltip {
   position: relative;
 }
@@ -314,29 +310,19 @@ form.search label {
   border-bottom: 1px solid #333333;
   padding-bottom: 1px;
   margin-bottom: -3px;
-  text-align: center;
+  text-align: left;
 }
 
 .search #search-price_from, .search #search-price_to {
+  width: 80px;
 }
 
-.search input:hover, .search label:hover {
+.search input:hover, .search label:hover, .search select:hover {
   cursor: pointer;
-}
-
-.search #search-price_from {
-  width: 80px;
-  text-align: center;
-}
-
-.search #search-price_to {
-  margin-left: -1px;
-  width: 80px;
 }
 
 .search #search-distance {
   width: 45px;
-/*  text-align: right;*/
 }
 
 .search #search-zip {

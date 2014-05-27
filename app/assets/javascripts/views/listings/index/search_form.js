@@ -15,7 +15,8 @@ CarListing.Views.SearchForm = Backbone.View.extend({
     'change input': 'changeSearchParams',
     'change #search-make_id': 'updateModelSelect',
     // 'keyup input': 'changeSearchParams',
-    'click .contains-tooltip': 'maybeShowTooltip'
+    'click .contains-tooltip': 'maybeShowTooltip',
+    'change .search-year': 'yearChanged'
   },
 
   render: function () {
@@ -85,6 +86,25 @@ CarListing.Views.SearchForm = Backbone.View.extend({
         $tooltip.stop().fadeOut(1200);
       });
     }
+  },
+
+  yearChanged: function (event) {
+    var $yearSelect = $(event.currentTarget);
+    var selectedFromYear = $yearSelect.is('#search-year_from'); // boolean
+    var mapper = (selectedFromYear ? 1 : -1)
+    var selectedYear = parseInt($yearSelect.val());
+    var otherYearSelectOptions = $yearSelect.siblings('select').find('option');
+
+    otherYearSelectOptions.each(function (i, option) {
+      var $option = $(option);
+      var optionsYear = parseInt($option.val());
+      if ((selectedYear - optionsYear) * mapper > 0) {
+        $option.prop('disabled', true);
+      }
+      else {
+        $option.prop('disabled', false);
+      }
+    });
   }
 
 

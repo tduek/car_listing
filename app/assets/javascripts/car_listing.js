@@ -12,7 +12,7 @@ window.CarListing = {
     var subdivisionsJSON = bootstrappedData.subdivisions;
     this.subdivisions = new this.Collections.Subdivisions(subdivisionsJSON, {parse: true});
 
-    this.years = bootstrappedData.years;
+    this.years = bootstrappedData.years.sort().reverse();
 
     if (!this.searchParams) {
       this.searchParams = window.searchParams;

@@ -2,14 +2,18 @@
   <tr>
     <td>
       <label for="search-year_from">Year</label>
-      <select id="search-year_from" name="year_from">
+      <select class="search-year" id="search-year_from" name="year_from">
         <option value="">from</option>
-        <option value="2014">2014</option>
+        <% CarListing.years.forEach(function (year) { %>
+        <option value="<%= year %>"><%= year %></option>
+        <% }); %>
       </select>
       ▰
-      <select id="search-year_to" name="year_to">
+      <select class="search-year" id="search-year_to" name="year_to">
         <option value="">to</option>
-        <option value="2014">2014</option>
+        <% CarListing.years.forEach(function (year) { %>
+        <option value="<%= year %>"><%= year %></option>
+        <% }); %>
       </select>
     </td>
   </tr>
@@ -62,7 +66,7 @@
   </tr>
   <tr>
     <td>
-      <label for="search-distance">Distance:</label><br>
+      <label for="search-distance">Distance</label><br>
       <input placeholder="any"
                     type="text"
                     name="dist"

@@ -2,11 +2,19 @@ class ListingsController < ApplicationController
   before_filter :require_user_signed_in, only: [:new, :create, :edit, :update, :destroy]
   before_filter :require_owner, only: [:edit, :update, :destroy]
 
+  PERMITTED_SEARCH_KEYS = [
+    :year_from, :year_to,
+    :make_id, :model_id,
+    :price_from, :price_to,
+    :zip, :dist,
+    :sort
+  ]
+
   def index
     params[:search] ||= {}
     params[:page] ||= 1
-
-    @listings = Listing.search(search_params, params[:page])
+    @search_params = search_params
+    @listings = Listing.search(@search_params, params[:page])
 
     if request.xhr?
       #sleep 1 if Rails.env.development?
@@ -16,7 +24,6 @@ class ListingsController < ApplicationController
     @makes = Subdivision.makes.includes(:active_models).order(:name)
     @years = Year.select('years.year').order('years.year').uniq.map(&:year)
 
-    @search_params = {}
     params[:search].each { |k, v| @search_params[k] = v.to_i }
 
     @sort_options = [["oldest first", "post_date_asc"],
@@ -103,6 +110,15 @@ class ListingsController < ApplicationController
   private
 
   def search_params
-    params[:search].select { |k, v| v.present? }.with_indifferent_access
+    result = extract_search_params(params[:search])
+
+    result.empty? ? extract_search_params(params) : result
   end
+
+  def extract_search_params(indif_hash)
+    params.select do |k, v|
+      PERMITTED_SEARCH_KEYS.include?(k.to_sym) && v.present?
+    end.with_indifferent_access
+  end
+
 end
