@@ -86,8 +86,8 @@ class Listing < ActiveRecord::Base
   def self.search(terms, page = nil)
     page = 1 if [nil, 0].include?(page)
     p terms
-    if terms[:zip] && terms[:zip].length == 5 && Zip.find_by_code(terms[:zip])
-      dist = terms[:dist] && terms[:dist].length > 0 ? terms[:dist] : "3500"
+    if terms[:zip] && terms[:zip].to_s.length == 5 && Zip.find_by_code(terms[:zip])
+      dist = terms[:dist] && terms[:dist] > 0 ? terms[:dist] : "3500"
       result = Listing.within_miles_from_zip(dist, terms[:zip])
     else
       result = Listing
