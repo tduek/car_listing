@@ -14,6 +14,7 @@ class ListingsController < ApplicationController
     params[:search] ||= {}
     params[:page] ||= 1
     @search_params = search_params
+    params[:search].each { |k, v| @search_params[k] = v.to_i }
     @listings = Listing.search(@search_params, params[:page])
 
     if request.xhr?
@@ -24,7 +25,7 @@ class ListingsController < ApplicationController
     @makes = Subdivision.makes.includes(:active_models).order(:name)
     @years = Year.select('years.year').order('years.year').uniq.map(&:year)
 
-    params[:search].each { |k, v| @search_params[k] = v.to_i }
+
 
     @sort_options = [["oldest first", "post_date_asc"],
                      ["newest first", "post_date_desc"],
@@ -116,7 +117,7 @@ class ListingsController < ApplicationController
   end
 
   def extract_search_params(indif_hash)
-    params.select do |k, v|
+    indif_hash.select do |k, v|
       PERMITTED_SEARCH_KEYS.include?(k.to_sym) && v.present?
     end.with_indifferent_access
   end

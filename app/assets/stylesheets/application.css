@@ -9,6 +9,7 @@
  * compiled file, but it's generally better to create a new file per style scope.
  *
  *= require_self
+ *= require clippy
  *= require_tree .
  */
 html, body, article, div, img, a, h1, h2, h3, h4, h5, p,
@@ -264,17 +265,18 @@ form.search label {
   width: 100%;
 }
 
+.search input[type="submit"] {
+  text-align: center;
+}
+
 .search .contains-tooltip {
   position: relative;
 }
 
-.tooltip {
+.search .tooltip {
   position: absolute;
   z-index: 10;
   display: none;
-}
-
-.search .tooltip {
   top: -60px;
   left: 30%;
   width: 100px;
@@ -400,7 +402,7 @@ nav.page-nav > form > input[type="submit"]:hover {
   text-decoration: underline;
 }
 
-.page > h2#end-of-page, .page > h2#end-of-list {
+#end-of-page, #end-of-list {
   text-align: center;
   margin: 20px 0 20px 80px;
   display: none;
@@ -425,14 +427,12 @@ article.search-result-listing > div.thumb-container {
   clear: none;
   float: left;
   border: 3px solid #333333;
-/*  border-radius: 3px;*/
 }
 
 article.search-result-listing > div.thumb-container > a.thumb {
   display: block;
   width: 50px;
   height: 50px;
-/*  margin: 3px auto;*/
   text-align: center;
   font-size: 12px;
   color: #333333/*rgb(255,228,201)*/;
@@ -482,7 +482,6 @@ article.search-result-listing > div.listing-info > div.location {
 article.search-result-listing > div.listing-info > div.post-date {
   font-size: 12px;
   float: right;
-/*  margin-top: 12px;*/
 }
 
 article.search-result-listing > div.listing-info > div.price {

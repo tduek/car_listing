@@ -4,6 +4,7 @@ window.CarListing = {
   Views: {},
   Routers: {},
   initialize: function() {
+    this.loadClippy();
     var bootstrappedData = JSON.parse($('#bootstrapped-listings').html());
 
     var listingsJSON = bootstrappedData.listings;
@@ -20,6 +21,13 @@ window.CarListing = {
 
     var indexView = new this.Views.IndexContainer()
     $('main#content').html(indexView.render().$el);
+  },
+
+  loadClippy: function () {
+    var clippySuccess = function (agent) { CarListing.clippy = agent; };
+    clippy.load('Clippy', clippySuccess, function () {
+      CarListing.clippy = false;
+    });
   }
 };
 

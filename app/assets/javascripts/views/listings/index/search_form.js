@@ -76,15 +76,26 @@ CarListing.Views.SearchForm = Backbone.View.extend({
   },
 
   maybeShowTooltip: function (event) {
-    console.log('hit')
     var $td = $(event.currentTarget);
     var $select = $td.find('select');
     if ($select.prop('disabled')) {
-      var $tooltip = $td.find('.tooltip');
-      console.log('hit2')
-      $tooltip.stop().fadeIn(400, function () {
-        $tooltip.stop().fadeOut(1200);
-      });
+      if (CarListing.clippy) {
+        var makeSelectPos = $('#search-make_id').offset();
+        var clippyX = makeSelectPos.left - $(window).scrollLeft() + 30;
+        var clippyY = makeSelectPos.top - $(window).scrollTop() - 30;
+        CarListing.clippy.moveTo(clippyX, clippyY);
+        CarListing.clippy.show();
+        CarListing.clippy.speak('Select make first');
+        CarListing.clippy.play('GestureRight', 4000, function () {
+          CarListing.clippy.hide();
+        });
+      }
+      else {
+        var $tooltip = $td.find('.tooltip');
+        $tooltip.stop().fadeIn(400, function () {
+          $tooltip.stop().fadeOut(1200);
+        });
+      }
     }
   },
 

@@ -15,6 +15,7 @@
 //= require jquery.serializeJSON
 //= require jquery.timeago
 //= require accounting
+//= require clippy
 //= require underscore
 //= require backbone
 //= require car_listing
