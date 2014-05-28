@@ -16,8 +16,11 @@ class ListingsController < ApplicationController
     params[:search] ||= {}
     params[:page] ||= 1
     @search_params = search_params
-    params[:search].each { |k, v| @search_params[k] = v.to_i unless STRING_SEARCH_PARAMS.include?(k.to_sym) }
+    params[:search].each do |k, v|
+      @search_params[k] = v.to_i unless STRING_SEARCH_PARAMS.include?(k.to_sym)
+    end
     @listings = Listing.search(@search_params, params[:page])
+                       .includes(:make, :model, :pics, :main_pic, :zip)
 
     if request.xhr?
       #sleep 1 if Rails.env.development?

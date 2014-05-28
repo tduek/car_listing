@@ -8,50 +8,68 @@ class Zip < ActiveRecord::Base
   end
 
   def self.near(distance, zip)
-    Zip.select("zips_with_distance.*").
-        from("(#{zips_with_distance_from(zip).to_sql}) AS \"zips_with_distance\"").
-        where(['"zips_with_distance"."distance" <= ? OR "zips_with_distance"."code" = ?', distance, zip]).
-        order('"zips_with_distance"."distance"')
+    zip_model = Zip.find_by_code(zip)
+    rectangle_constraints = [
+      zip_model.lat - (distance / 68.0),
+      zip_model.lat + (distance / 68.0),
+      zip_model.long - (distance / 35.0),
+      zip_model.long + (distance / 35.0)
+    ]
+
+    Zip.select('zips_with_distance.*')
+       .from("(#{zips_with_distance_from(zip).to_sql}) AS zips_with_distance")
+       .where(['zips_with_distance.distance <= ?', distance])
+       .order('zips_with_distance.distance')
+       .where(<<-SQL, *rectangle_constraints)
+         (zips_with_distance.lat BETWEEN ? AND ?) AND
+         (zips_with_distance.long BETWEEN ? AND ?)
+       SQL
   end
 
-
-  # FIX THIS BIND IN THE SELECT!!!
   def self.zips_with_distance_from(zip)
-    Zip.select("zips2.*, CASE \"zips2\".\"code\"
-                         WHEN '#{zip}' THEN 0
-                         ELSE acos(
-                                cos(radians(\"zips1\".\"lat\")) *
-                                cos(radians(\"zips1\".\"long\"))*
-                                cos(radians(\"zips2\".\"lat\")) *
-                                cos(radians(\"zips2\".\"long\"))+
-                                cos(radians(\"zips1\".\"lat\")) *
-                                sin(radians(\"zips1\".\"long\"))*
-                                cos(radians(\"zips2\".\"lat\")) *
-                                sin(radians(\"zips2\".\"long\"))+
-                                sin(radians(\"zips1\".\"lat\")) *
-                                sin(radians(\"zips2\".\"lat\")))*
-                              3982 * 1.17
-                         END AS distance").
-        from('"zips" AS "zips1" CROSS JOIN "zips" AS "zips2"').
-        where('"zips1"."code"=?', zip)
+
+    Zip.select(<<-SQL)
+          zips_to.*, CASE zips_to.code
+          WHEN '#{zip}' THEN 0
+          ELSE acos(
+                 cos(radians(zips_from.lat)) *
+                 cos(radians(zips_from.long))*
+                 cos(radians(zips_to.lat))   *
+                 cos(radians(zips_to.long))  +
+                 cos(radians(zips_from.lat)) *
+                 sin(radians(zips_from.long))*
+                 cos(radians(zips_to.lat))   *
+                 sin(radians(zips_to.long))  +
+                 sin(radians(zips_from.lat)) *
+                 sin(radians(zips_to.lat))
+               ) * 3982 * 1.17
+          END AS distance
+        SQL
+        .from('zips AS zips_from CROSS JOIN zips AS zips_to')
+        .where('zips_from.code=?', zip)
   end
 
 
-  # CASE "zips2"."code"
-  # WHEN ? THEN 0
-  # ELSE acos(
-  #           cos(radians("zips1"."lat")) *
-  #           cos(radians("zips1"."long"))*
-  #           cos(radians("zips2"."lat")) *
-  #           cos(radians("zips2"."long"))+
-  #           cos(radians("zips1"."lat")) *
-  #           sin(radians("zips1"."long"))*
-  #           cos(radians("zips2"."lat")) *
-  #           sin(radians("zips2"."long"))+
-  #           sin(radians("zips1"."lat")) *
-  #           sin(radians("zips2"."lat")))*
-  #       3982 * 1.17
-  # END
-  # AS distance
+# acos(
+#   cos(radians(zips_from.lat)) *
+#   cos(radians(zips_from.long))*
+#   cos(radians(zips_to.lat))   *
+#   cos(radians(zips_to.long))  +
+#   cos(radians(zips_from.lat)) *
+#   sin(radians(zips_from.long))*
+#   cos(radians(zips_to.lat))   *
+#   sin(radians(zips_to.long))  +
+#   sin(radians(zips_from.lat)) *
+#   sin(radians(zips_to.lat))
+#  ) * 3982 * 1.17
+#
+#   a = sin²(Δlat/2) + cos(lat1)⋅cos(lat2)⋅sin²(Δlong/2)
+#   c = 2⋅atan2(√a, √(1−a))
+#   d = R⋅c
+#
+#   d = R*(2*atan2(√a, √(1−a)))
+#   d/R = (2*atan2(√a, √(1−a)))
+#   d/(2*R) = atan2(√a, √(1−a))
+#   √a =
 
 end

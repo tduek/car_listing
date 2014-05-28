@@ -89,18 +89,23 @@ class Listing < ActiveRecord::Base
            joins("INNER JOIN (#{Zip.near(dist, zip).to_sql}) AS \"near_zips\" ON \"near_zips\".\"code\"=\"listings\".\"zipcode\"")
   end
 
+  # def self.within_miles_from_zip(dist, zip)
+  #  Listing.select('listings.*')
+  #         .where("listings.zipcode IN (#{Zip.near(dist, zip).to_sql})")
+  # end
+
   def self.search(terms, page = nil)
     page = 1 if [nil, 0].include?(page)
-    p terms
+
     if terms[:zip] && terms[:zip].to_s.length == 5 && Zip.find_by_code(terms[:zip])
-      dist = terms[:dist] && terms[:dist] > 0 ? terms[:dist] : "3500"
+      dist = terms[:dist] && terms[:dist] > 0 ? terms[:dist] : 3500
       result = Listing.within_miles_from_zip(dist, terms[:zip])
     else
       result = Listing
     end
 
     results = result.where('listings.model_id IS NOT NULL')
-                    .includes(:pics, :main_pic, :make, :model, :zip)
+                    # .includes(:pics, :main_pic, :make, :model, :zip)
 
 
     results = results.page(page) unless terms.keys.empty?

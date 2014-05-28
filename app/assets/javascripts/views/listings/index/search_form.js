@@ -49,8 +49,13 @@ CarListing.Views.SearchForm = Backbone.View.extend({
     else {
       this.maybeToggleSortByDistance()
     }
-    var newsearchParams = $target.parents('form').serializeJSON();
-    CarListing.searchParams = newsearchParams;
+    var newSearchParams = $target.parents('form').serializeJSON();
+
+    if ($target.is('#search-zip') && newSearchParams.zip.length != 5) {
+      newSearchParams.zip = '';
+      return
+    }
+    CarListing.searchParams = newSearchParams;
     this.refreshListings();
   },
 
