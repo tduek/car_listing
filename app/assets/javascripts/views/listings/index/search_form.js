@@ -84,10 +84,12 @@ CarListing.Views.SearchForm = Backbone.View.extend({
         var clippyX = makeSelectPos.left - $(window).scrollLeft() + 30;
         var clippyY = makeSelectPos.top - $(window).scrollTop() - 30;
         CarListing.clippy.moveTo(clippyX, clippyY);
+        $('body').addClass('no-scroll');
         CarListing.clippy.show();
         CarListing.clippy.speak('Select make first');
         CarListing.clippy.play('GestureRight', 4000, function () {
           CarListing.clippy.hide();
+          $('body').removeClass('no-scroll');
         });
       }
       else {

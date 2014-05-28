@@ -28,6 +28,23 @@ window.CarListing = {
     clippy.load('Clippy', clippySuccess, function () {
       CarListing.clippy = false;
     });
+  },
+
+  windowPos: {left: $(window).scrollLeft(), top: $(window).scrollTop()},
+
+  updateWindowPos: function (newLeft, newTop) {
+    this.windowPos.left = newLeft;
+    this.windowPos.top = newTop;
+  },
+
+  deltaWindowPos: function () {
+    var newLeft = $(window).scrollLeft();
+    var newTop = $(window).scrollTop();
+    var dx = this.windowPos.left - newLeft;
+    var dy = this.windowPos.top - newTop;
+    var result = {dx: dx, dy: dy}
+    this.updateWindowPos(newLeft, newTop);
+    return result;
   }
 };
 
@@ -37,8 +54,20 @@ $(document).ready(function(){
 
 $(document).ready(function () {
   var requestingNextPage = false;
-
   $(window).scroll(function(event) {
+    // var $clippy = $('.clippy');
+    // var deltaWindowPos = CarListing.deltaWindowPos();
+    // var currentClippyX = $clippy.css('left');
+    // var currentClippyY = $clippy.css('top');
+    // if (currentClippyX && currentClippyY) {
+    //   var newClippyX = currentClippyX + deltaWindowPos.dx;
+    //   var newClippyY = currentClippyY + deltaWindowPos.dy;
+    //   $clippy.css('top', ''+newClippyY);
+    //   $clippy.css('left', ''+newClippyX);
+    // }
+    // console.log(parseInt(currentClippyX), parseInt(currentClippyY));
+    // $('.clippy, .clippy-balloon')
+
     var listings = CarListing.listings;
 
     var distanceFromBottom = function () {

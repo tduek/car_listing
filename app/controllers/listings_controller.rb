@@ -10,6 +10,8 @@ class ListingsController < ApplicationController
     :sort
   ]
 
+
+
   def index
     params[:search] ||= {}
     params[:page] ||= 1
@@ -24,14 +26,6 @@ class ListingsController < ApplicationController
 
     @makes = Subdivision.makes.includes(:active_models).order(:name)
     @years = Year.select('years.year').order('years.year').uniq.map(&:year)
-
-
-
-    @sort_options = [["oldest first", "post_date_asc"],
-                     ["newest first", "post_date_desc"],
-                     ["lowest price", "price_asc"],
-                     ["highest price", "price_desc"],
-                     ["distance", "distance"]]
 
     zip = params[:search][:zip]
     if zip && zip.length > 1 && !Zip.find_by_code(zip)
