@@ -1,3 +1,76 @@
 // Place all the styles related to the user_sessions controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+body > header > div.signin {
+  position: absolute;
+  top: 5px;
+  right: 0;
+  text-align: right;
+}
+
+div.signin > nav.signin-links {
+  vertical-align: top;
+}
+
+div.signin > nav.signin-links > a {
+  font-family: "Oswald";
+  font-weight: 100;
+  color: #333333;
+  font-size: 15px;
+}
+
+div.signin form.signin-form {
+  display: none;
+}
+
+form.signin-form {
+  margin: 0 auto;
+}
+
+form.signin-form input {
+  width: 100%;
+  margin: 0;
+  background: none;
+}
+
+form.signin-form a {
+  display: block;
+  float: left;
+  font-family: "Oswald";
+  font-weight: 100;
+  color: #333333;
+  font-size: 15px;
+}
+
+form.signin-form input[type="submit"] {
+  font-family: "Oswald";
+  font-weight: 100;
+  color: #333333;
+  font-size: 15px;
+  display: block;
+  float: right;
+  border: 0;
+  margin: 0;
+  padding: 0 0 10px 10px;
+  text-transform: uppercase;
+  background: none;
+  width: auto;
+}
+
+main#content section.signin {
+  width: 300px;
+  margin: 0 auto;
+}
+
+main#content section.signin h1 {
+  font-size: 30px;
+}
+
+main#content .signin-form {
+
+}
+
+#content .signin-form input, #content .signin-form a {
+  font-size: 20px;
+}
