@@ -130,7 +130,7 @@ class Listing < ActiveRecord::Base
     end
 
     results.order_values = []
-    if terms[:sort] == 'distance' && (terms[:zip] && terms[:zip].length != 5)
+    if terms[:sort] == 'distance' && terms[:zip].to_s.length != 5
       terms[:sort] = ''
     end
 
@@ -139,7 +139,6 @@ class Listing < ActiveRecord::Base
              'price_asc' => 'listings.price ASC',
              'price_desc' => 'listings.price DESC',
              'distance' => 'near_zips.distance ASC'}
-
 
     if sorts[terms[:sort]]
       results = results.order(sorts[terms[:sort]])
