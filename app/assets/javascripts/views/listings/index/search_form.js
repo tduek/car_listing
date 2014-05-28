@@ -30,14 +30,25 @@ CarListing.Views.SearchForm = Backbone.View.extend({
     this.selectChanged(this.$el.find('#search-make_id'));
     this.selectChanged(this.$el.find('#search-model_id'));
     this.updateModelSelect();
+    this.maybeToggleSortByDistance();
 
     return this;
+  },
+
+  maybeToggleSortByDistance: function () {
+    var distanceOption = this.$el.find('option[value="distance"]');
+    distanceOption.prop('disabled', !(this.$el.find('#search-zip').val().length === 5));
   },
 
   changeSearchParams: function (event) {
     event.preventDefault();
     var $target = $(event.currentTarget);
-    if ($target.prop('tagName') === 'SELECT') this.selectChanged($target);
+    if ($target.prop('tagName') === 'SELECT') {
+      this.selectChanged($target);
+    }
+    else {
+      this.maybeToggleSortByDistance()
+    }
     var newsearchParams = $target.parents('form').serializeJSON();
     CarListing.searchParams = newsearchParams;
     this.refreshListings();

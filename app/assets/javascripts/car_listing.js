@@ -15,9 +15,9 @@ window.CarListing = {
 
     this.years = bootstrappedData.years.sort().reverse();
 
-    if (!this.searchParams) {
-      this.searchParams = window.searchParams;
-    }
+    this.searchParams = this.searchParams || window.searchParams;
+    this.sortOptions = bootstrappedData.sortOptions;
+
 
     var indexView = new this.Views.IndexContainer()
     $('main#content').html(indexView.render().$el);

@@ -90,6 +90,9 @@
       <label for="search-sort_by">Sort by</label>
       <select name="sort" id="search-sort_by">
         <option value="">random</option>
+        <% CarListing.sortOptions.forEach( function (option) { %>
+        <option value="<%= option[1] %>"><%= option[0] %></option>
+        <% }); %>
       </select>
     </td>
   </tr>
@@ -100,79 +103,3 @@
   </tr>
 </table>
 
-<script>
-
-var disableNewerThanYearFrom = function () {
-  var yearFrom = parseInt($("#year_from").val());
-  var options = $("#year_to").children("option")
-  options.each(function (i) {
-    var option = $(options[i])
-    if (option.val() < yearFrom) {
-      option.prop("disabled", "true");
-    } else if (isNaN(yearFrom)) {
-      option.removeAttr("disabled");
-    }
-  });
-};
-
-var disableOlderThanYearTo = function () {
-  var yearTo = parseInt($("#year_to").val());
-  var options = $("#year_from").children("option")
-  options.each(function (i) {
-    var option = $(options[i])
-    if (option.val() > yearTo) {
-     option.prop("disabled", "true");
-    } else if (isNaN(yearTo)) {
-      option.removeAttr("disabled");
-    }
-  });
-};
-
-var updateSortByDistance = function () {
-  var distanceOption = $("select#sort_by").find("option[value='distance']")
-  if ($("#search_zip").val().length === 5) {
-    distanceOption.removeAttr("disabled");
-  } else {
-    distanceOption.prop("disabled", "true");
-  }
-};
-
-$(document).ready(function () {
-  disableNewerThanYearFrom();
-  disableOlderThanYearTo();
-  $("#year_from").on("change", disableNewerThanYearFrom)
-
-  $("#year_to").on("change", disableOlderThanYearTo)
-
-
-  var allModelsForSelect = $("#model_id").children("option");
-  var updateModelSelect = function() {
-    var currentMakeID = parseInt($("#make_id").val());
-    if (isNaN(currentMakeID)) {
-      $("#model_id").prop("disabled", "true");
-    } else {
-      $("#model_id").removeAttr("disabled");
-      var nextMakeID = $("#make_id").find("option[value="+currentMakeID+"]").next().val();
-      $("#model_id").empty();
-
-      if (currentMakeID) {
-        $("#model_id").prepend("<option value=''>Model ▾</option>")
-      }
-
-      allModelsForSelect.each(function (i) {
-        var modelOption = $(allModelsForSelect[i])
-        var modelID = parseInt(modelOption.val());
-        if ((!currentMakeID || modelID > currentMakeID) && (!nextMakeID || modelID < nextMakeID)) {
-          $("#model_id").append(modelOption)
-        }
-      });
-    }
-  };
-
-  updateModelSelect();
-  $("#make_id").on("change", updateModelSelect);
-
-  updateSortByDistance();
-  $("#search_zip").on("change", updateSortByDistance);
-});
-</script>

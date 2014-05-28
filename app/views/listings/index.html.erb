@@ -7,7 +7,8 @@
       <%=
             render('subdivisions/index.json.jbuilder').html_safe
        %>,
-    "years": <%= @years.to_json %>
+    "years": <%= @years.to_json %>,
+    "sortOptions": <%= Listing::SORT_OPTIONS.to_json.html_safe %>
   }
 </script>
 <% end %>

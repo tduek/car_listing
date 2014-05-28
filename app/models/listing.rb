@@ -25,6 +25,12 @@ class Listing < ActiveRecord::Base
   validates :title, length: 15..100
   validates :description, length: {minimum: 150}
 
+  SORT_OPTIONS = [["oldest first", "post_date_asc"],
+                  ["newest first", "post_date_desc"],
+                  ["lowest price", "price_asc"],
+                  ["highest price", "price_desc"],
+                  ["distance", "distance"]]
+
   def self.cached_count(refresh = false)
     if !refresh && @cached_count && @cached_count_updated_at > 2.hours.ago
       return @cached_count

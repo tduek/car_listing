@@ -10,13 +10,13 @@ class ListingsController < ApplicationController
     :sort
   ]
 
-
+  STRING_SEARCH_PARAMS = [:sort]
 
   def index
     params[:search] ||= {}
     params[:page] ||= 1
     @search_params = search_params
-    params[:search].each { |k, v| @search_params[k] = v.to_i }
+    params[:search].each { |k, v| @search_params[k] = v.to_i unless STRING_SEARCH_PARAMS.include?(k.to_sym) }
     @listings = Listing.search(@search_params, params[:page])
 
     if request.xhr?
