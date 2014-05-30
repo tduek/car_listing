@@ -165,7 +165,7 @@ class Listing < ActiveRecord::Base
     case read_attribute(:transmission)
     when 1; 'Automatic'
     when 2; 'Manual'
-    else; 'N/A'
+    else; nil
     end
   end
 
@@ -199,14 +199,14 @@ class Listing < ActiveRecord::Base
     self.post_date.getutc.iso8601
   end
 
-  # def vin
-  #   vin = read_attribute(:vin)
-  #   if vin && vin.length > 0
-  #     vin
-  #   else
-  #     'N/A'
-  #   end
-  # end
+  def vin
+    vin = read_attribute(:vin)
+    if vin && vin.length > 0
+      vin
+    else
+      nil
+    end
+  end
 
   def ymm
     [self.year, self.make && self.make.name, self.model && self.model.name].compact.join(" ")

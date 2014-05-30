@@ -1,6 +1,6 @@
-<h1><%= @listing.name %></h1>
+<h1><%= @listing.ymm %></h1>
 
-<h3><%= @listing.ymm %></h3>
+<h3><%= @listing.title %></h3>
 
 <section class="top-info clear-fix">
   <section class="pics">
@@ -42,11 +42,11 @@
         </li>
         <li>
           <label><strong>Transmission:</strong></label>
-          <span><%= @listing.transmission %></span>
+          <span><%= @listing.transmission || 'N/A' %></span>
         </li>
         <li>
           <label><strong>VIN:</strong></label>
-          <span><%= @listing.vin %></span>
+          <span><%= @listing.vin || 'N/A' %></span>
         </li>
         <li>
           <label><strong>Seller:</strong></label>
