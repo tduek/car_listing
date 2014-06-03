@@ -25,6 +25,7 @@ gem 'figaro'
 
 gem 'backbone-on-rails'
 
+gem 'rest-client'
 
 group :development do
   gem 'better_errors'

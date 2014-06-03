@@ -49,12 +49,15 @@ window.CarListing = {
 };
 
 $(document).ready(function(){
-  CarListing.initialize();
+  if ($('#bootstrapped-listings').html()) {
+    CarListing.initialize();
+  }
 });
 
 $(document).ready(function () {
   var requestingNextPage = false;
   $(window).scroll(function(event) {
+    return
     // var $clippy = $('.clippy');
     // var deltaWindowPos = CarListing.deltaWindowPos();
     // var currentClippyX = $clippy.css('left');

@@ -222,9 +222,8 @@ section.info > article > ul {
 }
 
 section.info > article > ul > li label {
-  display: inline-block;
-  width: 80%;
-//  margin: 0 15px 0 0;
+  display: block;
+  width: 100%;
   text-align: left;
   font-weight: 900;
   float: left;
@@ -239,7 +238,7 @@ section.info > article > ul > li span {
   float: left;
   clear: both;
   margin-left: 50px;
-  width: 200px;
+  width: 100%;
 }
 
 section.description {
@@ -308,6 +307,80 @@ div.lightbox ul > li {
 div.viewport > ul > li > img {
   width: 600px;
   height: auto;
+}
+
+.info #recaptcha_widget {
+  display: block !important;
+}
+
+.info form.phone {
+  display: none;
+  background-color: white;
+  padding: 5px;
+  border: 1px solid #cccccc;
+  width: 100%;
+}
+
+.info form.phone.show {
+  display: block !important;
+  clear: both;
+}
+
+.info .recaptcha-widget-main {
+  float: left;
+  width: 248px;
+}
+
+.info #recaptcha_image {
+  width: 240px !important;
+  height: 53px !important;
+  display: block !important;
+  border: 1px solid #eeeeee;
+  padding: 5px 3px;
+}
+
+#recaptcha_image span {
+  margin-left: 0;
+}
+
+#recaptcha_widget br {
+  display: none;
+}
+
+.info #recaptcha_widget label {
+  font-size: 15px;
+  width: 100%;
+}
+
+.info #recaptcha_image img {
+  width: 100%;
+  height: 100%;
+}
+
+.info #recaptcha_widget input[type="submit"] {
+  font-size: 14px;
+  margin: 0;
+  border-bottom: 0;
+}
+
+.info #recaptcha_response_field {
+  font-size: 14px;
+}
+
+.info .recaptcha_only_if_incorrect_sol {
+//  display: none !important;
+  color: red;
+  font-weight: 900;
+}
+
+.info #recaptcha_widget nav {
+  width: 22px;
+  float: left;
+  text-align: center;
+}
+
+.info #recaptcha_widget nav i {
+  margin: 0px;
 }
 
 

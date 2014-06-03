@@ -4,6 +4,19 @@ class ApplicationController < ActionController::Base
   include UserSessionsHelper
   include ActiveSupport::Inflector
 
+  def valid_captcha?
+    return false unless params[:recaptcha_challenge_field] && params[:recaptcha_response_field]
+
+    url = 'http://www.google.com/recaptcha/api/verify'
+    # Returns string => "true\nsuccess" or "false\nsol-incorrect"
+    RestClient.post(url, {
+      privatekey: ENV['RECAPTCHA_PRIVATE_KEY'],
+      remoteip: request.remote_ip,
+      challenge: params[:recaptcha_challenge_field],
+      response: params[:recaptcha_response_field]
+    }).starts_with?('true')
+  end
+
   def set_singular_resource
     return @resource if @resource
 
