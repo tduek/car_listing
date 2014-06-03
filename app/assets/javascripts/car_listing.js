@@ -57,21 +57,8 @@ $(document).ready(function(){
 $(document).ready(function () {
   var requestingNextPage = false;
   $(window).scroll(function(event) {
-    return
-    // var $clippy = $('.clippy');
-    // var deltaWindowPos = CarListing.deltaWindowPos();
-    // var currentClippyX = $clippy.css('left');
-    // var currentClippyY = $clippy.css('top');
-    // if (currentClippyX && currentClippyY) {
-    //   var newClippyX = currentClippyX + deltaWindowPos.dx;
-    //   var newClippyY = currentClippyY + deltaWindowPos.dy;
-    //   $clippy.css('top', ''+newClippyY);
-    //   $clippy.css('left', ''+newClippyX);
-    // }
-    // console.log(parseInt(currentClippyX), parseInt(currentClippyY));
-    // $('.clippy, .clippy-balloon')
-
     var listings = CarListing.listings;
+    if (!listings) return
 
     var distanceFromBottom = function () {
       var doc = $(document);
