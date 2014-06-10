@@ -16,8 +16,6 @@ window.CarListing = {
     this.years = bootstrappedData.years.sort().reverse();
     this.sortOptions = bootstrappedData.sortOptions;
 
-    this.currentUser = bootstrappedData.current_user;
-
     var indexView = new this.Views.IndexContainer()
     $('main#content').html(indexView.render().$el);
   },
@@ -29,7 +27,8 @@ window.CarListing = {
   },
 
   userSignedIn: function () {
-    return !!this.currentUser;
+    console.log('called userSignedIn')
+    return !!this.currentUserID;
   }
 
 };

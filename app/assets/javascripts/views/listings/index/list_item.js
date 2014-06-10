@@ -23,9 +23,15 @@ CarListing.Views.ListItem = Backbone.View.extend({
   },
 
   toggleFavorite: function (event) {
-    var $btnContainer = $(event.currentTarget).parents('.favoriting');
-    $btnContainer.addClass('busy');
-    this.model.toggleFavorite($btnContainer);
+    if (CarListing.userSignedIn()) {
+      var $btnContainer = $(event.currentTarget).parents('.favoriting');
+      $btnContainer.addClass('busy');
+      this.model.toggleFavorite($btnContainer);
+    }
+    else {
+      window.location.href = "/listings/new";
+    }
+
   },
 
 

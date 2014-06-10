@@ -15,4 +15,5 @@
 
 <script>
   CarListing.searchParams = <%= @search_params.to_json.html_safe %>;
+  CarListing.currentUserID = <%= current_user.try(:id) || 'null' %>;
 </script>
