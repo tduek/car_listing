@@ -13,8 +13,11 @@ class Listing < ActiveRecord::Base
   has_one :main_pic, class_name: "Pic", conditions: '"pics"."ord" = 1'
   has_many :pics, dependent: :destroy
 
+  has_many :favorites
+  has_many :users_who_have_favorited, through: :favorites, source: :user
+
   before_validation :fix_year
-  after_validation :remove_phone_if_same_as_user
+  after_validation :remove_phone_if_same_as_seller
 
   validate :ensure_phone_format, if: :phone
   validates :year, :make_id, :model_id, :miles, :transmission, :phone, :price, :title, :description, :zipcode, presence: true
@@ -54,7 +57,11 @@ class Listing < ActiveRecord::Base
   end
 
   def by_owner?
-    (self.user && !self.user.is_dealer?) || self.is_owner
+    if seller.present?
+      !seller.is_dealer?
+    else
+      !!self.is_owner
+    end
   end
 
   def ensure_phone_format
@@ -76,8 +83,8 @@ class Listing < ActiveRecord::Base
     true
   end
 
-  def remove_phone_if_same_as_user
-    if self.phone == self.user.phone
+  def remove_phone_if_same_as_seller
+    if self.phone == self.seller.phone
       self.phone = nil
     end
 
@@ -197,6 +204,10 @@ class Listing < ActiveRecord::Base
 
   def post_date_iso8601
     self.post_date.getutc.iso8601
+  end
+
+  def is_favorite?
+
   end
 
   def vin

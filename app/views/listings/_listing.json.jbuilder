@@ -1,16 +1,11 @@
 json.id listing.id
 
-json.ymm listing.ymm
-json.miles listing.miles
-json.vin listing.vin
-json.transmission listing.transmission
-
-json.title listing.title
-json.description listing.description
-json.location listing.location
+json.(listing, :ymm, :miles, :vin, :transmission,
+               :title, :description, :location, :price)
 
 json.post_date listing.post_date_iso8601
-json.price listing.price
+
+json.is_favorite @favorite_listing_ids.include?(listing.id)
 
 if listing.main_pic
   json.main_pic_url listing.main_pic.file.url

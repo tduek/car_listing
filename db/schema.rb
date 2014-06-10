@@ -11,7 +11,18 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140517224017) do
+ActiveRecord::Schema.define(:version => 20140607005533) do
+
+  create_table "favorites", :force => true do |t|
+    t.integer  "listing_id"
+    t.integer  "user_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "favorites", ["listing_id", "user_id"], :name => "index_favorites_on_listing_id_and_user_id"
+  add_index "favorites", ["listing_id"], :name => "index_favorites_on_listing_id"
+  add_index "favorites", ["user_id"], :name => "index_favorites_on_user_id"
 
   create_table "listings", :force => true do |t|
     t.integer  "user_id"

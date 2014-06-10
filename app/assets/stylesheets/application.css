@@ -360,8 +360,7 @@ nav.page-nav > form > input[type="submit"]:hover {
 article.search-result-listing {
   display: block;
   clear: both;
-  padding: 15px;
-  width: 485px;
+  padding: 15px 0;
   border-top: 1px solid #333333;
 }
 
@@ -392,49 +391,99 @@ article.search-result-listing > div.thumb-container > a.thumb > img {
   height: 50px;
 }
 
-article.search-result-listing > div.listing-info{
+article.search-result-listing > .listing-info{
   height: 56px;
-  width: 415px;
+  width: 380px;
   float: left;
   padding: 0 0 0 10px;
 }
 
-div.listing-info > div.car-and-seller-container {
-  width: 350px;
-  height: 39px;
-  float: left;
-  clear: none;
-}
 
-div.listing-info > div.car-and-seller-container > a {
+.listing-info a.listing-show {
   display: block;
   float: left;
   clear: none;
   color: black;
 }
 
-div.listing-info > div.car-and-seller-container > div.seller {
-  font-size: 12px;
-  margin-top: 3px;
-  clear: none;
-  float: right;
-  margin: 3px 20px 0 20px;
+.listing-info h3 {
+  font-size: 18px;
+  margin-top: -5px;
 }
 
-article.search-result-listing > div.listing-info > div.location {
-  font-size: 12px;
-  float: left;
-  clear: both;
-
-}
-
-article.search-result-listing > div.listing-info > div.post-date {
-  font-size: 12px;
-  float: right;
-}
-
-article.search-result-listing > div.listing-info > div.price {
+article.search-result-listing > .listing-info .price {
   color: rgb(200,7,0);
-  font-size: 16px;
   float: right;
 }
+
+.listing-info h4 {
+  font-size: 14px;
+  margin-top: 1px;
+}
+
+.listing-info h5 {
+  font-size: 12px;
+  margin-top: 2px;
+}
+
+.listing-info .location {
+  float: left;
+}
+
+.listing-info .post-date {
+  float: right;
+}
+
+article.search-result-listing > .favoriting {
+  float: left;
+  width: 32px;
+  margin: 10px 10px 0 0;
+}
+
+.favoriting .buttons {
+  width: 32px;
+  height: 32px;
+  position: relative;
+}
+
+.favoriting .buttons span {
+  width: 32px;
+  height: 32px;
+}
+
+.favoriting .buttons i {
+  display: block;
+  line-height: 100%;
+}
+
+.favoriting .buttons:hover {
+  cursor: pointer;
+}
+
+.favoriting .unfavorite .fa-star {
+  color: gold;
+}
+
+.favoriting .favorite, .favoriting.is-favorite .unfavorite {
+  display: block;
+}
+
+.favoriting.is-favorite .favorite, .favoriting .unfavorite {
+  display: none;
+}
+
+.favoriting.busy .spinner {
+  display: block;
+}
+
+.favoriting.busy .buttons, .favoriting .spinner {
+  display: none;
+}
+
+
+
+
+
+
+
+

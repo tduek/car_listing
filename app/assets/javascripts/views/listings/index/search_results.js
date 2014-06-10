@@ -7,8 +7,6 @@ CarListing.Views.SearchResults = Backbone.View.extend({
 
   template: JST['listings/search_results'],
 
-  listItemTemplate: JST['listings/list_item'],
-
   render: function () {
     var view = this;
     view.$el.html(view.template({}));
@@ -22,9 +20,8 @@ CarListing.Views.SearchResults = Backbone.View.extend({
   },
 
   addListing: function (listing) {
-    var renderedContent = this.listItemTemplate({listing: listing});
-    var $renderedContent = $(renderedContent);
-    $renderedContent.find('time.timeago').timeago();
+    var listItemView = new CarListing.Views.ListItem({model: listing});
+    var $renderedContent = listItemView.render().$el;
 
     this.$listingsContainer.append($renderedContent);
   }

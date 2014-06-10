@@ -13,7 +13,9 @@ class User < ActiveRecord::Base
 
   has_many :sessions, class_name: "UserSession"
 
-  has_many :listings
+  has_many :listings, inverse_of: :seller
+  has_many :favorites
+  has_many :favorited_listings, through: :favorites, source: :listing
 
   validates :fname, :lname, :email, :phone, :address_line_1, :city, :zip, presence: true
 
@@ -36,6 +38,9 @@ class User < ActiveRecord::Base
   # Activation
   before_create :ensure_activation_token
 
+  def favorited_listing?(listing)
+    self.favorites.exists?(listing_id: listing.id)
+  end
 
   def password_required?
     !persisted? || password_digest_changed? || password_required

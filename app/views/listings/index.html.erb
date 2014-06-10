@@ -14,11 +14,5 @@
 <% end %>
 
 <script>
-if (window.CarListing) {
-  var context = window.CarListing;
-}
-else {
-  var context = window;
-}
-context.searchParams = <%= @search_params.to_json.html_safe %>;
+  CarListing.searchParams = <%= @search_params.to_json.html_safe %>;
 </script>

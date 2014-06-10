@@ -14,10 +14,9 @@ window.CarListing = {
     this.subdivisions = new this.Collections.Subdivisions(subdivisionsJSON, {parse: true});
 
     this.years = bootstrappedData.years.sort().reverse();
-
-    this.searchParams = this.searchParams || window.searchParams;
     this.sortOptions = bootstrappedData.sortOptions;
 
+    this.currentUser = bootstrappedData.current_user;
 
     var indexView = new this.Views.IndexContainer()
     $('main#content').html(indexView.render().$el);
@@ -25,27 +24,14 @@ window.CarListing = {
 
   loadClippy: function () {
     var clippySuccess = function (agent) { CarListing.clippy = agent; };
-    clippy.load('Clippy', clippySuccess, function () {
-      CarListing.clippy = false;
-    });
+    var clippyFail = function () { CarListing.clippy = false; };
+    clippy.load('Clippy', clippySuccess, clippyFail);
   },
 
-  windowPos: {left: $(window).scrollLeft(), top: $(window).scrollTop()},
-
-  updateWindowPos: function (newLeft, newTop) {
-    this.windowPos.left = newLeft;
-    this.windowPos.top = newTop;
-  },
-
-  deltaWindowPos: function () {
-    var newLeft = $(window).scrollLeft();
-    var newTop = $(window).scrollTop();
-    var dx = this.windowPos.left - newLeft;
-    var dy = this.windowPos.top - newTop;
-    var result = {dx: dx, dy: dy}
-    this.updateWindowPos(newLeft, newTop);
-    return result;
+  userSignedIn: function () {
+    return !!this.currentUser;
   }
+
 };
 
 $(document).ready(function(){
@@ -54,20 +40,16 @@ $(document).ready(function(){
   }
 });
 
+var distanceFromBottom = function () {
+  var doc = $(document);
+  return doc.height() - (window.innerHeight + doc.scrollTop())
+};
+
 $(document).ready(function () {
+  var listings = CarListing.listings;
   var requestingNextPage = false;
   $(window).scroll(function(event) {
-    var listings = CarListing.listings;
     if (!listings) return
-
-    var distanceFromBottom = function () {
-      var doc = $(document);
-      return doc.height() - (window.innerHeight + doc.scrollTop())
-    };
-
-    if (distanceFromBottom() < 500) {
-      console.log('currentPage: '+listings.currentPage+', totalPages: '+listings.totalPages+', requestingPage: '+requestingNextPage);
-    }
 
     if (distanceFromBottom() < 500 && !requestingNextPage) {
       requestingNextPage = true;

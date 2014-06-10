@@ -4,6 +4,9 @@ CarListing::Application.routes.draw do
     resource :phone, only: :show
   end
 
+  post '/listings/:listing_id/favorite', to: 'favorites#create', as: :favorite_listing
+  delete '/listings/:listing_id/unfavorite', to: 'favorites#destroy', as: :unfavorite_listing
+
   resources :pics, only: :create
 
   resources :users, only: [:show, :new, :create, :edit, :update, :destroy] do

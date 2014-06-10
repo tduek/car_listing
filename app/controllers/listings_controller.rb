@@ -22,6 +22,12 @@ class ListingsController < ApplicationController
     @listings = Listing.search(@search_params, params[:page])
                        .includes(:make, :model, :pics, :main_pic, :zip)
 
+    if user_signed_in?
+      @favorite_listing_ids = current_user.favorited_listing_ids
+    else
+      @favorite_listing_ids = []
+    end
+
     if request.xhr?
       #sleep 1 if Rails.env.development?
       render(partial: 'listings/index.json') && return

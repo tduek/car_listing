@@ -21,7 +21,7 @@ class UserSessionsController < ApplicationController
   def destroy
     user = current_user
     signout_current_user!
-    redirect_to root_url, notice: "Signed out successfuly. Bye #{user.fname}."
+    redirect_to root_url, notice: "Signed out successfuly. Take care!"
   end
 
 end

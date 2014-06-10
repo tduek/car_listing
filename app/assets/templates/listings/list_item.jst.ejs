@@ -1,25 +1,45 @@
-<article class="search-result-listing clear-fix">
-  <div class="thumb-container">
-    <a class="thumb" href="/listings/<%= listing.id %>">
-      <% if (listing.get('main_pic_url')) { %>
-        <img src="<%= listing.get('main_pic_url') %>">
-      <% } else { %>
-        NO PHOTO YET
-      <% } %>
-    </a>
+
+<div class="favoriting <%= listing.get('is_favorite') ? 'is-favorite' : '' %>">
+  <div class="buttons">
+    <span class="favorite fa-stack fa-2x" title="Add to favorites">
+      <i class="fa fa-star-o fa-stack-1x"></i>
+      <i class="fa fa-star-o fa-stack-1x"></i>
+    </span>
+    <span class="unfavorite fa-stack fa-2x" title="Remove from favorites">
+      <i class="fa fa-star fa-stack-1x"></i>
+      <i class="fa fa-star-o fa-stack-1x"></i>
+    </span>
   </div>
+  <img class="spinner" src="/assets/ajax-loader.gif">
+</div>
 
-  <div class="listing-info">
-    <div class="car-and-seller-container clear-fix">
-      <a href="/listings/<%= listing.id %>"><%= listing.get('ymm') %></a>
-      <div class="seller">
-        by <strong>
-          <%= listing.get('seller').by_owner ? "OWNER" : "DEALER" %>
-        </strong>
-      </div>
-    </div>
+<div class="thumb-container">
+  <a class="thumb" href="/listings/<%= listing.id %>">
+    <% if (listing.get('main_pic_url')) { %>
+      <img src="<%= listing.get('main_pic_url') %>">
+    <% } else { %>
+      NO PHOTO YET
+    <% } %>
+  </a>
+</div>
+
+<hgroup class="listing-info">
+  <h3 class="line clear-fix">
+    <a href="/listings/<%= listing.id %>" class="listing-show">
+      <%= listing.get('ymm') %>
+    </a>
     <div class="price"><%= listing.price() %></div>
+  </h3>
 
+  <h4 class="line">
+    by
+    <strong>
+      <%= listing.get('seller').by_owner ? "OWNER" : "DEALER" %>:
+    </strong>
+    <span>"<%= listing.escape('title') %>"</span>
+  </h4>
+
+  <h5 class="line">
     <div class="location">
       <%= listing.get('location') %>
     </div>
@@ -28,5 +48,5 @@
       Posted
       <time class="timeago" datetime="<%= listing.get('post_date') %>"></time>
     </div>
-  </div>
-</article>
+  </h4>
+</hgroup>
