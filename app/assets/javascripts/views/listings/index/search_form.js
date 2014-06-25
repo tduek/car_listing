@@ -1,8 +1,8 @@
 CarListing.Views.SearchForm = Backbone.View.extend({
 
-  template: JST['listings/search_form'],
+  template: JST['listings/index/search_form'],
 
-  initialize: function () {
+  initialize: function (options) {
   },
 
   className: 'search',
@@ -21,14 +21,19 @@ CarListing.Views.SearchForm = Backbone.View.extend({
 
   render: function () {
     this.$el.attr('method', 'get');
-    var $renderedContent = $(this.template({searchParams: CarListing.searchParams}));
-    this.$el.html($renderedContent);
+    var renderedContent = this.template({
+      searchParams: CarListing.indexListings.searchParams
+    });
+    this.$el.html(renderedContent);
     return this;
   },
 
   setDefaults: function () {
+    this.selectChanged(this.$el.find('#search-year_from'));
+    this.selectChanged(this.$el.find('#search-year_to'));
     this.selectChanged(this.$el.find('#search-make_id'));
     this.selectChanged(this.$el.find('#search-model_id'));
+    this.selectChanged(this.$el.find('#search-sort_by'));
     this.updateModelSelect();
     this.maybeToggleSortByDistance();
 
@@ -55,13 +60,13 @@ CarListing.Views.SearchForm = Backbone.View.extend({
       newSearchParams.zip = '';
       return
     }
-    CarListing.searchParams = newSearchParams;
+    CarListing.indexListings.searchParams = newSearchParams;
     this.refreshListings();
   },
 
   refreshListings: function () {
-    CarListing.listings.fetch({
-      data: {search: CarListing.searchParams},
+    CarListing.indexListings.fetch({
+      data: {search: CarListing.indexListings.searchParams},
       reset: true
     });
   },

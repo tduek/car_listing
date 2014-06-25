@@ -1,11 +1,10 @@
-
 <div class="favoriting <%= listing.get('is_favorite') ? 'is-favorite' : '' %>">
   <div class="buttons">
-    <span class="favorite fa-stack fa-2x" title="Add to favorites">
+    <span class="favorite fa-stack fa-lg" title="Add to favorites">
       <i class="fa fa-star-o fa-stack-1x"></i>
       <i class="fa fa-star-o fa-stack-1x"></i>
     </span>
-    <span class="unfavorite fa-stack fa-2x" title="Remove from favorites">
+    <span class="unfavorite fa-stack fa-lg" title="Remove from favorites">
       <i class="fa fa-star fa-stack-1x"></i>
       <i class="fa fa-star-o fa-stack-1x"></i>
     </span>
@@ -16,7 +15,7 @@
 <div class="thumb-container">
   <a class="thumb" href="/listings/<%= listing.id %>">
     <% if (listing.get('main_pic_url')) { %>
-      <img src="<%= listing.get('main_pic_url') %>">
+      <img src="<%= listing.mainPicURL() %>">
     <% } else { %>
       NO PHOTO YET
     <% } %>
@@ -25,7 +24,7 @@
 
 <hgroup class="listing-info">
   <h3 class="line clear-fix">
-    <a href="/listings/<%= listing.id %>" class="listing-show">
+    <a href="#/listings/<%= listing.id %>" class="listing-show">
       <%= listing.get('ymm') %>
     </a>
     <div class="price"><%= listing.price() %></div>
@@ -34,9 +33,9 @@
   <h4 class="line">
     by
     <strong>
-      <%= listing.get('seller').by_owner ? "OWNER" : "DEALER" %>:
+      <%= listing.seller().get('by_owner') ? "OWNER" : "DEALER" %>:
     </strong>
-    <span>"<%= listing.escape('title') %>"</span>
+    <span>"<%= listing.truncatedTitle(35) %>"</span>
   </h4>
 
   <h5 class="line">

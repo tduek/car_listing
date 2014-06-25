@@ -17,6 +17,8 @@ class User < ActiveRecord::Base
   has_many :favorites
   has_many :favorited_listings, through: :favorites, source: :listing
 
+  belongs_to :zip, primary_key: :code, foreign_key: :zipcode
+
   validates :fname, :lname, :email, :phone, :address_line_1, :city, :zip, presence: true
 
   before_validation { [self.fname, self.lname].each { |n| n.capitalize! if n } }
@@ -93,5 +95,14 @@ class User < ActiveRecord::Base
     self.password_required!
     password = SecureRandom.base64
     self.update_attributes(password: password, password_confirmation: password)
+  end
+
+  def location
+    location = "#{ self.zip.city }, #{ self.zip.st }"
+    if self.respond_to?(:distance)
+      location += " (#{ self.distance.to_f.round } #{ 'mile'.pluralize(self.distance.to_f.round) } away)"
+    end
+
+    location
   end
 end

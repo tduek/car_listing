@@ -1,14 +1,22 @@
 window.CarListing = {
   Models: {},
   Collections: {},
+  Subsets: {},
   Views: {},
   Routers: {},
-  initialize: function() {
+  initialize: function(options) {
     this.loadClippy();
+    this.currentUserID = options.currentUserID;
+    this.users = new this.Collections.Users();
+
     var bootstrappedData = JSON.parse($('#bootstrapped-listings').html());
 
-    var listingsJSON = bootstrappedData.listings;
-    this.listings = new this.Collections.Listings(listingsJSON, {parse: true});
+    var listingsData = _.defaults(bootstrappedData.listingsData, options);
+    this.allListings = new this.Collections.Listings(listingsData.listings, { parse: true });
+    this.indexListings = new this.Subsets.ListingsIndex(listingsData, {
+      parse: true,
+      parentCollection: this.allListings
+    });
 
     var subdivisionsJSON = bootstrappedData.subdivisions;
     this.subdivisions = new this.Collections.Subdivisions(subdivisionsJSON, {parse: true});
@@ -16,8 +24,10 @@ window.CarListing = {
     this.years = bootstrappedData.years.sort().reverse();
     this.sortOptions = bootstrappedData.sortOptions;
 
-    var indexView = new this.Views.IndexContainer()
-    $('main#content').html(indexView.render().$el);
+    this.RECAPTCHA_PUBLIC_KEY = bootstrappedData.RECAPTCHA_PUBLIC_KEY;
+
+    var router = new this.Routers.Listings();
+    Backbone.history.start();
   },
 
   loadClippy: function () {
@@ -29,55 +39,25 @@ window.CarListing = {
   userSignedIn: function () {
     console.log('called userSignedIn')
     return !!this.currentUserID;
-  }
+  },
 
-};
-
-$(document).ready(function(){
-  if ($('#bootstrapped-listings').html()) {
-    CarListing.initialize();
-  }
-});
-
-var distanceFromBottom = function () {
-  var doc = $(document);
-  return doc.height() - (window.innerHeight + doc.scrollTop())
-};
-
-$(document).ready(function () {
-  var listings = CarListing.listings;
-  var requestingNextPage = false;
-  $(window).scroll(function(event) {
-    if (!listings) return
-
-    if (distanceFromBottom() < 500 && !requestingNextPage) {
-      requestingNextPage = true;
-
-      if (listings.currentPage < listings.totalPages) {
-        listings.fetch({
-          data: {
-            search: CarListing.searchParams,
-            page:   (listings.currentPage + 1)
-          },
-          beforeSend: function () {
-            $("#end-of-page").show();
-          },
-          success: function () {
-            $("#end-of-page").hide();
-          },
-          error: function (data) {
-            console.log('hit listings fetch error', data);
-          },
-          complete: function () {
-            requestingNextPage = false;
-          }
-        });
-
-      }
-      else {
-        $("#end-of-list").show();
-      }
+  currentUser: function () {
+    if (this.currentUserID) {
+      return this.users.getOrFetch(this.currentUserID);
+    } else {
+      return null;
     }
-  })
+  },
 
-});
+  distanceFromBottom: function () {
+    var doc = $(document);
+    return doc.height() - (window.innerHeight + doc.scrollTop())
+  },
+
+  _swapView: function (view) {
+    this._currentView && this._currentView.remove();
+    this._currentView = view;
+    $('main#content').html(view.render().$el);
+  }
+
+};

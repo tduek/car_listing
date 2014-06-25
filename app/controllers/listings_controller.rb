@@ -45,6 +45,10 @@ class ListingsController < ApplicationController
   def show
     @listing = Listing.includes(:make, :model, :pics, :main_pic).find(params[:id])
     @title = "#{@listing.ymm} | "
+
+    if request.xhr?
+      render partial: 'listings/listing.json', locals: {listing: @listing}
+    end
   end
 
   def new

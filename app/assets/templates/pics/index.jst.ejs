@@ -1,0 +1,22 @@
+<article>
+  <h1><a href="#/listings/<%= listing.id %>"><%= listing.get('ymm') %></a></h1>
+  <span class="exit-lightbox">&times;</span>
+  <% var featuredPic = listing.pics().get(selectedPicID); %>
+  <% if (featuredPic) { %>
+  <img class="featured" src="<%= featuredPic.get('url') %>">
+  <% } else { %>
+  <img class="spinner" src="/assets/ajax-loader.gif">
+  <% } %>
+
+  <nav>
+    <div class="thumbs clear-fix">
+      <% listing.pics().each(function (pic) { %>
+      <div data-id="<%= pic.id %>"
+        class="thumb-container">
+        <img src="<%= pic.get('url') %>"
+             class="thumb">
+      </div>
+      <% }); %>
+    </div>
+  </nav>
+</article>

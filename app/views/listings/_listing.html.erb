@@ -1,29 +1,55 @@
-<article class="search-result-listing clear-fix">
+<article class="listing clear-fix">
+  <div class="favoriting <%= 'is-favorite' if is_favorite?(listing) %>">
+    <div class="buttons">
+      <span class="favorite fa-stack fa-lg" title="Add to favorites">
+        <i class="fa fa-star-o fa-stack-1x"></i>
+        <i class="fa fa-star-o fa-stack-1x"></i>
+      </span>
+      <span class="unfavorite fa-stack fa-lg" title="Remove from favorites">
+        <i class="fa fa-star fa-stack-1x"></i>
+        <i class="fa fa-star-o fa-stack-1x"></i>
+      </span>
+    </div>
+    <img class="spinner" src="/assets/ajax-loader.gif">
+  </div>
+
   <div class="thumb-container">
-    <%= link_to((listing.main_pic ?
-                image_tag(listing.main_pic.file.url) : "NO PHOTO YET"),
-                listing, class: "thumb")
-    %>
-  </div>
-
-  <div class="listing-info">
-    <div class="car-and-seller-container clear-fix">
-      <%= link_to listing.ymm, listing %>
-      <div class="seller">
-        by <strong><%= listing.is_owner ? "OWNER" : "DEALER" %></strong>
-      </div>
-    </div>
-    <div class="price"><%= number_to_currency(listing.price, precision: 0) %></div>
-
-    <div class="location">
-      <%= "#{listing.zip.city}, #{listing.zip.st}" %>
-      <% if listing.respond_to?(:distance) %>
-        <%= "(#{pluralize(listing.distance.to_f.round, 'mile')} away)" %>
+    <a class="thumb" href="<%= root_url %>#/listings/<%= listing.id %>">
+      <% if !listing.pics.empty? %>
+        <img src="<%= listing.pics.first.file.url %>">
+      <% else %>
+        NO PHOTO YET
       <% end %>
-    </div>
-
-    <div class="post-date">
-        <%= "Posted #{time_ago_in_words(listing.post_date)} ago" %>
-    </div>
+    </a>
   </div>
+
+  <hgroup class="listing-info">
+    <h3 class="line clear-fix">
+      <a href="<%= root_url %>#/listings/<%= listing.id %>" class="listing-show">
+        <%= listing.ymm %>
+      </a>
+      <div class="price"><%= number_to_currency(listing.price, precision: 0) %>
+      </div>
+    </h3>
+
+    <h4 class="line">
+      by
+      <strong>
+        <%= listing.by_owner? ? "OWNER" : "DEALER" %>:
+      </strong>
+      <span>"<%= listing.title.truncate(35) %>"</span>
+    </h4>
+
+    <h5 class="line">
+      <div class="location">
+        <%= listing.location %>
+      </div>
+
+      <div class="post-date">
+        Posted
+        <time class="timeago" datetime="<%= listing.post_date_iso8601 %>">
+        </time>
+      </div>
+    </h4>
+  </hgroup>
 </article>

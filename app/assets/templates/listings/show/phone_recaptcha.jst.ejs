@@ -1,0 +1,49 @@
+
+<div id="recaptcha_widget" class="clear-fix">
+   <div class="recaptcha-widget-main">
+     <div id="recaptcha_image"></div>
+
+     <div class="recaptcha_only_if_incorrect_sol">
+       Incorrect please try again
+     </div>
+
+     <label class="recaptcha_only_if_image" for="recaptcha_response_field">
+       Enter the words above:
+     </label>
+     <label class="recaptcha_only_if_audio" for="recaptcha_response_field">
+       Enter the numbers you hear:
+     </label>
+
+     <fieldset>
+       <input type="text" id="recaptcha_response_field"
+              name="recaptcha_response_field">
+       <input type="submit">
+       <img class="spinner" src="/assets/ajax-loader.gif">
+     </fieldset>
+   </div>
+
+   <nav class="clear-fix">
+     <a href="javascript:Recaptcha.reload()" title="Get another CAPTCHA">
+       <i class="fa fa-refresh"></i>
+     </a>
+     <a href="javascript:Recaptcha.switch_type('audio')" title="Get an audio CAPTCHA"
+        class="recaptcha_only_if_image">
+       <i class="fa fa-file-audio-o"></i>
+     </a>
+     <a href="javascript:Recaptcha.switch_type('image')" title="Get an image CAPTCHA"
+        class="recaptcha_only_if_audio">
+       <i class="fa fa-file-image-o"></i>
+     </a>
+     <a href="javascript:Recaptcha.showhelp()" title="Help">
+       <i class="fa fa-question"></i>
+     </a>
+   </nav>
+
+ </div>
+<noscript>
+  <iframe height="300" width="500" frameborder="0"
+src="http://www.google.com/recaptcha/api/noscript?k=6LeCffQSAAAAACUboC37v0EuQej0R-53GKMKOIVh">
+  </iframe>
+  <textarea name="recaptcha_challenge_field" rows="3" cols="40"></textarea>
+  <input type="hidden" name="recaptcha_response_field" value="manual_challenge">
+</noscript>

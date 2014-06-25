@@ -5,14 +5,20 @@
       <select class="search-year" id="search-year_from" name="year_from">
         <option value="">from</option>
         <% CarListing.years.forEach(function (year) { %>
-        <option value="<%= year %>"><%= year %></option>
+        <option value="<%= year %>"
+          <%= (searchParams.year_from === year) ? 'selected' : '' %>>
+          <%= year %>
+        </option>
         <% }); %>
       </select>
       ▰
       <select class="search-year" id="search-year_to" name="year_to">
         <option value="">to</option>
         <% CarListing.years.forEach(function (year) { %>
-        <option value="<%= year %>"><%= year %></option>
+        <option value="<%= year %>"
+          <%= (searchParams.year_to === year) ? 'selected' : '' %>>
+          <%= year %>
+        </option>
         <% }); %>
       </select>
     </td>
@@ -21,9 +27,9 @@
     <td class="contains-tooltip make">
       <select name="make_id" id="search-make_id">
         <option value="">Make</option>
-        <% CarListing.subdivisions.models.forEach(function (make) { %>
+        <% CarListing.subdivisions.each(function (make) { %>
         <option value="<%= make.id %>"
-          <%= (CarListing.searchParams.make_id === make.id) ? 'selected' : '' %>>
+          <%= (searchParams.make_id === make.id) ? 'selected' : '' %>>
           <%= make.escape('name') %>
         </option>
         <% }); %>

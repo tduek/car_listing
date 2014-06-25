@@ -13,10 +13,12 @@
  *= require_tree .
  */
 html, body, article, div, img, a, h1, h2, h3, h4, h5, p,
-header, section, ul, li, form {
+header, section, ul, li, form, fieldset {
   margin: 0; padding: 0; border: 0;
-  font-family: "Open Sans", sans-serif; font-weight: 100; color: #333333;
+  font: inherit;
 }
+
+body { font-family: "Open Sans", sans-serif; font-weight: 100; color: #333333; }
 
 select {font-family: "Open Sans", sans-serif; font-weight: 100; }
 
@@ -24,6 +26,7 @@ h1, h2 {font-family: "Oswald"; font-weight: 100; color: #333333;}
 h1 {letter-spacing: 1px;}
 a { text-decoration: none; }
 a:hover {text-decoration: underline;}
+a:visited { color: #333333; }
 ul { list-style: none; }
 input[type="submit"]:hover {cursor: pointer;}
 
@@ -42,6 +45,107 @@ body.no-scroll {
   height: 100%;
   overflow: hidden;
 }
+
+#lightbox > div {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 10;
+}
+
+#lightbox > div:before {
+  content: "";
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.75);
+}
+
+#lightbox > .is-active {
+  display: block;
+}
+
+#lightbox article {
+  position: absolute;
+  width: 600px;
+  padding: 30px;
+  left: 50%;
+  margin: 100px auto 100px -330px;
+  background: white;
+  border: 10px solid black;
+}
+
+#lightbox article h1 {
+  font-size: 30px;
+}
+
+#lightbox nav {
+  width: 100%;
+}
+
+#lightbox img.spinner {
+  width: 40px;
+  height: auto;
+  margin: 50px auto;
+}
+
+#lightbox img.featured {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 500px;
+  max-height: 500px;
+  margin: 20px auto;
+  border: 10px solid black;
+}
+
+#lightbox .thumbs {
+  height: 58px;
+}
+
+#lightbox .thumb-container {
+  width: 50px;
+  height: 50px;
+  float: left;
+  border: 4px solid black;
+  overflow: hidden;
+  position: relative;
+  margin: 0 4px;
+  cursor: pointer;
+}
+
+#lightbox .thumb-container.featured {
+  border-color: red;
+}
+
+#lightbox img.thumb {
+  display: block;
+  position: absolute;
+  height: 50px;
+  width: auto;
+  min-width: 50px;
+  left: -100%;
+  right: -100%;
+  margin: auto;
+}
+
+#lightbox .exit-lightbox {
+  position: absolute;
+  display: block;
+  top: 5px;
+  right: 15px;
+  font-size: 30px;
+  color: #999;
+  font-weight: bold;
+}
+
+#lightbox .exit-lightbox:hover {
+  color: #000;
+}
+
+
 
 body > header {
   position: relative;
@@ -130,6 +234,10 @@ span.flash.notice {
   margin: 0 auto;
 }
 
+#content > * > h1 {
+  font-size: 30px;
+}
+
 #sidebar {
   display: block;
   float: left;
@@ -141,17 +249,16 @@ span.flash.notice {
   display: block;
   padding: 0;
   border: 1px solid black;
-/*  border-radius: 4px;*/
-
 }
+
 form.search > table {
   padding: 0;
   margin: 0;
   width: 100%;
   border: 3px solid #333333;
-/*  border-radius: 3px;*/
   box-shadow: 5px 5px 10px rgba(0,0,0,0.7);
 }
+
 form.search tr {
   display: block;
   padding: 10px 10px;
@@ -353,22 +460,22 @@ nav.page-nav > form > input[type="submit"]:hover {
 
 #end-of-page, #end-of-list {
   text-align: center;
-  margin: 20px 0 20px 80px;
+  margin: 20px auto;
   display: none;
 }
 
-article.search-result-listing {
+article.listing {
   display: block;
   clear: both;
   padding: 15px 0;
   border-top: 1px solid #333333;
 }
 
-article.search-result-listing:last-child {
+article.listing:last-child {
   border-bottom: 2px solid #333333;
 }
 
-article.search-result-listing > div.thumb-container {
+article.listing > div.thumb-container {
   width: 50px;
   height: 50px;
   background: white;
@@ -377,7 +484,7 @@ article.search-result-listing > div.thumb-container {
   border: 3px solid #333333;
 }
 
-article.search-result-listing > div.thumb-container > a.thumb {
+article.listing > div.thumb-container > a.thumb {
   display: block;
   width: 50px;
   height: 50px;
@@ -386,14 +493,14 @@ article.search-result-listing > div.thumb-container > a.thumb {
   color: #333333/*rgb(255,228,201)*/;
 }
 
-article.search-result-listing > div.thumb-container > a.thumb > img {
+article.listing > div.thumb-container > a.thumb > img {
   width: 50px;
   height: 50px;
 }
 
-article.search-result-listing > .listing-info{
+article.listing > .listing-info{
   height: 56px;
-  width: 380px;
+  width: 410px;
   float: left;
   padding: 0 0 0 10px;
 }
@@ -411,7 +518,7 @@ article.search-result-listing > .listing-info{
   margin-top: -5px;
 }
 
-article.search-result-listing > .listing-info .price {
+article.listing > .listing-info .price {
   color: rgb(200,7,0);
   float: right;
 }
@@ -434,21 +541,21 @@ article.search-result-listing > .listing-info .price {
   float: right;
 }
 
-article.search-result-listing > .favoriting {
+article.listing > .favoriting {
   float: left;
-  width: 32px;
-  margin: 10px 10px 0 0;
+  width: 21px;
+  margin: 15px 10px 0 0;
 }
 
 .favoriting .buttons {
-  width: 32px;
-  height: 32px;
+  width: 21px;
+  height: 21px;
   position: relative;
 }
 
 .favoriting .buttons span {
-  width: 32px;
-  height: 32px;
+  width: 21px;
+  height: 21px;
 }
 
 .favoriting .buttons i {
@@ -474,6 +581,8 @@ article.search-result-listing > .favoriting {
 
 .favoriting.busy .spinner {
   display: block;
+  width: 100%;
+  height: auto;
 }
 
 .favoriting.busy .buttons, .favoriting .spinner {

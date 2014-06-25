@@ -17,6 +17,7 @@
 //= require accounting
 //= require clippy
 //= require underscore
+//= require underscore.inflector
 //= require backbone
 //= require car_listing
 //= require_tree ../templates

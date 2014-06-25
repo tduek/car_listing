@@ -1,0 +1,74 @@
+<h1><%= listing.get('ymm') %></h1>
+
+<h3><%= listing.escape('title') %></h3>
+
+<section class="top-info clear-fix">
+  <section class="pics">
+  <% if (listing.pics().length === 0) { %>
+    <p>Sorry, no pics :(</p>
+  <% } else { %>
+    <div class="main-pic">
+      <% var mainPic = listing.pics().first() %>
+      <img src="<%= mainPic.get('url') %>" class="car-pic"
+           data-id="<%= mainPic.id %>">
+    </div>
+    <ul class="thumbs clear-fix">
+      <% listing.pics().forEach(function (pic) { %>
+      <li>
+        <img src="<%= pic.get('url') %>" class="car-pic"
+             data-id="<%= pic.id %>">
+      </li>
+      <% }); %>
+    </ul>
+  <% } %>
+  </section>
+
+
+  <section class="info">
+    <article class="car-info">
+      <header>What it is:</header>
+
+      <ul>
+        <li class="clear-fix">
+          <label><strong>Miles:</strong></label>
+          <span><%= listing.miles() || 'N/A' %></span>
+        </li>
+        <li class="clear-fix">
+          <label><strong>Transmission:</strong></label>
+          <span><%= listing.get('transmission') || 'N/A' %></span>
+        </li>
+        <li class="clear-fix">
+          <label><strong>VIN:</strong></label>
+          <span><%= listing.get('vin') || 'N/A' %></span>
+        </li>
+        <li class="clear-fix">
+          <label><strong>Seller:</strong></label>
+          <span>
+            <% if (listing.seller().get('by_owner')) { %>
+            BY OWNER
+            <% } else { %>
+            DEALER
+            <% } %>
+          </span>
+        </li>
+        <li class="clear-fix">
+          <label><strong>Asking:</strong></label>
+          <span><%= listing.price() %></span>
+        </li>
+        <li class="clear-fix">
+          <label><strong>Contact:</strong></label>
+          <span>
+            <a class="phone" href="#">
+              Phone
+            </a>
+          </span>
+        </li>
+      </ul>
+    </article>
+  </section>
+</section>
+
+<section class="description">
+  <h2>Seller Description</h2>
+  <p><%= listing.escape('description') %></p>
+</section>

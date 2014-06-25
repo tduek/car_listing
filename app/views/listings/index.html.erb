@@ -1,19 +1,28 @@
+<% content_for :head_js do %>
+ <script type="text/javascript" src="http://www.google.com/recaptcha/api/js/recaptcha_ajax.js">
+ </script>
+<% end %>
+
 <% cache(expires_in: 10.minutes, race_condition_ttl: 10.seconds) do %>
 <script type="application/json" id="bootstrapped-listings">
-  {"listings":
-      <%=
-            render('listings/index.json.jbuilder').html_safe %>,
+  {"listingsData":
+      <%= render('listings/index.json.jbuilder').html_safe %>,
    "subdivisions":
-      <%=
-            render('subdivisions/index.json.jbuilder').html_safe
-       %>,
+      <%= render('subdivisions/index.json.jbuilder').html_safe %>,
     "years": <%= @years.to_json %>,
-    "sortOptions": <%= Listing::SORT_OPTIONS.to_json.html_safe %>
+    "sortOptions": <%= Listing::SORT_OPTIONS.to_json.html_safe %>,
+    "RECAPTCHA_PUBLIC_KEY": "<%= ENV['RECAPTCHA_PUBLIC_KEY'] %>"
   }
 </script>
 <% end %>
 
 <script>
-  CarListing.searchParams = <%= @search_params.to_json.html_safe %>;
-  CarListing.currentUserID = <%= current_user.try(:id) || 'null' %>;
+  $(document).ready(function(){
+    if ($('#bootstrapped-listings').html()) {
+      CarListing.initialize({
+        searchParams: <%= @search_params.to_json.html_safe %>,
+        currentUserID: <%= current_user.try(:id) || 'null' %>
+      });
+    }
+  });
 </script>

@@ -1,18 +1,18 @@
 CarListing.Views.SearchResults = Backbone.View.extend({
 
   initialize: function (options) {
-    this.listenTo(CarListing.listings, 'reset', this.render)
-    this.listenTo(CarListing.listings, 'add', this.addListing);
+    this.listenTo(CarListing.indexListings, 'reset', this.render)
+    this.listenTo(CarListing.indexListings, 'add', this.addListing);
   },
 
-  template: JST['listings/search_results'],
+  template: JST['listings/index/search_results'],
 
   render: function () {
     var view = this;
     view.$el.html(view.template({}));
 
     view.$listingsContainer = $(view.$el.find('.listings'));
-    CarListing.listings.each(function(listing) {
+    CarListing.indexListings.each(function(listing) {
       view.addListing(listing);
     });
 
@@ -20,7 +20,7 @@ CarListing.Views.SearchResults = Backbone.View.extend({
   },
 
   addListing: function (listing) {
-    var listItemView = new CarListing.Views.ListItem({model: listing});
+    var listItemView = new CarListing.Views.ListItem({listing: listing});
     var $renderedContent = listItemView.render().$el;
 
     this.$listingsContainer.append($renderedContent);

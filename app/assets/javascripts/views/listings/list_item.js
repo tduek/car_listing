@@ -1,17 +1,18 @@
 CarListing.Views.ListItem = Backbone.View.extend({
 
   initialize: function (options) {
-    this.listenTo(this.model, 'change', this.render);
+    this.listing = options.listing;
+    this.listenTo(this.listing, 'change', this.render);
   },
 
   template: JST['listings/list_item'],
 
   tagName: 'article',
 
-  className: 'search-result-listing clear-fix',
+  className: 'listing clear-fix',
 
   render: function () {
-    var renderedContent = this.template({listing: this.model});
+    var renderedContent = this.template({listing: this.listing});
     this.$el.html(renderedContent);
     this.$el.find('time.timeago').timeago();
 
@@ -26,7 +27,7 @@ CarListing.Views.ListItem = Backbone.View.extend({
     if (CarListing.userSignedIn()) {
       var $btnContainer = $(event.currentTarget).parents('.favoriting');
       $btnContainer.addClass('busy');
-      this.model.toggleFavorite($btnContainer);
+      this.listing.toggleFavorite();
     }
     else {
       window.location.href = "/listings/new";
