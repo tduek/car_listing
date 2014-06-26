@@ -1,0 +1,1 @@
+json.partial! 'listings/listing.json.jbuilder', collection: @listings, as: :listing

@@ -1,7 +1,8 @@
 class UserSessionsController < ApplicationController
 
   def new
-
+    @friendly_redirect = session[:friendly_redirect]
+    session[:friendly_redirect] = nil
   end
 
   def create
@@ -10,8 +11,8 @@ class UserSessionsController < ApplicationController
     if user
       signin_user!(user)
 
-      flash[:success] =  "Welcome back #{user.fname}!"
-      redirect_to session[:friendly_redirect] || user
+      flash[:success] =  "Welcome back, #{user.fname}!"
+      redirect_to params[:friendly_redirect] || user
     else
       flash[:alert] = "Incorrect email/password combination."
       redirect_to new_user_session_url

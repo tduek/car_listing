@@ -1,4 +1,6 @@
 <%= form_tag user_session_url, class: "signin-form" do %>
+  <input type="hidden" name="friendly_redirect"
+                      value="<%= @friendly_redirect %>">
   <%= email_field_tag :user_email, nil, placeholder: "Email" %><br>
   <%= password_field_tag :user_password, nil, placeholder: "Password" %><br>
   <div class="links">

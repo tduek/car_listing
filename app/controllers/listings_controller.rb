@@ -22,15 +22,9 @@ class ListingsController < ApplicationController
     @listings = Listing.search(@search_params, params[:page])
                        .includes(:make, :model, :pics, :main_pic, :zip)
 
-    if user_signed_in?
-      @favorite_listing_ids = current_user.favorited_listing_ids
-    else
-      @favorite_listing_ids = []
-    end
-
     if request.xhr?
       #sleep 1 if Rails.env.development?
-      render(partial: 'listings/index.json') && return
+      render(partial: 'listings/index_listings.json') && return
     end
 
     @makes = Subdivision.makes.includes(:active_models).order(:name)
@@ -40,6 +34,14 @@ class ListingsController < ApplicationController
     if zip && zip.length > 1 && !Zip.find_by_code(zip)
       flash[:alert] = "Invalid zipcode. Please check your input."
     end
+  end
+
+  def favorites
+    @listings = current_user.favorited_listings.includes(
+      :make, :model, :pics, :main_pic, :zip
+    )
+
+    render partial: 'listings/listings.json'
   end
 
   def show

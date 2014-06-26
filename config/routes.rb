@@ -2,6 +2,7 @@ CarListing::Application.routes.draw do
   root to: "listings#index"
   resources :listings do
     resource :phone, only: :show
+    get :favorites, on: :collection
   end
 
   post '/listings/:listing_id/favorite', to: 'favorites#create', as: :favorite_listing
@@ -10,14 +11,14 @@ CarListing::Application.routes.draw do
   resources :pics, only: :create
 
   resources :users, only: [:show, :new, :create, :edit, :update, :destroy] do
-    collection do
-      get "activate"
-    end
+    get "activate", on: :collection
 
     member do
       post "resend_initial_activation_email", as: :resend_initial_activation_email_for
     end
   end
+
+  get '/users/:user_id/listings', to: 'users#listings', as: :user_listings
 
   resource :user_password, only: [:new, :create, :edit, :update]
 

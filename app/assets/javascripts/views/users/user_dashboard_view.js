@@ -2,41 +2,50 @@ CarListing.Views.UserDashboard = Backbone.View.extend({
 
   initialize: function () {
     this.user = CarListing.currentUser();
-    this.listenTo(this.user, 'change sync', this.render);
-    this.listenTo(this.user.listings(), 'remove', this.renderOwnedListings);
-    this.listenTo(this.user.favoritedListings(), 'remove', this.renderFavoritedListings);
+    this.listenTo(this.user, 'sync', this.render);
+
+    this.subviews = [];
+    this.user.listings().fetch({ silent: true });
+    this.user.favoritedListings().fetch({ silent: true });
   },
 
   template: JST['users/dashboard'],
 
   render: function () {
-    var skeleton = this.template({user: this.user});
-
+    var skeleton = this.template({ user: this.user });
+    this.$el.html(skeleton);
     this.renderOwnedListings();
-
+    this.renderFavoritedListings();
     return this;
   },
 
   renderOwnedListings: function () {
     var $el = this.$('.owned-listings');
-    $el.empty();
-    this.renderListings($el, this.user.listings());
+    this.renderListingsList($el, this.user.listings());
   },
 
   renderFavoritedListings: function () {
     var $el = this.$('.favorited-listings');
+    this.renderListingsList($el, this.user.favoritedListings());
+  },
+
+  renderListingsList: function ($el, collection) {
     $el.empty();
-    this.renderListings($el, this.user.favoritedListings());
+    var view = new CarListing.Views.ListingsList({
+      listings: collection,
+      el: $el
+    })
+
+    this.subviews.push(view);
+    view.render();
   },
 
-  renderListings: function ($el, collection) {
-    collection.each(this.addListing.bind(this, $el));
-  },
+  remove: function () {
+    _( this.subviews ).each(function (subview) {
+      subview.remove();
+    });
 
-  addListing: function ($el, listing) {
-    var listItemView = new CarListing.Views.ListItem({ listing: listing });
-
-    $el.append(listItemView.render().$el);
+    Backbone.View.prototype.remove.call(this);
   }
 
 });

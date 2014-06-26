@@ -4,7 +4,10 @@ CarListing.Models.User = Backbone.Model.extend({
 
   listings: function () {
     if (!this._ownedListings) {
-      this._ownedListings = new CarListing.Collections.Listings();
+      this._ownedListings = new CarListing.Subsets.OwnedListings([], {
+        owner: this,
+        parentCollection: CarListing.allListings
+      });
     }
 
     return this._ownedListings;
@@ -18,6 +21,10 @@ CarListing.Models.User = Backbone.Model.extend({
     }
 
     return this._favoritedListings;
+  },
+
+  name: function () {
+    return this.get('fname') + ' ' + this.get('lname');
   }
 
 

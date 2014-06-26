@@ -26,8 +26,17 @@ window.CarListing = {
 
     this.RECAPTCHA_PUBLIC_KEY = bootstrappedData.RECAPTCHA_PUBLIC_KEY;
 
-    var router = new this.Routers.Listings();
+    this.listingsRouter = new this.Routers.Listings();
+    this.usersRouter = new this.Routers.Users();
     Backbone.history.start();
+
+    this.backbonifyLinks();
+  },
+
+  backbonifyLinks: function () {
+    $('a.home').attr('href', '#');
+    $('a.dashboard').attr('href', '#/user_dashboard');
+
   },
 
   loadClippy: function () {

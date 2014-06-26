@@ -6,7 +6,7 @@
 <% cache(expires_in: 10.minutes, race_condition_ttl: 10.seconds) do %>
 <script type="application/json" id="bootstrapped-listings">
   {"listingsData":
-      <%= render('listings/index.json.jbuilder').html_safe %>,
+      <%= render('listings/index_listings.json.jbuilder').html_safe %>,
    "subdivisions":
       <%= render('subdivisions/index.json.jbuilder').html_safe %>,
     "years": <%= @years.to_json %>,

@@ -1,17 +1,11 @@
-<h1><%= user.get('name') %>'s Dashboard</h1>
+<h1><%= user.name() %>'s Dashboard</h1>
 
 <a href="/listings/new">Sell a car!</a>
 
-<% if (user.listings().length === 0) { %>
-  <h2>Your don't have any cars for sale</h2>
-<% } else { %>
-  <h2>Your <%= _.pluralize('listing', user.listings().length, true) %></h2>
-  <section class="owned-listings"></section>
-<% } %>
+<h2>Your listings</h2>
+<section class="owned-listings"></section>
 
-<% if (user.favoritedListings().length === 0) { %>
-  <h2>You haven't favorited any listings!</h2>
-<% } else { %>
-  <h2>Favorited Listings (<%= user.favorited_listings.length %>)</h2>
-  <section class="favorited-listings"></section>
-<% } %>
+
+<h2>Favorited listings</h2>
+<section class="favorited-listings"></section>
+

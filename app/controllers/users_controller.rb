@@ -6,6 +6,13 @@ class UsersController < ApplicationController
     [:show, :edit, :update, :destroy, :resend_initial_activation_email, :change_email]
 
 
+  def listings
+    @listings = Listing.where(user_id: params[:user_id])
+
+    render partial: 'listings/listings.json'
+  end
+
+
   def index
     @users = User.all
   end
