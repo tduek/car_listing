@@ -24,7 +24,7 @@ select {font-family: "Open Sans", sans-serif; font-weight: 100; }
 
 h1, h2 {font-family: "Oswald"; font-weight: 100; color: #333333;}
 h1 {letter-spacing: 1px;}
-a { text-decoration: none; }
+a { text-decoration: none; color: #333333; }
 a:hover {text-decoration: underline;}
 a:visited { color: #333333; }
 ul { list-style: none; }

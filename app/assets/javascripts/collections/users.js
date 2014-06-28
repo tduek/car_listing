@@ -7,16 +7,20 @@ CarListing.Collections.Users = Backbone.Collection.extend({
   getOrFetch: function (id, cb) {
     var collection = this, user = this.get(id);
 
-    if (!user) {
+    if (user) {
+      if (cb) cb(user);
+    }
+    else {
       user = new this.model({id: id});
-      collection.add(user);
 
       user.fetch({
         success: function () {
+          collection.add(user)
           if (cb) cb(user);
         }
       });
     }
+
 
     return user;
   }

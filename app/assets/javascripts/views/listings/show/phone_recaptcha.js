@@ -1,6 +1,6 @@
 CarListing.Views.PhoneRecaptcha = Backbone.View.extend({
   initialize: function (options) {
-    this.listing = options.listing;
+    this.model = options.model;
   },
 
   tagName: 'form',

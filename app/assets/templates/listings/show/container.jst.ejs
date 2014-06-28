@@ -44,11 +44,15 @@
         <li class="clear-fix">
           <label><strong>Seller:</strong></label>
           <span>
-            <% if (listing.seller().get('by_owner')) { %>
-            BY OWNER
-            <% } else { %>
-            DEALER
-            <% } %>
+            <a href="#/users/<%= listing.seller().id %>">
+              <% if (listing.seller().get('by_owner')) { %>
+              BY OWNER
+              <% } else { %>
+              DEALER
+              <% } %>
+
+              <%= listing.seller().name() %>
+            </a>
           </span>
         </li>
         <li class="clear-fix">

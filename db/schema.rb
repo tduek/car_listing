@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140622013054) do
+ActiveRecord::Schema.define(:version => 20140628171417) do
 
   create_table "craigs_sites", :force => true do |t|
     t.string   "city"
@@ -48,7 +48,7 @@ ActiveRecord::Schema.define(:version => 20140622013054) do
     t.datetime "post_date"
     t.datetime "created_at",                :null => false
     t.datetime "updated_at",                :null => false
-    t.integer  "user_id"
+    t.integer  "seller_id"
     t.string   "vin"
     t.integer  "transmission"
   end
@@ -128,20 +128,20 @@ ActiveRecord::Schema.define(:version => 20140622013054) do
     t.string   "fname"
     t.string   "lname"
     t.string   "email"
-    t.string   "phone"
     t.string   "address_line_1"
     t.string   "address_line_2"
     t.string   "city"
     t.integer  "zipcode"
     t.string   "password_digest"
-    t.datetime "created_at",               :null => false
-    t.datetime "updated_at",               :null => false
+    t.datetime "created_at",                            :null => false
+    t.datetime "updated_at",                            :null => false
     t.string   "state"
     t.boolean  "is_activated"
     t.string   "activation_token"
     t.datetime "activation_email_sent_at"
     t.string   "reset_password_token"
     t.boolean  "is_dealer"
+    t.integer  "phone",                    :limit => 8
   end
 
   create_table "years", :force => true do |t|

@@ -13,7 +13,7 @@ class User < ActiveRecord::Base
 
   has_many :sessions, class_name: "UserSession"
 
-  has_many :listings, inverse_of: :seller
+  has_many :listings, inverse_of: :seller, foreign_key: :seller_id
   has_many :favorites
   has_many :favorited_listings, through: :favorites, source: :listing
 

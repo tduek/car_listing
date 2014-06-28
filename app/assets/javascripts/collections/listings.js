@@ -6,18 +6,24 @@ CarListing.Collections.Listings = Backbone.Collection.extend({
   model: CarListing.Models.Listing,
   url: '/listings',
 
-  getOrFetch: function (id) {
-    var prefetchedListing = this.get(id);
-    if (prefetchedListing) return prefetchedListing;
+  getOrFetch: function (id, cb) {
+    var listing = this.get(id), collection = this;
 
-    var collection = this;
-    var listing = new CarListing.Models.Listing({id: id});
-    listing.collections = this;
-    listing.fetch({
-      success: function (model) {
-        collection.add(model);
-      }
-    });
+    if (listing) {
+      if (cb) cb(listing);
+    }
+    else {
+      listing = new CarListing.Models.Listing({id: id});
+      listing.fetch({
+        success: function () {
+          collection.add();
+          listing.colleciton = collection;
+          collection.add(listing);
+          if (cb) cb(listing);
+        }
+      });
+      listing.collections = this;
+    }
 
     return listing;
   },

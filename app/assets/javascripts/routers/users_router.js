@@ -11,7 +11,10 @@ CarListing.Routers.Users = Backbone.Router.extend({
 
 
   show: function (id) {
-
+    CarListing.users.getOrFetch(id, function (user) {
+      var view = new CarListing.Views.UserProfile({ user: user });
+      CarListing._swapView(view);
+    });
   },
 
   dashboard: function () {

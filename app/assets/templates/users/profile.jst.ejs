@@ -1,0 +1,30 @@
+<h1><%= user.name() %></h1>
+
+<section class="sidebar">
+  <dl>
+  <% if (user.get('is_dealer')) { %>
+    <dt>Type</dt>
+    <dd>DEALERSHIP</dd>
+    <dt>Address</dt>
+    <dd><%= user.escape('address_line_1') %></dd>
+    <% if (user.get('address_line_2')) { %>
+    <dd><%= user.escape('address_line_2') %></dd>
+    <% } %>
+    <dd>
+      <%= user.escape('city') %>,
+      <%= user.escape('state') %> <%= user.escape('zip') %>
+    </dd>
+  <% } else { %>
+    <dt>Type</dt>
+    <dd>PRIVATE SELLER</dd>
+    <dt>Location</dt>
+    <dd><%= user.escape('location') %></dd>
+  <% } %>
+    <dt>Contact</dt>
+    <dd>
+      <span><a class="phone" href="#">Phone</a></span>
+    </dd>
+  </dl>
+</section>
+
+<section class="listings"></section>

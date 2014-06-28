@@ -3,7 +3,7 @@ class Listing < ActiveRecord::Base
 
   attr_accessible :is_owner, :miles, :model_id, :phone, :price, :year, :zipcode, :post_date, :make_id, :title, :description, :vin, :transmission
 
-  belongs_to :seller, class_name: 'User'
+  belongs_to :seller, class_name: 'User', foreign_key: :seller_id
 
   belongs_to :zip, primary_key: :code, foreign_key: :zipcode
 
@@ -92,8 +92,8 @@ class Listing < ActiveRecord::Base
   end
 
   def self.within_miles_from_zip(dist, zip)
-   Listing.select('listings.*, "near_zips"."distance"').
-           joins("INNER JOIN (#{Zip.near(dist, zip).to_sql}) AS \"near_zips\" ON \"near_zips\".\"code\"=\"listings\".\"zipcode\"")
+   Listing.select('listings.*, near_zips.distance').
+           joins("INNER JOIN (#{Zip.near(dist, zip).to_sql}) AS near_zips ON near_zips.code=listings.zipcode")
   end
 
   # def self.within_miles_from_zip(dist, zip)
@@ -158,7 +158,7 @@ class Listing < ActiveRecord::Base
       results = results.where(<<-SQL)
         listings.id IN (
           SELECT floor(random() * (max_id - min_id + 1))::integer + min_id
-          FROM generate_series(1, 25),
+          FROM generate_series(1, 50),
                (SELECT max(listings.id) AS max_id, min(listings.id) AS min_id
                 FROM listings) AS s1
           )
