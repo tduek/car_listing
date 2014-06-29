@@ -18,7 +18,7 @@ class Subdivision < ActiveRecord::Base
 
   belongs_to :parent, class_name: "Subdivision", foreign_key: :parent_id
 
-  has_many :spellings
+  has_many :model_listings, class_name: 'Listing', foreign_key: :model_id
 
   scope :all_makes, -> { where(parent_id: nil).order(:name) }
   scope :all_models, -> { where(level: 1).order(:name) }

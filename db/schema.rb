@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140628171417) do
+ActiveRecord::Schema.define(:version => 20140628171418) do
 
   create_table "craigs_sites", :force => true do |t|
     t.string   "city"
@@ -103,6 +103,16 @@ ActiveRecord::Schema.define(:version => 20140628171417) do
   end
 
   add_index "spellings", ["subdivision_id"], :name => "index_spellings_on_subdivision_id"
+
+  create_table "stats", :force => true do |t|
+    t.integer  "model_id"
+    t.integer  "mean"
+    t.integer  "std_dev"
+    t.integer  "pop"
+    t.integer  "year"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "subdivisions", :force => true do |t|
     t.string   "name"

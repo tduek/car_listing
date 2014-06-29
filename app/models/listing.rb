@@ -101,6 +101,27 @@ class Listing < ActiveRecord::Base
   #         .where("listings.zipcode IN (#{Zip.near(dist, zip).to_sql})")
   # end
 
+  def self.with_deal_ratio
+    self.select(<<-SQL)
+          listings.*, (
+            sum(CASE
+                WHEN inner_listings.price > listings.price THEN
+                  1
+                ELSE
+                  0
+                END
+            ) /
+            count(inner_listings.*)::decimal
+          ) AS deal_ratio
+        SQL
+        .joins(<<-SQL)
+          LEFT OUTER JOIN listings AS inner_listings
+            ON listings.year=inner_listings.year
+           AND listings.model_id=inner_listings.model_id
+        SQL
+        .group('listings.id')
+  end
+
   def self.search(terms, page = nil)
     page = 1 if [nil, 0].include?(page)
 
@@ -111,7 +132,7 @@ class Listing < ActiveRecord::Base
       result = Listing
     end
 
-    results = result.where('listings.model_id IS NOT NULL')
+    results = result.where('listings.model_id IS NOT NULL').with_deal_ratio
                     # .includes(:pics, :main_pic, :make, :model, :zip)
 
 

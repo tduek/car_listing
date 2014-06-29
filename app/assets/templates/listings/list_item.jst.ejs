@@ -27,7 +27,12 @@
     <a href="#/listings/<%= listing.id %>" class="listing-show">
       <%= listing.get('ymm') %>
     </a>
-    <div class="price"><%= listing.price() %></div>
+    <div class="price">
+      <% if (listing.get('deal_ratio')) { %>
+      Deal: <%= listing.get('deal_ratio') %>%
+      <% } %>
+
+      <%= listing.price() %></div>
   </h3>
 
   <h4 class="line">
