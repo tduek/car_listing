@@ -19,10 +19,12 @@
 //= require underscore
 //= require underscore.inflector
 //= require backbone
+//= require_tree ./backbone_extensions
 //= require car_listing
 //= require_tree ../templates
 //= require_tree ./models
 //= require_tree ./collections
+//= require_tree ./subsets
 //= require_tree ./views
 //= require_tree ./routers
 //= require_tree .
