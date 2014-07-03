@@ -1,6 +1,7 @@
 CarListing.Views.IndexContainer = Backbone.View.extend({
 
   initialize: function (options) {
+    this.subviews = [];
     var view = this;
     this.installInfiniteScroll();
   },
@@ -24,6 +25,7 @@ CarListing.Views.IndexContainer = Backbone.View.extend({
 
   remove: function () {
     $(window).off('scroll');
+    _( this.subviews ).each(function (subview) { subview.remove() });
     Backbone.View.prototype.remove.call(this);
   },
 
@@ -40,15 +42,18 @@ CarListing.Views.IndexContainer = Backbone.View.extend({
   },
 
   renderSidebar: function () {
-    var $sidebar = this.$('#sidebar')
     var searchFormView = new CarListing.Views.SearchForm({});
+    this.subviews.push(searchFormView);
+
+    var $sidebar = this.$('#sidebar')
     $sidebar.html(searchFormView.render().setDefaults().$el);
   },
 
   renderSearchResults: function () {
     var searchResultsView = new CarListing.Views.SearchResults({
-      el: this.$('#search-results')
+      el: this.$('#main-content')
     });
+    this.subviews.push(searchResultsView);
     searchResultsView.render();
   }
 

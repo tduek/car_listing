@@ -9,7 +9,7 @@ window.CarListing = {
     this.currentUserID = options.currentUserID;
     this.users = new this.Collections.Users();
 
-    var bootstrappedData = JSON.parse($('#bootstrapped-listings').html());
+    var bootstrappedData = options.bootstrappedData;
 
     var listingsData = _.defaults(bootstrappedData.listingsData, options);
     this.allListings = new this.Collections.Listings(listingsData.listings, { parse: true });
@@ -25,6 +25,8 @@ window.CarListing = {
     this.sortOptions = bootstrappedData.sortOptions;
 
     this.RECAPTCHA_PUBLIC_KEY = bootstrappedData.RECAPTCHA_PUBLIC_KEY;
+
+    this.spinnerURL = bootstrappedData.spinnerURL;
 
     this.listingsRouter = new this.Routers.Listings();
     this.usersRouter = new this.Routers.Users();

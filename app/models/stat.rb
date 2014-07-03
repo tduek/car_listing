@@ -29,4 +29,6 @@ end
 
 #Listing.select('outer_listings.*, (SELECT (sum(case when inner_listings.price < outer_listings.price then 1 else 0 end) / (count(inner_listings.id) * 1.0)) as deal_percentage FROM listings as inner_listings WHERE inner_listings.year=outer_listings.year AND inner_listings.model_id=outer_listings.model_id)').from('listings AS outer_listings')
 
-#Listing.select('outer_listings.*, (sum(CASE WHEN inner_listings.price > outer_listings.price THEN 1 ELSE 0 END) / (count(inner_listings.*) * 1.0)) AS deal_ratio').from('listings AS outer_listings').joins('LEFT OUTER JOIN listings AS inner_listings ON outer_listings.year=inner_listings.year AND outer_listings.model_id=inner_listings.model_id').group('outer_listings.id')
+# Listing.select('outer_listings.*, (sum(CASE WHEN inner_listings.price > outer_listings.price THEN 1 ELSE 0 END) / (count(inner_listings.*) * 1.0)) AS deal_ratio').from('listings AS outer_listings').joins('LEFT OUTER JOIN listings AS inner_listings ON outer_listings.year=inner_listings.year AND outer_listings.model_id=inner_listings.model_id').group('outer_listings.id')
+
+# Listing.select('listings.*, (sum(CASE WHEN inner_listings.price > listings.price THEN 1 ELSE 0 END) / count(inner_listings.*)::decimal) AS deal_ratio').joins('LEFT OUTER JOIN listings AS inner_listings ON listings.year=inner_listings.year AND listings.model_id=inner_listings.model_id').group('listings.id')

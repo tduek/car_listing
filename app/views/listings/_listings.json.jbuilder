@@ -1,1 +1,3 @@
-json.partial! 'listings/listing.json.jbuilder', collection: @listings, as: :listing
+json.partial! 'listings/listing.json.jbuilder',
+    collection: @listings.with_deal_ratio,
+    as: :listing

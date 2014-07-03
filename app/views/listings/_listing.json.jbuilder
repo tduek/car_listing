@@ -20,7 +20,7 @@ json.pics listing.pics.map(&:as_json)
 
 json.seller do
   if listing.seller
-    json.partial! 'users/user.json', user: listing.seller
+    json.partial! 'users/user.json.jbuilder', user: listing.seller
   else
     json.is_dealer !listing.is_owner
     json.location listing.location

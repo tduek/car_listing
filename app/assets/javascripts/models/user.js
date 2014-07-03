@@ -28,7 +28,8 @@ CarListing.Models.User = Backbone.Model.extend({
       return this.escape('company_name');
     }
     else {
-      return this.escape('fname') + ' ' + this.escape('lname');
+      var vals = [this.escape('fname'), this.escape('lname')];
+      return _( vals ).compact().join(' ');
     }
   }
 

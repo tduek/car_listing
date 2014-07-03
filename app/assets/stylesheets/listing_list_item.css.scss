@@ -1,0 +1,86 @@
+article.listing {
+  display: block;
+  clear: both;
+  padding: 15px 0;
+  border-top: 1px solid #333333;
+}
+
+article.listing:first-child {
+  border-top: none;
+}
+
+article.listing:last-child {
+  border-bottom: none
+}
+
+article.listing > div.thumb-container {
+  width: 50px;
+  height: 50px;
+  background: white;
+  clear: none;
+  float: left;
+  border: 3px solid #333333;
+}
+
+article.listing > div.thumb-container > a.thumb {
+  display: block;
+  width: 50px;
+  height: 50px;
+  text-align: center;
+  font-size: 12px;
+  color: #333333/*rgb(255,228,201)*/;
+}
+
+article.listing > div.thumb-container > a.thumb > img {
+  width: 50px;
+  height: 50px;
+}
+
+article.listing > .listing-info{
+  height: 56px;
+  width: 410px;
+  float: left;
+  padding: 0 0 0 10px;
+}
+
+
+.listing-info a.listing-show {
+  display: block;
+  float: left;
+  clear: none;
+  color: black;
+}
+
+.listing-info h3 {
+  font-size: 18px;
+  margin-top: -5px;
+}
+
+article.listing > .listing-info .price {
+  color: rgb(200,7,0);
+  float: right;
+}
+
+.listing-info h4 {
+  font-size: 14px;
+  margin-top: 1px;
+}
+
+.listing-info h5 {
+  font-size: 12px;
+  margin-top: 2px;
+}
+
+.listing-info .location {
+  float: left;
+}
+
+.listing-info .post-date {
+  float: right;
+}
+
+article.listing > .favoriting {
+  float: left;
+  width: 21px;
+  margin: 15px 10px 0 0;
+}

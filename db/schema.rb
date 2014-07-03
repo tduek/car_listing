@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140628171418) do
+ActiveRecord::Schema.define(:version => 20140701000533) do
 
   create_table "craigs_sites", :force => true do |t|
     t.string   "city"
@@ -152,6 +152,7 @@ ActiveRecord::Schema.define(:version => 20140628171418) do
     t.string   "reset_password_token"
     t.boolean  "is_dealer"
     t.integer  "phone",                    :limit => 8
+    t.string   "company_name"
   end
 
   create_table "years", :force => true do |t|

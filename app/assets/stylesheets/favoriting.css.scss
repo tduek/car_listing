@@ -1,0 +1,41 @@
+.favoriting .buttons {
+  width: 21px;
+  height: 21px;
+  position: relative;
+}
+
+.favoriting .buttons span {
+  width: 21px;
+  height: 21px;
+}
+
+.favoriting .buttons i {
+  display: block;
+  line-height: 100%;
+}
+
+.favoriting .buttons:hover {
+  cursor: pointer;
+}
+
+.favoriting .unfavorite .fa-star {
+  color: gold;
+}
+
+.favoriting .favorite, .favoriting.is-favorite .unfavorite {
+  display: block;
+}
+
+.favoriting.is-favorite .favorite, .favoriting .unfavorite {
+  display: none;
+}
+
+.favoriting.busy .spinner {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.favoriting.busy .buttons, .favoriting .spinner {
+  display: none;
+}

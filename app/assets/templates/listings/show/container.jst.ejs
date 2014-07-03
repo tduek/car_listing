@@ -4,22 +4,27 @@
 
 <section class="top-info clear-fix">
   <section class="pics">
-  <% if (listing.pics().length === 0) { %>
+  <% var pics = listing.pics(); %>
+  <% if (pics.length === 0) { %>
     <p>Sorry, no pics :(</p>
   <% } else { %>
     <div class="main-pic">
-      <% var mainPic = listing.pics().first() %>
+      <% var mainPic = pics.first() %>
       <img src="<%= mainPic.get('url') %>" class="car-pic"
            data-id="<%= mainPic.id %>">
     </div>
+    <% var numThumbRows = parseInt(pics.length / 7 + 1) %>
+    <% _( numThumbRows ).times(function (row_i) { %>
     <ul class="thumbs clear-fix">
-      <% listing.pics().forEach(function (pic) { %>
+      <% var rowPics = pics.models.slice((row_i * 7), (row_i + 1) * 7); %>
+      <% _( rowPics ).each(function (pic) { %>
       <li>
         <img src="<%= pic.get('url') %>" class="car-pic"
              data-id="<%= pic.id %>">
       </li>
       <% }); %>
     </ul>
+    <% }); %>
   <% } %>
   </section>
 

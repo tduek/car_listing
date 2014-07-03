@@ -1,0 +1,170 @@
+form.search {
+  background: #EDECEB;
+  display: block;
+  padding: 0;
+  border: 1px solid black;
+}
+
+form.search > table {
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  border: 3px solid #333333;
+  box-shadow: 5px 5px 10px rgba(0,0,0,0.7);
+}
+
+form.search tr {
+  display: block;
+  padding: 10px 10px;
+  border-bottom: 1px solid lightgray;
+}
+
+form.search td {
+  padding: 0;
+  display: block;
+  width: 100%;
+  font-size: 18px;
+  line-height: 0.9;
+}
+
+form.search label {
+  font-size: 18px;
+  border-spacing: 0;
+}
+
+.search input, .search select {
+  border: 0; padding: 0; margin: 0;
+  background: none;
+  font-size: 18px;
+  border: 0;
+  outline: none;
+  margin-top: 8px;
+}
+
+.search input:hover, .search select:hover {
+  cursor: pointer;
+}
+
+
+.search select#search-year_from, .search select#search-year_to {
+  display: inline-block;
+  clear: none;
+  margin: 0 0 0 0;
+  width: 40px;
+
+}
+
+.search select { color: #AAAAAA; }
+.search select.selected { color: black; }
+
+.search select#search-year_from {
+  margin: 0 4px 0 13px;
+}
+
+.search select#search-year_from option {float: right;}
+
+.search select#search-year_to { margin-left: -1px;}
+
+.search select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+.search select#search-make_id, .search #search-model_id, .search input[type="submit"] {
+  width: 100%;
+}
+
+.search input[type="submit"] {
+  text-align: center;
+}
+
+.search .contains-tooltip {
+  position: relative;
+}
+
+.search .tooltip {
+  position: absolute;
+  z-index: 10;
+  display: none;
+  top: -60px;
+  left: 30%;
+  width: 100px;
+  border: 3px solid red;
+  background: white;
+  padding: 5px;
+}
+
+.search .tooltip > .triangle {
+  position: absolute;
+  top: 15px;
+  left: -23px;
+  border-top: 10px solid transparent;
+  border-right: 10px solid red;
+  border-bottom: 10px solid transparent;
+  border-left: 10px solid transparent;
+}
+
+.mask {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+#search-model_id[disabled]:hover .tooltip {
+  display: block;
+}
+
+.search input, .search select {
+  border-radius: 0;
+  border-bottom: 1px solid #333333;
+  padding-bottom: 1px;
+  margin-bottom: -3px;
+  text-align: left;
+}
+
+.search #search-price_from, .search #search-price_to {
+  width: 80px;
+}
+
+.search input:hover, .search label:hover, .search select:hover {
+  cursor: pointer;
+}
+
+.search #search-distance {
+  width: 45px;
+}
+
+.search #search-zip {
+  width: 60px;
+}
+
+.search label[for="search-sort_by"] {
+  margin-right: 0;
+}
+
+.search input[type="submit"] {
+  padding: 10px;
+  background: #333333;
+  color: rgb(255,246,237);
+  text-transform: uppercase;
+  font-size: 18px;
+  font-family: "Trebuchet MS", sans-serif;
+  font-weight: 100;
+  border-radius: 2px;
+  border: 1px solid black;
+  margin: 0;
+}
+
+.search input[type="submit"]:active {
+  color: lightgray;
+  padding: 11px 10px 9px 10px;
+}
+
+form.search tr:last-child {
+  border-bottom: none;
+  padding: 0;
+  margin-top: 20px;
+}

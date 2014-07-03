@@ -4,25 +4,26 @@
 <% end %>
 
 <% cache(expires_in: 10.minutes, race_condition_ttl: 10.seconds) do %>
-<script type="application/json" id="bootstrapped-listings">
+<script type="application/json" id="bootstrapped-data">
   {"listingsData":
       <%= render('listings/index_listings.json.jbuilder').html_safe %>,
    "subdivisions":
       <%= render('subdivisions/index.json.jbuilder').html_safe %>,
     "years": <%= @years.to_json %>,
     "sortOptions": <%= Listing::SORT_OPTIONS.to_json.html_safe %>,
-    "RECAPTCHA_PUBLIC_KEY": "<%= ENV['RECAPTCHA_PUBLIC_KEY'] %>"
+    "RECAPTCHA_PUBLIC_KEY": "<%= ENV['RECAPTCHA_PUBLIC_KEY'] %>",
+    "spinnerURL": "<%= asset_path('spinner.gif') %>"
   }
 </script>
 <% end %>
 
 <script>
   $(document).ready(function(){
-    if ($('#bootstrapped-listings').html()) {
-      CarListing.initialize({
-        searchParams: <%= @search_params.to_json.html_safe %>,
-        currentUserID: <%= current_user.try(:id) || 'null' %>
-      });
-    }
+    var bootstrappedData = JSON.parse($('#bootstrapped-data').html());
+    CarListing.initialize({
+      searchParams: <%= @search_params.to_json.html_safe %>,
+      currentUserID: <%= current_user.try(:id) || 'null' %>,
+      bootstrappedData: bootstrappedData
+    });
   });
 </script>

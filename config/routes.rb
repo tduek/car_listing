@@ -18,7 +18,7 @@ CarListing::Application.routes.draw do
     end
   end
 
-  get '/users/:user_id/listings', to: 'users#listings', as: :user_listings
+  get '/users/:seller_id/listings', to: 'users#listings', as: :user_listings
 
   resource :user_password, only: [:new, :create, :edit, :update]
 

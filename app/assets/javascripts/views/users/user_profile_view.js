@@ -22,28 +22,25 @@ CarListing.Views.UserProfile = Backbone.View.extend({
   },
 
   renderListings: function () {
-    var $el = this.$('.listings');
-    var listings = this.user.listings();
-    var view = this;
-
-    listings.fetch({
-      success: function () {
-        listingsView = new CarListing.Views.ListingsList({
-          el: $el,
-          listings: listings
-        });
-
-        view.subviews.push(listingsView);
-        listingsView.render();
-      }
+    var listingsView = new CarListing.Views.ListingsList({
+      el: this.$('.listings'),
+      listings: this.user.listings()
     });
+    this.subviews.push(listingsView);
+    listingsView.render();
 
+    this.user.listings().fetch();
   },
 
-  openRecaptchaForm: function () {
-    var recaptchaView = new CarListing.Views.PhoneRecaptcha({
-      model: this.user
+  openRecaptchaForm: function (event) {
+    event.preventDefault();
+    var $link = $(event.currentTarget);
+    recaptchaView = new CarListing.Views.PhoneRecaptcha({
+      model: this.user,
+      $link: $link,
+      $container: $link.parent()
     });
+    recaptchaView.showRecaptcha();
   },
 
   remove: function () {

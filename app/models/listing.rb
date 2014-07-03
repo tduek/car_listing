@@ -115,7 +115,7 @@ class Listing < ActiveRecord::Base
           ) AS deal_ratio
         SQL
         .joins(<<-SQL)
-          LEFT OUTER JOIN listings AS inner_listings
+          INNER JOIN listings AS inner_listings
             ON listings.year=inner_listings.year
            AND listings.model_id=inner_listings.model_id
         SQL
@@ -132,7 +132,7 @@ class Listing < ActiveRecord::Base
       result = Listing
     end
 
-    results = result.where('listings.model_id IS NOT NULL').with_deal_ratio
+    results = result.where('listings.model_id IS NOT NULL')
                     # .includes(:pics, :main_pic, :make, :model, :zip)
 
 
@@ -171,15 +171,16 @@ class Listing < ActiveRecord::Base
              'post_date_desc' => 'istings.post_date DESC',
              'price_asc' => 'listings.price ASC',
              'price_desc' => 'listings.price DESC',
-             'distance' => 'near_zips.distance ASC'}
+             'distance' => 'near_zips.distance ASC',
+             'best_deal' => 'listings.deal_ratio ASC'}
 
     if sorts[terms[:sort]]
       results = results.order(sorts[terms[:sort]])
     elsif terms.count == 0 || (terms[:sort] && terms.count == 1)
-      results = results.where(<<-SQL)
+      results = results.where(<<-SQL).limit(25)
         listings.id IN (
           SELECT floor(random() * (max_id - min_id + 1))::integer + min_id
-          FROM generate_series(1, 50),
+          FROM generate_series(1, 100),
                (SELECT max(listings.id) AS max_id, min(listings.id) AS min_id
                 FROM listings) AS s1
           )

@@ -1,0 +1,89 @@
+#recaptcha_widget {
+  display: block !important;
+}
+
+form.phone {
+  display: none !important;
+  clear: both;
+  background-color: white;
+  padding: 5px;
+  border: 1px solid #cccccc;
+  width: 100%;
+}
+
+form.phone.show {
+  display: block !important;
+}
+
+.recaptcha-widget-main {
+  float: left;
+  width: 248px;
+}
+
+#recaptcha_image {
+  width: 240px !important;
+  height: 53px !important;
+  display: block !important;
+  border: 1px solid #eeeeee;
+  padding: 5px 3px;
+}
+
+#recaptcha_image span {
+  margin-left: 0;
+}
+
+#recaptcha_widget br {
+  display: none;
+}
+
+#recaptcha_widget label {
+  font-size: 15px;
+  width: 100%;
+}
+
+#recaptcha_image img {
+  width: 100%;
+  height: 100%;
+}
+
+#recaptcha_widget input[type="submit"] {
+  display: block;
+  float: left;
+  font-size: 14px;
+  margin: 0;
+  border-bottom: 0;
+}
+
+#recaptcha_response_field {
+  margin: 0 4px 0 0;
+  display: block;
+  float: left;
+  font-size: 14px;
+}
+
+.recaptcha_only_if_incorrect_sol {
+  display: none;
+  color: red;
+  font-weight: 900;
+}
+
+#recaptcha_widget nav {
+  width: 22px;
+  float: left;
+  text-align: center;
+}
+
+#recaptcha_widget nav i {
+  margin: 0px;
+}
+
+form.phone .spinner {
+  display: none;
+  float: left;
+  width: 22px;
+  margin: 0 0 0 5px;
+}
+
+form.phone.busy .spinner {
+  display: block;
+}

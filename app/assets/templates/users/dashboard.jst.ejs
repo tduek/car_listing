@@ -1,11 +1,19 @@
 <h1><%= user.name() %>'s Dashboard</h1>
 
-<a href="/listings/new">Sell a car!</a>
 
-<h2>Your listings</h2>
-<section class="owned-listings"></section>
+<section id="sidebar">
+  <header><h3>Links</h3></header>
+  <a href="/listings/new">Sell a car!</a>
+</section>
 
+<section id="main-content">
+  <header>
+    <h3>Your listings</h3>
+  </header>
+  <section class="owned-listings listings"></section>
 
-<h2>Favorited listings</h2>
-<section class="favorited-listings"></section>
-
+  <header>
+    <h3>Favorited listings</h3>
+  </header>
+  <section class="favorited-listings listings"></section>
+</section>

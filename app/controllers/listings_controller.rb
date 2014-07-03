@@ -1,5 +1,5 @@
 class ListingsController < ApplicationController
-  before_filter :require_user_signed_in, only: [:new, :create, :edit, :update, :destroy]
+  before_filter :require_user_signed_in, only: [:new, :create, :edit, :update, :destroy, :favorites]
   before_filter :require_owner, only: [:edit, :update, :destroy]
 
   PERMITTED_SEARCH_KEYS = [
@@ -16,12 +16,12 @@ class ListingsController < ApplicationController
     params[:search] ||= {}
     params[:page] ||= 1
     @search_params = search_params
-    params[:search].each do |k, v|
-      @search_params[k] = v.to_i unless STRING_SEARCH_PARAMS.include?(k.to_sym)
-    end
     @listings = Listing.search(@search_params, params[:page])
-                       .includes(:make, :model, :pics, :main_pic, :zip)
+                       .includes(:make, :model, :pics, :main_pic, :zip, {seller: :zip})
 
+    @page_data = extract_page_data(@listings)
+
+    @listings = @listings.with_deal_ratio
     if request.xhr?
       #sleep 1 if Rails.env.development?
       render(partial: 'listings/index_listings.json') && return
@@ -121,14 +121,27 @@ class ListingsController < ApplicationController
 
   def search_params
     result = extract_search_params(params[:search])
+    result = (result.empty? ? extract_search_params(params) : result)
 
-    result.empty? ? extract_search_params(params) : result
+    result.each do |k, v|
+      result[k] = v.to_i unless STRING_SEARCH_PARAMS.include?(k.to_sym)
+    end
+
+    result
   end
 
   def extract_search_params(indif_hash)
     indif_hash.select do |k, v|
       PERMITTED_SEARCH_KEYS.include?(k.to_sym) && v.present?
     end.with_indifferent_access
+  end
+
+  def extract_page_data(listings)
+    {
+      total_count: (listings.respond_to?(:total_count) ? listings.total_count : Listing.cached_count),
+      total_pages: (listings.respond_to?(:total_pages) ? listings.total_pages : 10),
+      current_page: (listings.respond_to?(:current_page) ? listings.current_page : params[:page].to_i)
+    }
   end
 
 end

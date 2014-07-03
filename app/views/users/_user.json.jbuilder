@@ -3,7 +3,7 @@ json.(user, :id, :location, :is_dealer)
 if user == current_user
   json.(user,
     :fname, :lname, :company_name, :email, :phone,
-    :address_line_1, :address_line_2, :city, :state, :zip,
+    :address_line_1, :address_line_2, :city, :state, :zipcode,
     :is_activated, :is_dealer
   )
 
@@ -12,7 +12,7 @@ if user == current_user
 elsif user.is_dealer?
   json.(user,
     :company_name,
-    :address_line_1, :address_line_2, :city, :state, :zip
+    :address_line_1, :address_line_2, :city, :state, :zipcode
   )
 
 elsif !user.is_dealer?

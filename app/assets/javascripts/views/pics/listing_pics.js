@@ -46,7 +46,8 @@ CarListing.Views.PicsIndex = Backbone.View.extend({
 
     var $nav = $thumbs.parent();
     var navCenter = parseInt($nav.css('width')) / 2;
-    var selectedLeftMargin = navCenter - leftOfParent;
+    var selectedLeftCorner = navCenter - leftOfParent;
+    var selectedLeftMargin = selectedLeftCorner - 29;
 
     $thumbs.animate({'margin-left': '' + selectedLeftMargin + 'px'})
   },

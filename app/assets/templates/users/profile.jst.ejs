@@ -1,9 +1,18 @@
-<h1><%= user.name() %></h1>
+<h1>
+  Seller Profile
+  <% if (user.name()) { %>
+  - <%= user.name() %>
+  <% } %>
+</h1>
 
-<section class="sidebar">
-  <dl>
+<section id="sidebar">
+  <header>
+      <h3>Seller Info</h3>
+  </header>
+
+  <dl class="info">
   <% if (user.get('is_dealer')) { %>
-    <dt>Type</dt>
+    <dt>Seller type</dt>
     <dd>DEALERSHIP</dd>
     <dt>Address</dt>
     <dd><%= user.escape('address_line_1') %></dd>
@@ -15,7 +24,7 @@
       <%= user.escape('state') %> <%= user.escape('zip') %>
     </dd>
   <% } else { %>
-    <dt>Type</dt>
+    <dt>Seller type</dt>
     <dd>PRIVATE SELLER</dd>
     <dt>Location</dt>
     <dd><%= user.escape('location') %></dd>
@@ -27,4 +36,9 @@
   </dl>
 </section>
 
-<section class="listings"></section>
+<section id="main-content">
+  <header>
+    <h3>Seller's Listings</h3>
+  </header>
+  <section class="listings"></section>
+</section>

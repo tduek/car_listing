@@ -1,6 +1,7 @@
 CarListing.Views.ListingShow = Backbone.View.extend({
 
   initialize: function (options) {
+    this.subviews = [];
     this.listing = options.listing;
     this.listenTo(this.listing, 'change sync', this.render);
   },
@@ -23,16 +24,13 @@ CarListing.Views.ListingShow = Backbone.View.extend({
     event.preventDefault();
 
     var $link = $(event.currentTarget)
-    var $span = $link.parent();
-
     var recaptchaView = new CarListing.Views.PhoneRecaptcha({
-      model: this.listing
+      model: this.listing,
+      $link: $link,
+      $container: $link.parent()
     });
-
-    var view = this;
-    $span.after(recaptchaView.render().$el);
+    this.subviews.push(recaptchaView);
     recaptchaView.showRecaptcha();
-    $link.remove();
   },
 
   openLightbox: function (event) {
@@ -44,6 +42,14 @@ CarListing.Views.ListingShow = Backbone.View.extend({
     });
 
     lightboxView.activate();
+  },
+
+  remove: function () {
+    _( this.subviews ).each(function (subview) {
+      subview.remove();
+    });
+
+    Backbone.View.prototype.remove.call(this);
   }
 
 });

@@ -65,6 +65,7 @@ CarListing.Views.SearchForm = Backbone.View.extend({
   },
 
   refreshListings: function () {
+    CarListing.indexListings.remove(CarListing.indexListings.models);
     CarListing.indexListings.fetch({
       data: {search: CarListing.indexListings.searchParams},
       reset: true

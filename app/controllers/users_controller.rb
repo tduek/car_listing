@@ -7,7 +7,8 @@ class UsersController < ApplicationController
 
 
   def listings
-    @listings = Listing.where(user_id: params[:user_id])
+    @listings = Listing.with_deal_ratio
+                       .where(seller_id: params[:seller_id])
 
     render partial: 'listings/listings.json'
   end
