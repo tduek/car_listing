@@ -19,7 +19,6 @@ class Zip < ActiveRecord::Base
     Zip.select('zips_with_distance.*')
        .from("(#{zips_with_distance_from(zip).to_sql}) AS zips_with_distance")
        .where(['zips_with_distance.distance <= ?', distance])
-       .order('zips_with_distance.distance')
        .where(<<-SQL, *rectangle_constraints)
          (zips_with_distance.lat BETWEEN ? AND ?) AND
          (zips_with_distance.long BETWEEN ? AND ?)

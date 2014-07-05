@@ -4,8 +4,7 @@ class Listing < ActiveRecord::Base
   attr_accessible :is_owner, :miles, :model_id, :phone, :price, :year, :zipcode, :post_date, :make_id, :title, :description, :vin, :transmission
 
   belongs_to :seller, class_name: 'User', foreign_key: :seller_id
-
-  belongs_to :zip, primary_key: :code, foreign_key: :zipcode
+  has_one :zip, through: :seller, source: :zip
 
   belongs_to :make, class_name: "Subdivision", foreign_key: :make_id
   belongs_to :model, class_name: "Subdivision", foreign_key: :model_id
@@ -32,7 +31,26 @@ class Listing < ActiveRecord::Base
                   ["newest first", "post_date_desc"],
                   ["lowest price", "price_asc"],
                   ["highest price", "price_desc"],
-                  ["distance", "distance"]]
+                  ["distance", "distance"],
+                  ["best deal", "best_deal"]]
+
+  # def self.eager_load_pics(listings)
+  #   listings = listings.to_a
+  #
+  #   pics = Pic.where(listing_id: listings.map(&:id))
+  #   main_pics, all_pics = {}, Hash.new { |h, k| h[k] = [] }
+  #   pics.each do |pic|
+  #     main_pics[listing.id] = pic if pic.ord == 1
+  #     all_pics[pic.listing_id] << pic
+  #   end
+  #
+  #   listings.each do |listing|
+  #     def listing.main_pic; main_pics[listing.id]; end
+  #     def listing.pics; all_pics[listing.id]; end
+  #   end
+  #
+  #   listings
+  # end
 
   def self.cached_count(refresh = false)
     if !refresh && @cached_count && @cached_count_updated_at > 2.hours.ago
@@ -92,9 +110,63 @@ class Listing < ActiveRecord::Base
   end
 
   def self.within_miles_from_zip(dist, zip)
-   Listing.select('listings.*, near_zips.distance').
-           joins("INNER JOIN (#{Zip.near(dist, zip).to_sql}) AS near_zips ON near_zips.code=listings.zipcode")
+   Listing.select('users_with_dist.distance')
+          .joins(<<-SQL)
+            INNER JOIN (#{ User.within_miles_from_zip(dist, zip).to_sql }) AS users_with_dist
+                    ON users_with_dist.id=listings.seller_id
+          SQL
   end
+
+  <<-SQL
+      SELECT users_with_dist.distance, listings.*, (
+              sum(CASE WHEN inner_listings.price > listings.price
+                  THEN 1 ELSE 0 END
+              ) / count(inner_listings.*)::decimal
+            ) AS deal_ratio
+       FROM "listings"
+       INNER JOIN (
+         SELECT users.*, near_zips.distance
+         FROM "users"
+         INNER JOIN (
+           SELECT zips_with_distance.*
+           FROM (
+             SELECT zips_to.*, CASE zips_to.code
+               WHEN '10009' THEN 0
+               ELSE acos(
+                       cos(radians(zips_from.lat)) *
+                       cos(radians(zips_from.long))*
+                       cos(radians(zips_to.lat))   *
+                       cos(radians(zips_to.long))  +
+                       cos(radians(zips_from.lat)) *
+                       sin(radians(zips_from.long))*
+                       cos(radians(zips_to.lat))   *
+                       sin(radians(zips_to.long))  +
+                       sin(radians(zips_from.lat)) *
+                       sin(radians(zips_to.lat))
+                     ) * 3982 * 1.17
+               END AS distance
+             FROM zips AS zips_from
+             CROSS JOIN zips AS zips_to
+             WHERE (zips_from.code=10009)
+           ) AS zips_with_distance
+           WHERE (zips_with_distance.distance <= 50) AND (
+             (zips_with_distance.lat BETWEEN 39.9909058823529411 AND 41.4614941176470589) AND
+             (zips_with_distance.long BETWEEN -75.408171428571429 AND -72.551028571428571))
+         ) AS near_zips
+         ON near_zips.code=users.zipcode
+       ) AS users_with_dist
+       ON users_with_dist.id=listings.seller_id
+       INNER JOIN listings AS inner_listings
+       ON listings.year=inner_listings.year
+       AND listings.model_id=inner_listings.model_id
+       WHERE (listings.model_id IS NOT NULL)
+       GROUP BY listings.id
+       LIMIT 25
+       OFFSET 0
+
+
+  SQL
+
 
   # def self.within_miles_from_zip(dist, zip)
   #  Listing.select('listings.*')
@@ -102,24 +174,35 @@ class Listing < ActiveRecord::Base
   # end
 
   def self.with_deal_ratio
-    self.select(<<-SQL)
-          listings.*, (
-            sum(CASE
-                WHEN inner_listings.price > listings.price THEN
-                  1
-                ELSE
-                  0
-                END
-            ) /
-            count(inner_listings.*)::decimal
-          ) AS deal_ratio
-        SQL
-        .joins(<<-SQL)
-          INNER JOIN listings AS inner_listings
-            ON listings.year=inner_listings.year
-           AND listings.model_id=inner_listings.model_id
-        SQL
-        .group('listings.id')
+    result = self.select(<<-SQL)
+      listings.*, (
+        SELECT (sum(CASE
+                   WHEN inner_listings.price > listings.price
+                   THEN 1 ELSE 0 END) / count(inner_listings.id)::decimal
+                   ) AS deal_ratio
+        FROM listings AS inner_listings
+        WHERE inner_listings.model_id=listings.model_id
+          AND inner_listings.year=listings.year
+       )
+     SQL
+
+    def result.cheap_total_count
+      select_val = "COUNT(listings.id)"
+      join_val = self.joins_values.join(' ')
+      where_val = self.where_values
+                      .map { |w| case w; when Arel::Nodes::Node; w.to_sql; else w; end }
+                      .reject { |w| w[/RANDOM ID generation/] }
+                      .join(' AND ')
+
+      Listing.count_by_sql(<<-SQL)
+        SELECT #{select_val}
+        FROM listings
+        #{join_val}
+        WHERE #{where_val}
+      SQL
+    end
+
+    result
   end
 
   def self.search(terms, page = nil)
@@ -132,7 +215,7 @@ class Listing < ActiveRecord::Base
       result = Listing
     end
 
-    results = result.where('listings.model_id IS NOT NULL')
+    results = result.where('listings.model_id IS NOT NULL').with_deal_ratio
                     # .includes(:pics, :main_pic, :make, :model, :zip)
 
 
@@ -172,13 +255,14 @@ class Listing < ActiveRecord::Base
              'price_asc' => 'listings.price ASC',
              'price_desc' => 'listings.price DESC',
              'distance' => 'near_zips.distance ASC',
-             'best_deal' => 'listings.deal_ratio ASC'}
+             'best_deal' => 'deal_ratio DESC'}
 
     if sorts[terms[:sort]]
       results = results.order(sorts[terms[:sort]])
     elsif terms.count == 0 || (terms[:sort] && terms.count == 1)
       results = results.where(<<-SQL).limit(25)
         listings.id IN (
+          -- RANDOM ID generation
           SELECT floor(random() * (max_id - min_id + 1))::integer + min_id
           FROM generate_series(1, 100),
                (SELECT max(listings.id) AS max_id, min(listings.id) AS min_id
@@ -225,7 +309,7 @@ class Listing < ActiveRecord::Base
   end
 
   def post_date_iso8601
-    self.post_date.getutc.iso8601
+    self.created_at.getutc.iso8601
   end
 
   def is_favorite?

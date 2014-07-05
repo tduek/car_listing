@@ -58,6 +58,14 @@ class User < ActiveRecord::Base
     end
   end
 
+  def self.within_miles_from_zip(dist, zip)
+    User.select('users.*, near_zips.distance')
+        .joins(<<-SQL)
+          INNER JOIN (#{ Zip.near(dist, zip).to_sql }) AS near_zips
+                  ON near_zips.code=users.zipcode
+        SQL
+  end
+
   def self.find_by_credentials(email, password)
     user = self.find_by_email(email)
     (user && user.is_password?(password)) ? user : nil

@@ -17,11 +17,9 @@ class ListingsController < ApplicationController
     params[:page] ||= 1
     @search_params = search_params
     @listings = Listing.search(@search_params, params[:page])
-                       .includes(:make, :model, :pics, :main_pic, :zip, {seller: :zip})
+                       .preload(:pics, :main_pic, :make, :model, :zip, {seller: :zip})
 
     @page_data = extract_page_data(@listings)
-
-    @listings = @listings.with_deal_ratio
     if request.xhr?
       #sleep 1 if Rails.env.development?
       render(partial: 'listings/index_listings.json') && return
@@ -137,9 +135,11 @@ class ListingsController < ApplicationController
   end
 
   def extract_page_data(listings)
+    cheap_count = listings.cheap_total_count
     {
-      total_count: (listings.respond_to?(:total_count) ? listings.total_count : Listing.cached_count),
-      total_pages: (listings.respond_to?(:total_pages) ? listings.total_pages : 10),
+      # total_count: (listings.respond_to?(:total_count) ? listings.total_count : Listing.cached_count),
+      total_count: cheap_count,
+      total_pages: cheap_count / 25,
       current_page: (listings.respond_to?(:current_page) ? listings.current_page : params[:page].to_i)
     }
   end

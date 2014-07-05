@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140701000533) do
+ActiveRecord::Schema.define(:version => 20140704142640) do
 
   create_table "craigs_sites", :force => true do |t|
     t.string   "city"
@@ -41,29 +41,21 @@ ActiveRecord::Schema.define(:version => 20140701000533) do
     t.integer  "price"
     t.string   "title"
     t.text     "description"
-    t.boolean  "is_owner"
-    t.integer  "zipcode"
     t.integer  "miles"
-    t.integer  "phone",        :limit => 8
-    t.datetime "post_date"
-    t.datetime "created_at",                :null => false
-    t.datetime "updated_at",                :null => false
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
     t.integer  "seller_id"
     t.string   "vin"
     t.integer  "transmission"
   end
 
-  add_index "listings", ["is_owner"], :name => "index_listings_on_is_owner"
   add_index "listings", ["make_id"], :name => "index_listings_on_make_id"
   add_index "listings", ["model_id"], :name => "index_listings_on_model_id"
   add_index "listings", ["price"], :name => "index_listings_on_price"
   add_index "listings", ["year"], :name => "index_listings_on_year"
-  add_index "listings", ["zipcode"], :name => "index_listings_on_zipcode"
 
   create_table "pics", :force => true do |t|
     t.integer  "listing_id"
-    t.boolean  "is_thumb"
-    t.integer  "thumb_for"
     t.string   "file_file_name"
     t.string   "file_content_type"
     t.integer  "file_file_size"
@@ -74,7 +66,6 @@ ActiveRecord::Schema.define(:version => 20140701000533) do
     t.string   "token"
   end
 
-  add_index "pics", ["is_thumb"], :name => "index_pics_on_is_thumb"
   add_index "pics", ["listing_id"], :name => "index_pics_on_listing_id"
 
   create_table "scrapings", :force => true do |t|
