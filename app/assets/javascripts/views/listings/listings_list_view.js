@@ -23,7 +23,7 @@ CarListing.Views.ListingsList = Backbone.View.extend({
 
   reactToCollectionChange: function () {
     if (this.listings.isEmpty()) {
-      this.showEmptyMsg;
+      this.showEmptyMsg();
     }
     else {
       this.render();

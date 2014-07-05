@@ -74,10 +74,10 @@ CarListing.Views.SearchForm = Backbone.View.extend({
 
   selectChanged: function ($select) {
     if ($select.val()) {
-      $select.addClass('selected');
+      $select.addClass('selected user-written');
     }
     else {
-      $select.removeClass('selected');
+      $select.removeClass('selected user-written');
     }
   },
 

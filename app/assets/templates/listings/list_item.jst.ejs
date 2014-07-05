@@ -37,8 +37,8 @@
 
   <h4 class="line">
     by
-    <strong>
-      <%= listing.seller().get('by_owner') ? "OWNER" : "DEALER" %>:
+    <strong class="user-written">
+      <%= listing.seller().get('is_dealer') ? "DEALER" : "OWNER" %>:
     </strong>
     <span>"<%= listing.truncatedTitle(35) %>"</span>
   </h4>

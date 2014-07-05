@@ -24,6 +24,7 @@ body { font-family: "Open Sans", sans-serif; font-weight: 100; color: #333333; }
 select {font-family: "Open Sans", sans-serif; font-weight: 100; }
 
 h1, h2 {font-family: "Oswald"; font-weight: 100; color: #333333;}
+.user-written { font-family: Courier; letter-spacing: -1px; }
 h1 {letter-spacing: 1px;}
 a { text-decoration: none; color: #333333; }
 a:hover {text-decoration: underline;}
@@ -54,9 +55,12 @@ body.no-scroll {
   margin: 0 auto;
 }
 
-#content > * > h1 {
-  font-size: 30px;
+#content > * > header.page-header {
   margin-bottom: 30px;
+}
+
+.page-header h1 {
+  font-size: 30px;
 }
 
 #sidebar {
@@ -79,7 +83,9 @@ body.no-scroll {
   border-bottom: 1px solid #333333;
 }
 
-.listings .spinner {
+.listings > .spinner {
+  /* Spinner while loading listings. Direct
+     descendant else clashes with favoriting spinner. */
   display: block;
   margin: 30px auto 0 auto;
 }
@@ -119,11 +125,17 @@ dl.info {
 }
 
 dl.info > dt {
-  font-weight: bold;
+  position: relative;
+  top: 38px;
+  left: 10px;
+  font-size: 13px;
 }
 
 dl.info > dd {
-  margin-left: 30px;
+  border-bottom: 1px dotted #333333;
+  text-indent: 30px;
+  margin-bottom: 30px;
+  font-family: Courier;
 }
 
 

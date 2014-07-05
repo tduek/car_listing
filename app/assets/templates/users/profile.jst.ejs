@@ -1,9 +1,11 @@
-<h1>
-  Seller Profile
-  <% if (user.name()) { %>
-  - <%= user.name() %>
-  <% } %>
-</h1>
+<header class="page-header">
+  <h1>
+    Seller Profile
+    <% if (user.name()) { %>
+    - <%= user.name() %>
+    <% } %>
+  </h1>
+</header>
 
 <section id="sidebar">
   <header>
@@ -26,8 +28,11 @@
   <% } else { %>
     <dt>Seller type</dt>
     <dd>PRIVATE SELLER</dd>
+
+    <% if (user.get('location')) { %>
     <dt>Location</dt>
     <dd><%= user.escape('location') %></dd>
+    <% } %>
   <% } %>
     <dt>Contact</dt>
     <dd>
