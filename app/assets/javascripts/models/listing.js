@@ -25,7 +25,7 @@ CarListing.Models.Listing = Backbone.Model.extend({
     return json;
   },
 
-  phoneURL: function () {
+  contactURL: function () {
     return '/listings/' + this.id + '/phone';
   },
 

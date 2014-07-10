@@ -44,7 +44,7 @@ CarListing.Views.PhoneRecaptcha = Backbone.View.extend({
 
     $.ajax({
       method: 'get',
-      url: view.listing.phoneURL(),
+      url: view.model.contactURL(),
       accepts: 'json',
       data: view.$el.serializeJSON(),
       beforeSend: function () {

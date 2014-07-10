@@ -1,9 +1,10 @@
 <header class="page-header">
   <h1>
+  <% if (user.name()) { %>
+    <%= user.name() %>'s Profile
+  <% } else { %>
     Seller Profile
-    <% if (user.name()) { %>
-    - <%= user.name() %>
-    <% } %>
+  <% } %>
   </h1>
 </header>
 
@@ -16,15 +17,19 @@
   <% if (user.get('is_dealer')) { %>
     <dt>Seller type</dt>
     <dd>DEALERSHIP</dd>
+
+    <% if (user.get('address_line_1')) { %>
     <dt>Address</dt>
-    <dd><%= user.escape('address_line_1') %></dd>
-    <% if (user.get('address_line_2')) { %>
-    <dd><%= user.escape('address_line_2') %></dd>
-    <% } %>
     <dd>
-      <%= user.escape('city') %>,
+      <%= user.escape('address_line_1') %>
+      <% if (user.get('address_line_2')) { %>
+      <br><%= user.escape('address_line_2') %>
+      <% } %>
+      <br><%= user.escape('city') %>,
       <%= user.escape('state') %> <%= user.escape('zip') %>
     </dd>
+    <% } %>
+
   <% } else { %>
     <dt>Seller type</dt>
     <dd>PRIVATE SELLER</dd>
@@ -36,7 +41,7 @@
   <% } %>
     <dt>Contact</dt>
     <dd>
-      <span><a class="phone" href="#">Phone</a></span>
+      <span><a class="phone" href="#">Click here!</a></span>
     </dd>
   </dl>
 </section>

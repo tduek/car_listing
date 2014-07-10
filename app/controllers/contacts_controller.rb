@@ -1,11 +1,11 @@
-class PhonesController < ApplicationController
+class ContactsController < ApplicationController
   include ActionView::Helpers::NumberHelper
 
   def show
     sleep 1
     if valid_captcha?
-      listing = Listing.find(params[:listing_id])
-      phone = number_to_phone(listing.phone)
+      user = User.find(params[:user_id])
+      phone = number_to_phone(user.phone)
       render json: {phone: phone}
     else
       head 401

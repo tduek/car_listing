@@ -31,8 +31,11 @@ CarListing.Models.User = Backbone.Model.extend({
       var vals = [this.escape('fname'), this.escape('lname')];
       return _( vals ).compact().join(' ');
     }
-  }
+  },
 
+  contactURL: function () {
+    return '/users/' + this.id + '/contact';
+  }
 
 
 });

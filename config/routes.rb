@@ -1,7 +1,6 @@
 CarListing::Application.routes.draw do
   root to: "listings#index"
   resources :listings do
-    resource :phone, only: :show
     get :favorites, on: :collection
   end
 
@@ -11,6 +10,7 @@ CarListing::Application.routes.draw do
   resources :pics, only: :create
 
   resources :users, only: [:show, :new, :create, :edit, :update, :destroy] do
+    resource :contact, only: :show
     get "activate", on: :collection
 
     member do

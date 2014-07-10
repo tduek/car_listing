@@ -8,7 +8,10 @@ form.phone {
   background-color: white;
   padding: 5px;
   border: 1px solid #cccccc;
-  width: 100%;
+  width: 270px;
+  text-indent: 0;
+  position: relative;
+  z-index: 10;
 }
 
 form.phone.show {
@@ -71,6 +74,11 @@ form.phone.show {
   width: 22px;
   float: left;
   text-align: center;
+}
+
+#recaptcha_widget nav a {
+  display: block;
+  margin: 4px;
 }
 
 #recaptcha_widget nav i {
