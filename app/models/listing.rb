@@ -261,6 +261,7 @@ class Listing < ActiveRecord::Base
       results = results.order(sorts[terms[:sort]])
     elsif terms.count == 0 || (terms[:sort] && terms.count == 1)
       results = results.where(<<-SQL).limit(25)
+        -- more efficient than order by random()
         listings.id IN (
           -- RANDOM ID generation
           SELECT floor(random() * (max_id - min_id + 1))::integer + min_id
