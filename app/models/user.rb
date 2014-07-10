@@ -30,6 +30,7 @@ class User < ActiveRecord::Base
   validates :phone, numericality: true, length: {is: 10, message: "should have 10 digits"}
 
   validates :zip, numericality: true, length: {is: 5}
+  validate :phone_format
 
   # Password logic
   before_validation :set_password_digest, if: :password_required?
@@ -39,6 +40,13 @@ class User < ActiveRecord::Base
 
   # Activation
   before_create :ensure_activation_token
+
+  def phone_format
+    phone_s = phone.to_s
+    unless phone_s.length == 10 || (phone_s.length == 11 && phone_s[0] == '1')
+      errors[:phone] << "is invalid."
+    end
+  end
 
   def favorited_listing?(listing)
     self.favorites.exists?(listing_id: listing.id)

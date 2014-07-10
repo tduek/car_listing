@@ -1,6 +1,6 @@
 CarListing.Collections.Users = Backbone.Collection.extend({
 
-  url: '/users',
+  url: '/api/users',
 
   model: CarListing.Models.User,
 

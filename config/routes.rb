@@ -4,13 +4,19 @@ CarListing::Application.routes.draw do
     get :favorites, on: :collection
   end
 
-  post '/listings/:listing_id/favorite', to: 'favorites#create', as: :favorite_listing
-  delete '/listings/:listing_id/unfavorite', to: 'favorites#destroy', as: :unfavorite_listing
+  namespace :api, defaults: {format: :json} do
+    post '/listings/:listing_id/favorite', to: 'favorites#create', as: :favorite_listing
+    delete '/listings/:listing_id/unfavorite', to: 'favorites#destroy', as: :unfavorite_listing
 
-  resources :pics, only: :create
+    resources :users, only: [:show] do
+      get :listings, on: :member
+      resource :contact_info, only: :show
+    end
 
-  resources :users, only: [:show, :new, :create, :edit, :update, :destroy] do
-    resource :contact, only: :show
+    resources :pics, only: :create
+  end
+
+  resources :users, only: [:new, :create, :edit, :update, :destroy] do
     get "activate", on: :collection
 
     member do
@@ -18,7 +24,6 @@ CarListing::Application.routes.draw do
     end
   end
 
-  get '/users/:seller_id/listings', to: 'users#listings', as: :user_listings
 
   resource :user_password, only: [:new, :create, :edit, :update]
 

@@ -1,7 +1,5 @@
 CarListing.Models.User = Backbone.Model.extend({
 
-  urlRoot: '/users',
-
   listings: function () {
     if (!this._ownedListings) {
       this._ownedListings = new CarListing.Subsets.OwnedListings([], {
@@ -34,7 +32,7 @@ CarListing.Models.User = Backbone.Model.extend({
   },
 
   contactURL: function () {
-    return '/users/' + this.id + '/contact';
+    return '/api/users/' + this.id + '/contact_info';
   }
 
 

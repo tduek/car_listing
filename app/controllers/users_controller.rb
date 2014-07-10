@@ -6,27 +6,6 @@ class UsersController < ApplicationController
     [:show, :edit, :update, :destroy, :resend_initial_activation_email, :change_email]
 
 
-  def listings
-    @listings = Listing.with_deal_ratio
-                       .where(seller_id: params[:seller_id])
-
-    render partial: 'listings/listings.json'
-  end
-
-
-  def index
-    @users = User.all
-  end
-
-
-  def show
-    @user = User.find(params[:id])
-
-    if request.xhr?
-      render partial: 'users/user.json', locals: {user: @user}
-    end
-  end
-
 
   def new
     @user = User.new
@@ -51,7 +30,7 @@ class UsersController < ApplicationController
 
   def activate
     @user = User.find_by_activation_token(params[:activation_token])
-    raise_404 unless @user
+    (head(404) && return) unless @user
 
     if @user.is_activated?
       flash[:notice] = "Already activated, now enjoy."

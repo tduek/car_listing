@@ -1,4 +1,4 @@
-class PicsController < ApplicationController
+class Api::PicsController < ApiController
 
   def create
     extension = params[:pic_data][11..14][/jpeg|jpg|png|bmp/]

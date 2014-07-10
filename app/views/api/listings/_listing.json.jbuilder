@@ -1,7 +1,10 @@
 json.id listing.id
 
-json.(listing, :ymm, :miles, :vin, :transmission,
-               :title, :description, :location, :price, :seller_id)
+json.(listing, :ymm, :miles, :transmission, :location, :price, :seller_id)
+
+json.vin h(listing.vin)
+json.title h(listing.title)
+json.description h(listing.description)
 
 json.deal_ratio (listing.deal_ratio.to_f * 100).to_i if listing.respond_to?(:deal_ratio)
 
@@ -20,7 +23,7 @@ json.pics listing.pics.map(&:as_json)
 
 json.seller do
   if listing.seller
-    json.partial! 'users/user.json.jbuilder', user: listing.seller
+    json.partial! 'users/user', user: listing.seller
   else
     json.is_dealer !listing.is_owner
     json.location listing.location

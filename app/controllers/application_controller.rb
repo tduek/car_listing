@@ -55,4 +55,22 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def search_params
+    params[:search] ||= {}
+    result = extract_search_params(params[:search])
+    result = (result.empty? ? extract_search_params(params) : result)
+
+    result.each do |k, v|
+      result[k] = v.to_i unless Listing::STRING_SEARCH_PARAMS.include?(k.to_sym)
+    end
+
+    result
+  end
+
+  def extract_search_params(indif_hash)
+    indif_hash.select do |k, v|
+      Listing::PERMITTED_SEARCH_KEYS.include?(k.to_sym) && v.present?
+    end.with_indifferent_access
+  end
+
 end

@@ -26,7 +26,7 @@ class Pic < ActiveRecord::Base
     end
   end
 
-  def as_json
+  def as_json(options = {})
     {
       id: self.id,
       listing_id: self.listing_id,

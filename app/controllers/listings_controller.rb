@@ -1,54 +1,23 @@
 class ListingsController < ApplicationController
-  before_filter :require_user_signed_in, only: [:new, :create, :edit, :update, :destroy, :favorites]
+  before_filter :require_user_signed_in, only: [:new, :create, :edit, :update, :destroy]
   before_filter :require_owner, only: [:edit, :update, :destroy]
 
-  PERMITTED_SEARCH_KEYS = [
-    :year_from, :year_to,
-    :make_id, :model_id,
-    :price_from, :price_to,
-    :zip, :dist,
-    :sort
-  ]
-
-  STRING_SEARCH_PARAMS = [:sort]
-
   def index
-    params[:search] ||= {}
-    params[:page] ||= 1
     @search_params = search_params
     @listings = Listing.search(@search_params, params[:page])
                        .preload(:pics, :main_pic, :make, :model, :zip, {seller: :zip})
-
-    @page_data = extract_page_data(@listings)
-    if request.xhr?
-      #sleep 1 if Rails.env.development?
-      render(partial: 'listings/index_listings.json') && return
-    end
-
     @makes = Subdivision.makes.includes(:active_models).order(:name)
-    @years = Year.select('years.year').order('years.year').uniq.map(&:year)
 
-    zip = params[:search][:zip]
-    if zip && zip.length > 1 && !Zip.find_by_code(zip)
-      flash[:alert] = "Invalid zipcode. Please check your input."
-    end
-  end
+    @listings_json = render_to_string('api/listings/index', formats: [:json])
+    @subdivisions_json = render_to_string('subdivisions/index', formats: [:json])
 
-  def favorites
-    @listings = current_user.favorited_listings.includes(
-      :make, :model, :pics, :main_pic, :zip
-    )
+    @years = Year.select('years.year').order('years.year').uniq.pluck(:year)
 
-    render partial: 'listings/listings.json'
+    render :index, formats: [:html]
   end
 
   def show
-    @listing = Listing.includes(:make, :model, :pics, :main_pic).find(params[:id])
-    @title = "#{@listing.ymm} | "
-
-    if request.xhr?
-      render partial: 'listings/listing.json', locals: {listing: @listing}
-    end
+    redirect_to root_url + "/#/listings/#{params[:id]}"
   end
 
   def new
@@ -112,33 +81,5 @@ class ListingsController < ApplicationController
     redirect_to current_user
   end
 
-  private
-
-  def search_params
-    result = extract_search_params(params[:search])
-    result = (result.empty? ? extract_search_params(params) : result)
-
-    result.each do |k, v|
-      result[k] = v.to_i unless STRING_SEARCH_PARAMS.include?(k.to_sym)
-    end
-
-    result
-  end
-
-  def extract_search_params(indif_hash)
-    indif_hash.select do |k, v|
-      PERMITTED_SEARCH_KEYS.include?(k.to_sym) && v.present?
-    end.with_indifferent_access
-  end
-
-  def extract_page_data(listings)
-    cheap_count = listings.cheap_total_count
-    {
-      # total_count: (listings.respond_to?(:total_count) ? listings.total_count : Listing.cached_count),
-      total_count: cheap_count,
-      total_pages: cheap_count / 25,
-      current_page: (listings.respond_to?(:current_page) ? listings.current_page : params[:page].to_i)
-    }
-  end
 
 end

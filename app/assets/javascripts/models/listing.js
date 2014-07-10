@@ -25,10 +25,6 @@ CarListing.Models.Listing = Backbone.Model.extend({
     return json;
   },
 
-  contactURL: function () {
-    return '/listings/' + this.id + '/phone';
-  },
-
   price: function () {
     return accounting.formatMoney(this.get('price'));
   },
@@ -85,7 +81,7 @@ CarListing.Models.Listing = Backbone.Model.extend({
     var listing = this;
     $.ajax({
       type: 'post',
-      url: '/listings/' + this.id + '/favorite',
+      url: '/api/listings/' + this.id + '/favorite',
       success: function () {
         listing.set('is_favorite', true);
         CarListing.currentUser().favoritedListings().add(listing);
@@ -97,7 +93,7 @@ CarListing.Models.Listing = Backbone.Model.extend({
     var listing = this;
     $.ajax({
       type: 'delete',
-      url: '/listings/' + this.id + '/unfavorite',
+      url: '/api/listings/' + this.id + '/unfavorite',
       success: function () {
         listing.set('is_favorite', false);
       }

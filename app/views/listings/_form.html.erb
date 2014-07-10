@@ -34,7 +34,7 @@
       <span class="progress"></span>
       <span class="errors">
         <div class="triangle"></div>
-        <span class="remove">&times</span>
+        <span class="remove">&times;</span>
         <p class="message">
           File must be a picture of type
           <%= Pic::ACCEPTED_TYPES.to_sentence(last_word_connector: ' or ') %>
@@ -158,7 +158,7 @@
       $.ajax({
         method: 'POST',
         enctype: 'multipart/form-data',
-        url: "<%= pics_url %>",
+        url: "<%= api_pics_url %>",
         data: {pic_data: picData},
         xhr: function () {
           var xhr = new window.XMLHttpRequest();

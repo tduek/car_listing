@@ -5,10 +5,8 @@
 
 <% cache(expires_in: 10.minutes, race_condition_ttl: 10.seconds) do %>
 <script type="application/json" id="bootstrapped-data">
-  {"listingsData":
-      <%= render('listings/index_listings.json.jbuilder').html_safe %>,
-   "subdivisions":
-      <%= render('subdivisions/index.json.jbuilder').html_safe %>,
+  {"listingsData": <%= @listings_json.html_safe %>,
+   "subdivisions": <%= @subdivisions_json.html_safe %>,
     "years": <%= @years.to_json %>,
     "sortOptions": <%= Listing::SORT_OPTIONS.to_json.html_safe %>,
     "RECAPTCHA_PUBLIC_KEY": "<%= ENV['RECAPTCHA_PUBLIC_KEY'] %>",
