@@ -1,4 +1,9 @@
 CarListing.Models.Subdivision = Backbone.Model.extend({
+
+  initialize: function (models, options) {
+    if (options.parent) this.parent = options.parent;
+  },
+
   parse: function (json) {
     if (json.children) {
       this.children().set(json.children);
@@ -10,7 +15,9 @@ CarListing.Models.Subdivision = Backbone.Model.extend({
 
   children: function () {
     if (!this.get('children')) {
-      this.set('children', new CarListing.Collections.Subdivisions())
+      this.set('children', new CarListing.Collections.Subdivisions([], {
+        parent: this
+      }));
     }
 
     return this.get('children');

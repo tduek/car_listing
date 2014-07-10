@@ -3,6 +3,7 @@ CarListing.Views.SearchForm = Backbone.View.extend({
   template: JST['listings/index/search_form'],
 
   initialize: function (options) {
+    this.listings = CarListing.indexListings;
   },
 
   className: 'search',
@@ -10,10 +11,10 @@ CarListing.Views.SearchForm = Backbone.View.extend({
   tagName: 'form',
 
   events: {
+    'change #search-make_id': 'updateModelSelect',
     'submit': 'changedSearchParams',
     'change select': 'changeSearchParams',
     'change input': 'changeSearchParams',
-    'change #search-make_id': 'updateModelSelect',
     // 'keyup input': 'changeSearchParams',
     'click .contains-tooltip': 'maybeShowTooltip',
     'change .search-year': 'yearChanged'
@@ -29,12 +30,20 @@ CarListing.Views.SearchForm = Backbone.View.extend({
   },
 
   setDefaults: function () {
-    this.selectChanged(this.$el.find('#search-year_from'));
-    this.selectChanged(this.$el.find('#search-year_to'));
-    this.selectChanged(this.$el.find('#search-make_id'));
-    this.selectChanged(this.$el.find('#search-model_id'));
-    this.selectChanged(this.$el.find('#search-sort_by'));
-    this.updateModelSelect();
+    this.selectChanged(this.$('#search-year_from'));
+    this.selectChanged(this.$('#search-year_to'));
+
+    var $makeSelect = this.$('#search-make_id');
+    this.selectChanged($makeSelect);
+
+    if ($makeSelect.val()) {
+      this.updateModelSelect();
+      var $modelSelect = this.$('#search-model_id');
+      $modelSelect.val(CarListing.indexListings.searchParams.model_id);
+      this.selectChanged($modelSelect);
+    }
+
+    this.selectChanged(this.$('#search-sort_by'));
     this.maybeToggleSortByDistance();
 
     return this;
@@ -82,15 +91,21 @@ CarListing.Views.SearchForm = Backbone.View.extend({
   },
 
   updateModelSelect: function () {
-    var makeID = this.$el.find('#search-make_id').val();
-    var $modelSelect = this.$el.find('#search-model_id');
+    var makeID = this.$('#search-make_id').val();
+    var $modelSelect = this.$('#search-model_id');
     $modelSelect.html('<option value="">Model</option>')
+    $modelSelect.val('');
     if (makeID) {
       var models = CarListing.subdivisions.get(makeID).children();
-      models.each(function(model) {
+      if (!models.get(this.listings.searchParams.model_id)) {
+        this.listings.searchParams.model_id = '';
+      }
+
+      models.each(function (model) {
         $modelSelect.append('<option value="'+model.id+'">'+model.get('name')+'</option>')
       });
       $modelSelect.prop('disabled', false).siblings('.mask').hide();
+      this.selectChanged($modelSelect);
     }
     else {
       $modelSelect.prop('disabled', true).siblings('.mask').show();

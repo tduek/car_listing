@@ -4,9 +4,11 @@
       <label for="search-year_from">Year</label>
       <select class="search-year" id="search-year_from" name="year_from">
         <option value="">from</option>
+        <% var searchYearFrom = parseInt(searchParams.year_from); %>
         <% CarListing.years.forEach(function (year) { %>
+        <% var year = parseInt(year); %>
         <option value="<%= year %>"
-          <%= (searchParams.year_from === year) ? 'selected' : '' %>>
+          <%= (searchYearFrom === year) ? 'selected' : '' %>>
           <%= year %>
         </option>
         <% }); %>
@@ -14,9 +16,11 @@
       ▰
       <select class="search-year" id="search-year_to" name="year_to">
         <option value="">to</option>
+        <% var searchYearTo = parseInt(searchParams.year_to); %>
         <% CarListing.years.forEach(function (year) { %>
+        <% var year = parseInt(year); %>
         <option value="<%= year %>"
-          <%= (searchParams.year_to === year) ? 'selected' : '' %>>
+          <%= (searchYearTo === year) ? 'selected' : '' %>>
           <%= year %>
         </option>
         <% }); %>
@@ -27,9 +31,11 @@
     <td class="contains-tooltip make">
       <select name="make_id" id="search-make_id">
         <option value="">Make</option>
+        <% var searchMakeId = parseInt(searchParams.make_id); %>
         <% CarListing.subdivisions.each(function (make) { %>
         <option value="<%= make.id %>"
-          <%= (searchParams.make_id === make.id) ? 'selected' : '' %>>
+          <% var makeId = parseInt(make.id); %>
+          <%= (searchMakeId === makeId) ? 'selected' : '' %>>
           <%= make.escape('name') %>
         </option>
         <% }); %>
@@ -79,7 +85,7 @@
                  pattern="[0-9]*"
                       id="search-distance"
                maxlength="4"
-                   value="">
+                   value="<%= searchParams.dist %>">
       <label for="search-distance">miles</label>
       <label for="search-zip">from</label>
       <input placeholder="zip"
@@ -88,7 +94,7 @@
                  pattern="[0-9]*"
                       id="search-zip"
                maxlength="5"
-                   value="">
+                   value="<%= searchParams.zip %>">
     </td>
   </tr>
   <tr>
@@ -97,7 +103,9 @@
       <select name="sort" id="search-sort_by">
         <option value="">random</option>
         <% CarListing.sortOptions.forEach( function (option) { %>
-        <option value="<%= option[1] %>"><%= option[0] %></option>
+        <option value="<%= option[1] %>" <%= searchParams.sort_by === option[1] ? 'selected' : '' %>>
+          <%= option[0] %>
+        </option>
         <% }); %>
       </select>
     </td>
