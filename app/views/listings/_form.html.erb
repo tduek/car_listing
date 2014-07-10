@@ -316,20 +316,6 @@
           </div>
         </li>
         <li>
-          <% phone_errors = @listing.errors[:phone] %>
-          <div class="clear-fix<%= " field-with-errors" if !phone_errors.empty? %>">
-
-            <% unless phone_errors.empty? %>
-            <p>Phone <%= phone_errors.to_sentence %>.</p>
-            <% end %>
-
-            <%= f.label :phone, "Phone:" %>
-            <span>
-              <%= f.text_field :phone, value: number_to_phone(current_user.phone) %>
-            </span>
-          </div>
-        </li>
-        <li>
           <% price_errors = @listing.errors[:price] %>
           <div class="clear-fix<%= " field-with-errors" if !price_errors.empty? %>">
 

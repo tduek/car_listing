@@ -59,9 +59,6 @@ class ListingsController < ApplicationController
   def create
     params[:listing][:phone].gsub!(/\D/, '') if params[:listing][:phone]
     @listing = current_user.listings.new(params[:listing])
-    @listing.zipcode = current_user.zip
-    @listing.is_owner = !current_user.is_dealer
-    @listing.post_date = Time.now
 
     params[:pics] && params[:pics].values.each_with_index do |pic_params, i|
       next unless pic_params[:file] || pic_params[:token].length > 0
