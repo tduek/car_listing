@@ -18,9 +18,14 @@ CarListing.Routers.Users = Backbone.Router.extend({
   },
 
   dashboard: function () {
-    var view = new CarListing.Views.UserDashboard();
+    if (CarListing.userSignedIn()) {
+      var view = new CarListing.Views.UserDashboard();
 
-    CarListing._swapView(view);
+      CarListing._swapView(view);
+    }
+    else {
+      window.location.href = "/listings/new";
+    }
   }
 
 });

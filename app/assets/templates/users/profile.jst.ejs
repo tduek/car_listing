@@ -21,12 +21,12 @@
     <% if (user.get('address_line_1')) { %>
     <dt>Address</dt>
     <dd>
-      <%= user.escape('address_line_1') %>
+      <%= user.get('address_line_1') %>
       <% if (user.get('address_line_2')) { %>
-      <br><%= user.escape('address_line_2') %>
+      <br><%= user.get('address_line_2') %>
       <% } %>
-      <br><%= user.escape('city') %>,
-      <%= user.escape('state') %> <%= user.escape('zip') %>
+      <br><%= user.get('city') %>,
+      <%= user.get('state') %> <%= user.get('zip') %>
     </dd>
     <% } %>
 
@@ -36,7 +36,7 @@
 
     <% if (user.get('location')) { %>
     <dt>Location</dt>
-    <dd><%= user.escape('location') %></dd>
+    <dd><%= user.get('location') %></dd>
     <% } %>
   <% } %>
     <dt>Contact</dt>

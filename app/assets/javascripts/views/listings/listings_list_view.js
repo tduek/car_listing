@@ -23,6 +23,7 @@ CarListing.Views.ListingsList = Backbone.View.extend({
 
   reactToCollectionChange: function () {
     if (this.listings.isEmpty()) {
+      this.renderedListings = [];
       this.showEmptyMsg();
     }
     else {
@@ -48,7 +49,6 @@ CarListing.Views.ListingsList = Backbone.View.extend({
     var listItemView = new CarListing.Views.ListItem({ listing: listing });
     this.subviews.push(listItemView);
     this.$el.append(listItemView.render().$el);
-
   },
 
   remove: function () {

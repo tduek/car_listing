@@ -26,17 +26,11 @@ CarListing.Models.Listing = Backbone.Model.extend({
   },
 
   price: function () {
-    return accounting.formatMoney(this.get('price'));
+    if (this.get('price')) return accounting.formatMoney(this.get('price'));
   },
 
   miles: function () {
-    var miles = this.escape('miles');
-    if (miles) {
-      return accounting.formatNumber(miles);
-    }
-    else {
-      return 'N/A';
-    }
+    if (this.get('miles')) return accounting.formatNumber(miles);
   },
 
   mainPicURL: function () {
@@ -68,6 +62,10 @@ CarListing.Models.Listing = Backbone.Model.extend({
     return this._seller;
   },
 
+  byOwner: function () {
+    return !this.seller().get('is_dealer');
+  },
+
   toggleFavorite: function () {
     if (this.get('is_favorite')) {
       this.unfavorite();
@@ -96,12 +94,13 @@ CarListing.Models.Listing = Backbone.Model.extend({
       url: '/api/listings/' + this.id + '/unfavorite',
       success: function () {
         listing.set('is_favorite', false);
-      }
+      },
+      error: function () { console.log('hit error')}
     });
   },
 
   truncatedTitle: function (length) {
-    var title = this.escape('title');
+    var title = this.get('title');
     length = (length || 80)
     if (title.length > length) {
       return title.substring(0, length) + '...';

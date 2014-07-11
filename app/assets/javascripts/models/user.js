@@ -23,10 +23,10 @@ CarListing.Models.User = Backbone.Model.extend({
 
   name: function () {
     if (this.get('is_dealer')) {
-      return this.escape('company_name');
+      return this.get('company_name');
     }
     else {
-      var vals = [this.escape('fname'), this.escape('lname')];
+      var vals = [this.get('fname'), this.get('lname')];
       return _( vals ).compact().join(' ');
     }
   },

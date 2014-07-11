@@ -25,7 +25,7 @@ CarListing.Views.ListingShow = Backbone.View.extend({
 
     var $link = $(event.currentTarget)
     var recaptchaView = new CarListing.Views.PhoneRecaptcha({
-      model: this.listing,
+      model: this.listing.seller(),
       $link: $link,
       $container: $link.parent()
     });

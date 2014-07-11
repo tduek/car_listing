@@ -6,13 +6,13 @@ class FavoritesController < ApplicationController
                   .favorites
                   .find_or_create_by_listing_id(listing_id: params[:listing_id])
 
-    head :ok
+    render json: favorite
   end
 
 
   def destroy
     current_user.favorites.find_by_listing_id!(params[:listing_id]).destroy
 
-    head :ok
+    render json: {hack: 'because $.ajax needs responseText to call success.'}
   end
 end

@@ -1,7 +1,7 @@
 <header class="page-header">
   <h1><%= listing.get('ymm') %></h1>
 
-  <h3><%= listing.escape('title') %></h3>
+  <h3><%= listing.get('title') %></h3>
 </header>
 
 <section class="top-info clear-fix">
@@ -35,51 +35,40 @@
     <article class="car-info">
       <header>What it is:</header>
 
-      <ul>
-        <li class="clear-fix">
-          <label><strong>Miles:</strong></label>
-          <span><%= listing.miles() || 'N/A' %></span>
-        </li>
-        <li class="clear-fix">
-          <label><strong>Transmission:</strong></label>
-          <span><%= listing.get('transmission') || 'N/A' %></span>
-        </li>
-        <li class="clear-fix">
-          <label><strong>VIN:</strong></label>
-          <span><%= listing.get('vin') || 'N/A' %></span>
-        </li>
-        <li class="clear-fix">
-          <label><strong>Seller:</strong></label>
-          <span>
-            <a href="#/users/<%= listing.seller().id %>">
-              <% if (listing.seller().get('by_owner')) { %>
-              BY OWNER
-              <% } else { %>
-              DEALER
-              <% } %>
+      <dl class="info">
+        <dt>Miles</dt>
+        <dd><%= listing.get('miles') || 'N/A' %></dd>
 
-              <%= listing.seller().name() %>
-            </a>
-          </span>
-        </li>
-        <li class="clear-fix">
-          <label><strong>Asking:</strong></label>
-          <span><%= listing.price() %></span>
-        </li>
-        <li class="clear-fix">
-          <label><strong>Contact:</strong></label>
-          <span>
-            <a class="phone" href="#">
-              Phone
-            </a>
-          </span>
-        </li>
-      </ul>
+        <dt>Transmission</dt>
+        <dd><%= listing.get('transmission') || 'N/A' %></dd>
+
+        <dt>VIN</dt>
+        <dd><%= listing.get('vin') || 'N/A' %></dd>
+
+        <dt>Seller</dt>
+        <dd>
+          <a href="#/users/<%= listing.seller().id %>">
+            <% if (listing.byOwner()) { %>
+              BY OWNER
+            <% } else { %>
+              DEALER
+            <% } %>
+
+            <%= listing.seller().name() %>
+          </a>
+        </dd>
+
+        <dt>Asking</dt>
+        <dd><%= listing.price() %></dd>
+
+        <dt>Contact</dt>
+        <dd><span><a class="phone" href="#">Phone</a></span></dd>
+      </dl>
     </article>
   </section>
 </section>
 
 <section class="description">
   <h2>Seller Description</h2>
-  <p><%= listing.escape('description') %></p>
+  <p><%= listing.get('description') %></p>
 </section>
