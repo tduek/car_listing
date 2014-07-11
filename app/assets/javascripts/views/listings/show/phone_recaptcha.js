@@ -2,7 +2,7 @@ CarListing.Views.PhoneRecaptcha = Backbone.View.extend({
   initialize: function (options) {
     this.model = options.model;
 
-    options.$link.remove();
+    this.$link = options.$link;
     this.$container = options.$container;
   },
 
@@ -20,6 +20,7 @@ CarListing.Views.PhoneRecaptcha = Backbone.View.extend({
   },
 
   showRecaptcha: function (cb) {
+    this.$link.hide();
     this.$container.after(this.render().$el);
     var view = this;
     Recaptcha.create(CarListing.RECAPTCHA_PUBLIC_KEY, '#recaptcha_widget', {
@@ -34,7 +35,8 @@ CarListing.Views.PhoneRecaptcha = Backbone.View.extend({
   },
 
   events: {
-    'submit': 'submitRecaptcha'
+    'submit': 'submitRecaptcha',
+    'click .remove': 'remove'
   },
 
   submitRecaptcha: function (event) {
@@ -52,7 +54,7 @@ CarListing.Views.PhoneRecaptcha = Backbone.View.extend({
         view.$el.addClass('busy')
       },
       success: function (data) {
-        Recaptcha.destroy();
+        view.$link.remove();
         view.$el.before('<span>' + data.phone + '</span>');
         view.remove();
       },
@@ -84,6 +86,8 @@ CarListing.Views.PhoneRecaptcha = Backbone.View.extend({
     Recaptcha.destroy();
 
     Backbone.View.prototype.remove.call(this);
+
+    this.$link.show();
   }
 
 });
