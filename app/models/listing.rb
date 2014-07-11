@@ -31,6 +31,8 @@ class Listing < ActiveRecord::Base
                   ["distance", "distance"],
                   ["best deal", "best_deal"]]
 
+  MAX_FOR_BEST_DEAL_SORT = 100
+
   PERMITTED_SEARCH_KEYS = [
     :year_from, :year_to,
     :make_id, :model_id,
@@ -108,6 +110,8 @@ class Listing < ActiveRecord::Base
      SQL
 
     def result.cheap_total_count
+      return @cheap_total_count if @cheap_total_count
+
       select_val = "COUNT(listings.id)"
       join_val = self.joins_values.join(' ')
       where_val = self.where_values
@@ -115,7 +119,7 @@ class Listing < ActiveRecord::Base
                       .reject { |w| w[/RANDOM ID generation/] }
                       .join(' AND ')
 
-      Listing.count_by_sql(<<-SQL)
+      @cheap_total_count = Listing.count_by_sql(<<-SQL)
         SELECT #{select_val}
         FROM listings
         #{join_val}
@@ -169,15 +173,19 @@ class Listing < ActiveRecord::Base
       terms[:sort] = ''
     end
 
-    sorts = {'post_date_asc' => 'listings.post_date ASC',
-             'post_date_desc' => 'istings.post_date DESC',
-             'price_asc' => 'listings.price ASC',
-             'price_desc' => 'listings.price DESC',
-             'distance' => 'near_zips.distance ASC',
-             'best_deal' => 'deal_ratio DESC'}
+    sorts = {
+      'post_date_asc' => 'listings.post_date ASC',
+      'post_date_desc' => 'istings.post_date DESC',
+      'price_asc' => 'listings.price ASC',
+      'price_desc' => 'listings.price DESC',
+      'distance' => 'near_zips.distance ASC',
+      'best_deal' => 'deal_ratio DESC'
+    }
 
     if sorts[terms[:sort]]
-      results = results.order(sorts[terms[:sort]])
+      unless terms[:sort] == 'best_deal' && results.cheap_total_count > MAX_FOR_BEST_DEAL_SORT
+        results = results.order(sorts[terms[:sort]])
+      end
     elsif terms.count == 0 || (terms[:sort] && terms.count == 1)
       results = results.where(<<-SQL).limit(25)
         -- more efficient than order by random()

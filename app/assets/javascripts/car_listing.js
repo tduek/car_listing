@@ -27,6 +27,7 @@ window.CarListing = {
     this.RECAPTCHA_PUBLIC_KEY = bootstrappedData.RECAPTCHA_PUBLIC_KEY;
 
     this.spinnerURL = bootstrappedData.spinnerURL;
+    this.MAX_FOR_BEST_DEAL_SORT = bootstrappedData.MAX_FOR_BEST_DEAL_SORT;
 
     this.listingsRouter = new this.Routers.Listings();
     this.usersRouter = new this.Routers.Users();
@@ -66,7 +67,10 @@ window.CarListing = {
   },
 
   _swapView: function (view) {
-    this._currentView && this._currentView.remove();
+    if (this._currentView) {
+      this._currentView.remove();
+      $('.flash').hide();
+    }
     this._currentView = view;
     $('main#content').html(view.render().$el);
   }

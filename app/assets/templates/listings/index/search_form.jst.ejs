@@ -36,7 +36,7 @@
         <option value="<%= make.id %>"
           <% var makeId = parseInt(make.id); %>
           <%= (searchMakeId === makeId) ? 'selected' : '' %>>
-          <%= make.escape('name') %>
+          <%= make.get('name') %>
         </option>
         <% }); %>
       </select>

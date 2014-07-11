@@ -4,13 +4,18 @@ class ListingsController < ApplicationController
 
   def index
     @search_params = search_params
-    @listings = Listing.search(@search_params, params[:page]).include_everything
-    @makes = Subdivision.makes.includes(:active_models).order(:name)
+    @listings = Listing.search(@search_params, params[:page])
+                       .include_everything
+    @makes = Subdivision.makes
+                        .order(:name)
+                        .includes(:active_models)
+    @years = Year.select('years.year')
+                 .order('years.year')
+                 .uniq.pluck(:year)
 
     @listings_json = render_to_string('api/listings/index', formats: [:json])
     @subdivisions_json = render_to_string('subdivisions/index', formats: [:json])
 
-    @years = Year.select('years.year').order('years.year').uniq.pluck(:year)
 
     render :index, formats: [:html]
   end
