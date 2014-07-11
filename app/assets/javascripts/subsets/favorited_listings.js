@@ -1,6 +1,6 @@
 CarListing.Subsets.FavoritedListings = Backbone.Subset.extend({
 
-  url: 'listings/favorites',
+  url: 'api/listings/favorites',
 
   initialize: function () {
     var subset = this;

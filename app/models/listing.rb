@@ -42,6 +42,10 @@ class Listing < ActiveRecord::Base
   STRING_SEARCH_PARAMS = [:sort]
 
 
+  def self.include_everything
+    self.preload(:pics, :main_pic, :make, :model, :zip, {seller: :zip})
+  end
+
   def self.cached_count(refresh = false)
     if !refresh && @cached_count && @cached_count_updated_at > 2.hours.ago
       return @cached_count

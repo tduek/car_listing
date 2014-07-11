@@ -1,16 +1,13 @@
-class Api::UsersController < ApiController
+class Api::UsersController < Api::ApiController
 
   def listings
     @listings = Listing.with_deal_ratio
-                       .where(seller_id: params[:user_id])
-
-    render partial: 'listings/listings.json'
+                       .include_everything
+                       .where(seller_id: params[:id])
   end
 
   def show
     @user = User.find(params[:id])
-
-    render partial: 'users/user.json', locals: {user: @user}
   end
 
 end

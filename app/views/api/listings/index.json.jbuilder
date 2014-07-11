@@ -10,5 +10,5 @@ json.currentPage do
 end
 
 json.listings do
-  json.partial! 'api/listings/listings'
+  json.partial! 'api/listings/listing', collection: @listings, as: :listing
 end

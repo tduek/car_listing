@@ -1,6 +1,6 @@
 CarListing.Models.Listing = Backbone.Model.extend({
 
-  urlRoot: '/listings',
+  urlRoot: 'api/listings',
 
   initialize: function () {
     this.collections = [];

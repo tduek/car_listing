@@ -4,7 +4,6 @@ CarListing.Collections.Listings = Backbone.Collection.extend({
   },
 
   model: CarListing.Models.Listing,
-  url: '/listings',
 
   getOrFetch: function (id, cb) {
     var listing = this.get(id), collection = this;
@@ -14,10 +13,10 @@ CarListing.Collections.Listings = Backbone.Collection.extend({
     }
     else {
       listing = new CarListing.Models.Listing({id: id});
+      listing.collection = collection;
       listing.fetch({
         success: function () {
-          collection.add();
-          listing.colleciton = collection;
+          collection.add(listing);
           collection.add(listing);
           if (cb) cb(listing);
         }

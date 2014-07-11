@@ -1,4 +1,4 @@
-class Api::ContactInfosController < ApiController
+class Api::ContactInfosController < Api::ApiController
   include ActionView::Helpers::NumberHelper
 
   def show

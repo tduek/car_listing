@@ -4,8 +4,7 @@ class ListingsController < ApplicationController
 
   def index
     @search_params = search_params
-    @listings = Listing.search(@search_params, params[:page])
-                       .preload(:pics, :main_pic, :make, :model, :zip, {seller: :zip})
+    @listings = Listing.search(@search_params, params[:page]).include_everything
     @makes = Subdivision.makes.includes(:active_models).order(:name)
 
     @listings_json = render_to_string('api/listings/index', formats: [:json])
@@ -26,7 +25,6 @@ class ListingsController < ApplicationController
 
 
   def create
-    params[:listing][:phone].gsub!(/\D/, '') if params[:listing][:phone]
     @listing = current_user.listings.new(params[:listing])
 
     params[:pics] && params[:pics].values.each_with_index do |pic_params, i|

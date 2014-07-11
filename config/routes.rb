@@ -1,10 +1,12 @@
 CarListing::Application.routes.draw do
   root to: "listings#index"
-  resources :listings do
-    get :favorites, on: :collection
-  end
+  resources :listings
 
   namespace :api, defaults: {format: :json} do
+    resources :listings, only: [:index, :show] do
+      get :favorites, on: :collection
+    end
+
     post '/listings/:listing_id/favorite', to: 'favorites#create', as: :favorite_listing
     delete '/listings/:listing_id/unfavorite', to: 'favorites#destroy', as: :unfavorite_listing
 
