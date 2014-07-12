@@ -5,6 +5,7 @@ class ListingsController < ApplicationController
   def index
     @search_params = search_params
     @listings = Listing.search(@search_params, params[:page])
+                       .active
                        .include_everything
     @makes = Subdivision.makes
                         .order(:name)
@@ -15,7 +16,6 @@ class ListingsController < ApplicationController
 
     @listings_json = render_to_string('api/listings/index', formats: [:json])
     @subdivisions_json = render_to_string('subdivisions/index', formats: [:json])
-
 
     render :index, formats: [:html]
   end

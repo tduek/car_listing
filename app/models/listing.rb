@@ -43,6 +43,9 @@ class Listing < ActiveRecord::Base
 
   STRING_SEARCH_PARAMS = [:sort]
 
+  def self.active
+    where(is_active: true)
+  end
 
   def self.include_everything
     self.preload(:pics, :main_pic, :make, :model, :zip, {seller: :zip})
