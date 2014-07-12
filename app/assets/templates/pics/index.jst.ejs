@@ -1,6 +1,12 @@
 <article>
+  <span class="exit-lightbox">
+    &times;
+    <span class="tooltip">
+      <span class="triangle"></span>
+      Press Esc to exit
+    </span>
+  </span>
   <h1><a href="#/listings/<%= listing.id %>"><%= listing.get('ymm') %></a></h1>
-  <span class="exit-lightbox">&times;</span>
   <% var featuredPic = listing.pics().get(selectedPicID); %>
   <% if (featuredPic) { %>
   <img class="featured" src="<%= featuredPic.get('url') %>">

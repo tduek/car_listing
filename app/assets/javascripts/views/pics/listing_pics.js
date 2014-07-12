@@ -5,11 +5,19 @@ CarListing.Views.PicsIndex = Backbone.View.extend({
     this.selectedPicID = parseInt(options.selectedPicID);
     this.listenTo(this.listing.pics(), 'add', this.render);
     this.listenTo(this.listing, 'change', this.render);
+    this.bindKeyEvents();
   },
 
   events: {
     'click .thumb-container': 'changeFeaturedPic',
     'click .exit-lightbox': 'remove'
+  },
+
+  bindKeyEvents: function () {
+    var view = this;
+    $(document).on('keydown', function (event) {
+      view.handleKeyPress(event);
+    });
   },
 
   template: JST['pics/index'],
@@ -24,11 +32,49 @@ CarListing.Views.PicsIndex = Backbone.View.extend({
     return this;
   },
 
-  changeFeaturedPic: function (event) {
+  handleKeyPress: function (event) {
+    if (event.keyCode === 27) {
+      // pressed Esc
+      this.remove();
+    } else if (event.keyCode === 39) {
+      // pressed right arrow
+      this.showNextPic();
+    } else if (event.keyCode === 37) {
+      // pressed left arrow
+      this.showPrevPic();
+    }
+  },
+
+  showNextPic: function () {
+    var pics = this.listing.pics();
+    var currentlyShowedPic = pics.get(this.selectedPicID);
+    var indexOfCurrentPic = pics.indexOf(currentlyShowedPic);
+    if (indexOfCurrentPic < pics.length - 1) {
+      var nextPic = pics.at(indexOfCurrentPic + 1);
+      this.changeFeaturedPic(nextPic);
+    }
+  },
+
+  showPrevPic: function () {
+    var pics = this.listing.pics();
+    var currentlyShowedPic = pics.get(this.selectedPicID);
+    var indexOfCurrentPic = pics.indexOf(currentlyShowedPic);
+    if (indexOfCurrentPic > 0) {
+      var prevPic = pics.at(indexOfCurrentPic - 1);
+      this.changeFeaturedPic(prevPic);
+    }
+  },
+
+  clickPic: function (event) {
     var picIDstr = $(event.currentTarget).data('id');
-    this.selectedPicID = parseInt(picIDstr);
-    var selectedPic = this.listing.pics().get(this.selectedPicID);
-    this.$('article > img.featured').attr('src', selectedPic.get('url'));
+    var selectedPicID = parseInt(picIDstr);
+    var selectedPic = this.listing.pics().get(selectedPicID);
+    this.changeFeaturedPic(selectedPic);
+  },
+
+  changeFeaturedPic: function (pic) {
+    this.selectedPicID = pic.id;
+    this.$('article > img.featured').attr('src', pic.get('url'));
     this.centerFeaturedThumb()
   },
 
@@ -53,6 +99,7 @@ CarListing.Views.PicsIndex = Backbone.View.extend({
   },
 
   remove: function () {
+    $(document).off('keydown');
     this.$el.removeClass('is-active');
     Backbone.View.prototype.remove.call(this);
   },

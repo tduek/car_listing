@@ -121,7 +121,7 @@ body.no-scroll {
 }
 
 dl.info {
-  margin: 15px 0 0 15px;
+  margin: 10px 0 0 15px;
 }
 
 dl.info > dt {
@@ -134,7 +134,7 @@ dl.info > dt {
 dl.info > dd {
   border-bottom: 1px dotted #333333;
   text-indent: 30px;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
   font-family: Courier;
 }
 

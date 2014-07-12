@@ -37,7 +37,7 @@
 
       <dl class="info">
         <dt>Miles</dt>
-        <dd><%= listing.get('miles') || 'N/A' %></dd>
+        <dd><%= listing.miles() || 'N/A' %></dd>
 
         <dt>Transmission</dt>
         <dd><%= listing.get('transmission') || 'N/A' %></dd>
@@ -62,7 +62,7 @@
         <dd><%= listing.price() %></dd>
 
         <dt>Contact</dt>
-        <dd><span><a class="phone" href="#">Phone</a></span></dd>
+        <dd><span><a class="phone" href="#">Click here!</a></span></dd>
       </dl>
     </article>
   </section>

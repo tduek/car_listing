@@ -30,7 +30,7 @@ CarListing.Models.Listing = Backbone.Model.extend({
   },
 
   miles: function () {
-    if (this.get('miles')) return accounting.formatNumber(miles);
+    if (this.get('miles')) return accounting.formatNumber(this.get('miles'));
   },
 
   mainPicURL: function () {
