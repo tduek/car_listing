@@ -4,7 +4,7 @@ CarListing.Views.ListingsList = Backbone.View.extend({
     this.showSpinner();
     this.subviews = [];
     this.listings = options.listings;
-    this.listenTo(this.listings, 'remove sync', this.reactToCollectionChange);
+    this.listenTo(this.listings, 'remove sync reset', this.reactToCollectionChange);
     this.listenTo(this.listings, 'add', this.addListing);
     this.listenTo(this.listings, 'request', this.reactToFetch)
   },

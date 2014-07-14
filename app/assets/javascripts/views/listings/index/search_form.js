@@ -12,7 +12,7 @@ CarListing.Views.SearchForm = Backbone.View.extend({
 
   events: {
     'change #search-make_id': 'updateModelSelect',
-    'submit': 'changedSearchParams',
+    'submit': 'changeSearchParams',
     'change select': 'changeSearchParams',
     'change input': 'changeSearchParams',
     // 'keyup input': 'changeSearchParams',
@@ -23,7 +23,7 @@ CarListing.Views.SearchForm = Backbone.View.extend({
   render: function () {
     this.$el.attr('method', 'get');
     var renderedContent = this.template({
-      searchParams: CarListing.indexListings.searchParams
+      searchParams: this.listings.searchParams
     });
     this.$el.html(renderedContent);
     return this;
@@ -39,7 +39,7 @@ CarListing.Views.SearchForm = Backbone.View.extend({
     if ($makeSelect.val()) {
       this.updateModelSelect();
       var $modelSelect = this.$('#search-model_id');
-      $modelSelect.val(CarListing.indexListings.searchParams.model_id);
+      $modelSelect.val(this.listings.searchParams.model_id);
       this.selectChanged($modelSelect);
     }
 
@@ -63,19 +63,19 @@ CarListing.Views.SearchForm = Backbone.View.extend({
     else {
       this.maybeToggleSortByDistance()
     }
-    var newSearchParams = $target.parents('form').serializeJSON();
+    var newSearchParams = this.$el.serializeJSON();
 
     if ($target.is('#search-zip') && newSearchParams.zip.length != 5) {
       newSearchParams.zip = '';
       return
     }
-    CarListing.indexListings.searchParams = newSearchParams;
+    this.listings.searchParams = newSearchParams;
     this.refreshListings();
   },
 
   refreshListings: function () {
-    CarListing.indexListings.remove(CarListing.indexListings.models);
-    CarListing.indexListings.fetch({
+    this.listings.reset();
+    this.listings.fetch({
       data: {search: CarListing.indexListings.searchParams},
       reset: true
     });
