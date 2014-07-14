@@ -6,7 +6,9 @@
       Press Esc to exit
     </span>
   </span>
+
   <h1><a href="#/listings/<%= listing.id %>"><%= listing.get('ymm') %></a></h1>
+
   <% var featuredPic = listing.pics().get(selectedPicID); %>
   <% if (featuredPic) { %>
   <img class="featured" src="<%= featuredPic.get('url') %>">
@@ -17,10 +19,8 @@
   <nav>
     <div class="thumbs clear-fix">
       <% listing.pics().each(function (pic) { %>
-      <div data-id="<%= pic.id %>"
-        class="thumb-container">
-        <img src="<%= pic.get('url') %>"
-             class="thumb">
+      <div data-id="<%= pic.id %>" class="thumb-container">
+        <img src="<%= pic.get('url') %>" class="thumb">
       </div>
       <% }); %>
     </div>
