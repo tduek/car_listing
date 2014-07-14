@@ -9,7 +9,7 @@ CarListing.Views.PicsIndex = Backbone.View.extend({
   },
 
   events: {
-    'click .thumb-container': 'changeFeaturedPic',
+    'click .thumb-container': 'clickPic',
     'click .exit-lightbox': 'remove'
   },
 
