@@ -74,8 +74,12 @@ CarListing.Views.SearchForm = Backbone.View.extend({
   },
 
   refreshListings: function () {
+    if (this.currentRequest && this.currentRequest.readyState < 4) {
+      this.currentRequest.abort();
+    }
+
     this.listings.reset();
-    this.listings.fetch({
+    this.currentRequest = this.listings.fetch({
       data: {search: CarListing.indexListings.searchParams},
       reset: true
     });
@@ -108,6 +112,7 @@ CarListing.Views.SearchForm = Backbone.View.extend({
       this.selectChanged($modelSelect);
     }
     else {
+      this.selectChanged($modelSelect);
       $modelSelect.prop('disabled', true).siblings('.mask').show();
     }
   },
