@@ -24,8 +24,10 @@ class Listing < ActiveRecord::Base
   validates :title, length: 15..100
   validates :description, length: {minimum: 150}
 
-  SORT_OPTIONS = [["oldest first", "post_date_asc"],
-                  ["newest first", "post_date_desc"],
+  SORT_OPTIONS = [["oldest post", "post_date_asc"],
+                  ["newest post", "post_date_desc"],
+                  ["oldest", "year_asc"],
+                  ["newest", "year_desc"],
                   ["lowest price", "price_asc"],
                   ["highest price", "price_desc"],
                   ["distance", "distance"],
@@ -177,8 +179,10 @@ class Listing < ActiveRecord::Base
     end
 
     sorts = {
-      'post_date_asc' => 'listings.post_date ASC',
-      'post_date_desc' => 'istings.post_date DESC',
+      'post_date_asc' => 'listings.created_at ASC',
+      'post_date_desc' => 'listings.created_at DESC',
+      'year_desc' => 'listings.year DESC',
+      'year_asc' => 'listings.year ASC',
       'price_asc' => 'listings.price ASC',
       'price_desc' => 'listings.price DESC',
       'distance' => 'near_zips.distance ASC',
