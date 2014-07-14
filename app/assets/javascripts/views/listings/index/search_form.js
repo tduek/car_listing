@@ -74,9 +74,8 @@ CarListing.Views.SearchForm = Backbone.View.extend({
   },
 
   refreshListings: function () {
-    if (this.currentRequest && this.currentRequest.readyState < 4) {
-      this.currentRequest.abort();
-    }
+    this.currentRequest && this.currentRequest.abort();
+
 
     this.listings.reset();
     this.currentRequest = this.listings.fetch({
