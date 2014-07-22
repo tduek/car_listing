@@ -11,7 +11,7 @@
     "sortOptions": <%= Listing::SORT_OPTIONS.to_json.html_safe %>,
     "RECAPTCHA_PUBLIC_KEY": "<%= ENV['RECAPTCHA_PUBLIC_KEY'] %>",
     "spinnerURL": "<%= asset_path('spinner.gif') %>",
-    "MAX_FOR_BEST_DEAL_SORT": <%= Listing::MAX_FOR_BEST_DEAL_SORT %>
+    "maxCountForBestDealSort": <%= Listing::MAX_FOR_BEST_DEAL_SORT %>
   }
 </script>
 <% end %>

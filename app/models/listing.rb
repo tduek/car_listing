@@ -26,10 +26,10 @@ class Listing < ActiveRecord::Base
 
   SORT_OPTIONS = [["oldest post", "post_date_asc"],
                   ["newest post", "post_date_desc"],
-                  ["oldest", "year_asc"],
-                  ["newest", "year_desc"],
-                  ["lowest price", "price_asc"],
-                  ["highest price", "price_desc"],
+                  ["year: oldest", "year_asc"],
+                  ["year: newest", "year_desc"],
+                  ["price: lowest", "price_asc"],
+                  ["price: highest", "price_desc"],
                   ["distance", "distance"],
                   ["best deal", "best_deal"]]
 
