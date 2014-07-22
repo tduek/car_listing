@@ -15,11 +15,12 @@ window.CarListing = {
     this.allListings = new this.Collections.Listings(listingsData.listings, { parse: true });
     this.indexListings = new this.Subsets.ListingsIndex(listingsData, {
       parse: true,
-      parentCollection: this.allListings
+      parentCollection: this.allListings,
+      maxCountForBestDealSort: bootstrappedData.maxCountForBestDealSort
     });
 
     var subdivisionsJSON = bootstrappedData.subdivisions;
-    this.subdivisions = new this.Collections.Subdivisions(subdivisionsJSON, {parse: true});
+    this.subdivisions = new this.Collections.Subdivisions(subdivisionsJSON, { parse: true });
 
     this.years = bootstrappedData.years.sort().reverse();
     this.sortOptions = bootstrappedData.sortOptions;
@@ -27,25 +28,61 @@ window.CarListing = {
     this.RECAPTCHA_PUBLIC_KEY = bootstrappedData.RECAPTCHA_PUBLIC_KEY;
 
     this.spinnerURL = bootstrappedData.spinnerURL;
-    this.MAX_FOR_BEST_DEAL_SORT = bootstrappedData.MAX_FOR_BEST_DEAL_SORT;
 
     this.listingsRouter = new this.Routers.Listings();
     this.usersRouter = new this.Routers.Users();
-    Backbone.history.start();
+    Backbone.history.start({ pushState: true });
 
     this.backbonifyLinks();
   },
 
   backbonifyLinks: function () {
-    $('a.home').attr('href', '#');
-    $('a.dashboard').attr('href', '#/user_dashboard');
+    $('a.home').attr('href', '');
+    $('a.dashboard').attr('href', 'user_dashboard');
 
+    $(document).on('click', 'a', function(e) {
+      var href = $(this).attr("href");
+      var protocol = this.protocol + "//";
+
+      if (
+          href.slice(protocol.length) !== protocol
+          && protocol !== 'javascript://'
+          && href.substring(0, 1) !== '#'
+        ) {
+
+        e.preventDefault();
+        Backbone.history.navigate(href, true);
+      }
+    });
   },
 
   loadClippy: function () {
     var clippySuccess = function (agent) { CarListing.clippy = agent; };
     var clippyFail = function () { CarListing.clippy = false; };
     clippy.load('Clippy', clippySuccess, clippyFail);
+  },
+
+  moveClippy: function ($subject, duration) {
+    if (!duration) duration = 0;
+    var subjectPos = $subject.offset();
+    var clippyX = subjectPos.left;
+    var clippyY = subjectPos.top;
+    CarListing.clippy.moveTo(clippyX, clippyY, duration);
+  },
+
+  clippyTooltip: function ($tool, tipText, options) {
+    options = _.extend({ hide: true, hold: false }, options)
+
+    CarListing.clippy.stop();
+    CarListing.moveClippy($tool);
+
+    // $('body').addClass('no-scroll');
+    CarListing.clippy.show();
+    CarListing.clippy.speak(tipText, options.hold);
+
+    if (options.hide) CarListing.clippy.hideWhenDone(function () {
+      $('body').removeClass('no-scroll');
+    });
   },
 
   userSignedIn: function () {

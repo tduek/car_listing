@@ -4,6 +4,7 @@ CarListing.Views.SearchForm = Backbone.View.extend({
 
   initialize: function (options) {
     this.listings = CarListing.indexListings;
+    this.listenTo(this.listings, 'sync', this.maybeToggleSortByDeal);
   },
 
   className: 'search',
@@ -15,8 +16,7 @@ CarListing.Views.SearchForm = Backbone.View.extend({
     'submit': 'changeSearchParams',
     'change select': 'changeSearchParams',
     'change input': 'changeSearchParams',
-    // 'keyup input': 'changeSearchParams',
-    'click .contains-tooltip': 'maybeShowTooltip',
+    'click .contains-tooltip': 'maybeShowModelTooltip',
     'change .search-year': 'yearChanged'
   },
 
@@ -36,22 +36,18 @@ CarListing.Views.SearchForm = Backbone.View.extend({
     var $makeSelect = this.$('#search-make_id');
     this.selectChanged($makeSelect);
 
+    this.updateModelSelect();
     if ($makeSelect.val()) {
-      this.updateModelSelect();
       var $modelSelect = this.$('#search-model_id');
       $modelSelect.val(this.listings.searchParams.model_id);
       this.selectChanged($modelSelect);
     }
 
     this.selectChanged(this.$('#search-sort_by'));
-    this.maybeToggleSortByDistance();
+    // this.maybeToggleSortByDistance();
+    // this.maybeToggleSortByDeal();
 
     return this;
-  },
-
-  maybeToggleSortByDistance: function () {
-    var distanceOption = this.$el.find('option[value="distance"]');
-    distanceOption.prop('disabled', !(this.$el.find('#search-zip').val().length === 5));
   },
 
   changeSearchParams: function (event) {
@@ -60,22 +56,31 @@ CarListing.Views.SearchForm = Backbone.View.extend({
     if ($target.prop('tagName') === 'SELECT') {
       this.selectChanged($target);
     }
-    else {
-      this.maybeToggleSortByDistance()
-    }
-    var newSearchParams = this.$el.serializeJSON();
 
-    if ($target.is('#search-zip') && newSearchParams.zip.length != 5) {
-      newSearchParams.zip = '';
-      return
+    var newSearchParams = this.cleanupSearchParams(this.$el.serializeJSON());
+
+    if (!_.isEqual(this.listings.searchParams, newSearchParams)) {
+      this.listings.searchParams = newSearchParams;
+      this.refreshListings();
     }
-    this.listings.searchParams = newSearchParams;
-    this.refreshListings();
+  },
+
+  cleanupSearchParams: function (params) {
+    params = _.clone(params)
+    for (var k in params) {
+      if (k === 'zip' && params['zip'].length != 5) {
+        if (params.distance) this.showDistanceTooltip();
+        if (params.zip) this.showZipTooltip();
+        delete params.zip;
+      }
+      if (!params[k]) delete params[k];
+    }
+
+    return params;
   },
 
   refreshListings: function () {
     this.currentRequest && this.currentRequest.abort();
-
 
     this.listings.reset();
     this.currentRequest = this.listings.fetch({
@@ -86,11 +91,34 @@ CarListing.Views.SearchForm = Backbone.View.extend({
 
   selectChanged: function ($select) {
     if ($select.val()) {
-      $select.addClass('selected user-written');
+      if ($select.is('#search-sort_by')) {
+        this.tryToSortBy($select);
+      } else {
+        $select.addClass('selected user-written');
+      }
     }
     else {
       $select.removeClass('selected user-written');
     }
+  },
+
+  yearChanged: function (event) {
+    var $yearSelect = $(event.currentTarget);
+    var selectedFromYear = $yearSelect.is('#search-year_from'); // boolean
+    var mapper = (selectedFromYear ? 1 : -1)
+    var selectedYear = parseInt($yearSelect.val());
+    var otherYearSelectOptions = $yearSelect.siblings('select').find('option');
+
+    otherYearSelectOptions.each(function (i, option) {
+      var $option = $(option);
+      var optionsYear = parseInt($option.val());
+      if ((selectedYear - optionsYear) * mapper > 0) {
+        $option.prop('disabled', true);
+      }
+      else {
+        $option.prop('disabled', false);
+      }
+    });
   },
 
   updateModelSelect: function () {
@@ -116,53 +144,84 @@ CarListing.Views.SearchForm = Backbone.View.extend({
     }
   },
 
-  maybeShowTooltip: function (event) {
-    var $td = $(event.currentTarget);
-    var $select = $td.find('select');
-    if ($select.prop('disabled')) {
-      if (CarListing.clippy) {
-        var makeSelectPos = $('#search-make_id').offset();
-        var clippyX = makeSelectPos.left - $(window).scrollLeft() + 30;
-        var clippyY = makeSelectPos.top - $(window).scrollTop() - 30;
-        CarListing.clippy.moveTo(clippyX, clippyY);
-        $('body').addClass('no-scroll');
-        CarListing.clippy.show();
-        CarListing.clippy.speak('Select make first');
-        CarListing.clippy.play('GestureRight', 4000, function () {
-          CarListing.clippy.hide();
-          $('body').removeClass('no-scroll');
-        });
-      }
-      else {
-        var $tooltip = $td.find('.tooltip');
-        $tooltip.stop().fadeIn(400, function () {
-          $tooltip.stop().fadeOut(1200);
-        });
-      }
+  tryToSortBy: function ($sortSelect) {
+    var sortVal = $sortSelect.val();
+    if (sortVal === 'best_deal' && !this.listings.canSortByBestDeal()) {
+      // can't sort by best deal
+      $sortSelect.val('');
+      this.selectChanged($sortSelect);
+      this.showSortDealTooltip();
+    }
+    else if (sortVal === 'distance' && !this.$('#search-zip').val()) {
+      $sortSelect.val('');
+      this.selectChanged($sortSelect);
+      this.showSortDistanceTooltip();
     }
   },
 
-  yearChanged: function (event) {
-    var $yearSelect = $(event.currentTarget);
-    var selectedFromYear = $yearSelect.is('#search-year_from'); // boolean
-    var mapper = (selectedFromYear ? 1 : -1)
-    var selectedYear = parseInt($yearSelect.val());
-    var otherYearSelectOptions = $yearSelect.siblings('select').find('option');
+  maybeShowModelTooltip: function (event) {
+    var $td = $(event.currentTarget);
+    var $select = $td.find('select');
+    if ($select.prop('disabled')) this.showModelTooltip();
+  },
 
-    otherYearSelectOptions.each(function (i, option) {
-      var $option = $(option);
-      var optionsYear = parseInt($option.val());
-      if ((selectedYear - optionsYear) * mapper > 0) {
-        $option.prop('disabled', true);
-      }
-      else {
-        $option.prop('disabled', false);
-      }
+  showModelTooltip: function () {
+    if (CarListing.clippy) {
+      var $modelSelect = this.$('#search-model_id');
+      var tipText = 'Select make first';
+      CarListing.clippyTooltip($modelSelect, tipText, { hide: false });
+      this.clippyPointToMakeSelect();
+    }
+    else {
+      var $td = $(event.currentTarget).parents('td');
+      var $tooltip = $td.find('.tooltip');
+      $tooltip.stop().fadeIn(400, function () {
+        $tooltip.stop().fadeOut(1200);
+      });
+    }
+  },
+
+  clippyPointToMakeSelect: function () {
+    var makeSelectPos = this.$('#search-make_id').offset();
+    var clippyX = makeSelectPos.left + 30;
+    var clippyY = makeSelectPos.top - 30;
+    CarListing.clippy.moveTo(clippyX, clippyY, 200);
+
+    CarListing.clippy.play('GestureRight', 4000, function () {
+      $('body').removeClass('no-scroll');
+      CarListing.clippy.hide();
     });
+  },
+
+  showZipTooltip: function () {
+    throw 'tantrum';
+  },
+
+  showSortDistanceTooltip: function () {
+    var $sortSelect = this.$('#search-sort_by');
+    var text = 'Specify a zipcode first to sort by distance';
+
+    CarListing.clippyTooltip($sortSelect, text, { hide: false });
+    this.clippyPointToZip();
+  },
+
+  clippyPointToZip: function () {
+    var zipPos = this.$('#search-zip').offset();
+    var clippyX = zipPos.left - 110;
+    var clippyY = zipPos.top - 30;
+    CarListing.clippy.moveTo(clippyX, clippyY, 200);
+
+    CarListing.clippy.play('GestureLeft', 4000, function () {
+      $('body').removeClass('no-scroll');
+      CarListing.clippy.hide();
+    });
+  },
+
+  showSortDealTooltip: function () {
+    var $sortSelect = this.$('#search-sort_by');
+    var text = 'I can only sort by best deal if there are less than 100 listings. There are ' + this.listings.formattedTotalCount() + ' now. Try narrowing it down by selecting a specific year, make, or distance.'
+
+    CarListing.clippyTooltip($sortSelect, text, { hold: true })
   }
-
-
-
-
 
 });

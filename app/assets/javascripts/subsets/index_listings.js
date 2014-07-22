@@ -11,8 +11,13 @@ CarListing.Subsets.ListingsIndex = Backbone.Subset.extend({
     if (json.totalPages) this.totalPages = json.totalPages;
     if (json.currentPage) this.currentPage = json.currentPage;
     if (json.searchParams) this.searchParams = json.searchParams;
+    if (json.maxCountForBestDealSort) this.maxCountForBestDealSort = json.maxCountForBestDealSort;
 
     return json.listings;
+  },
+
+  canSortByBestDeal: function () {
+    return this.listingsCount <= this.maxCountForBestDealSort
   },
 
   fetchNextPage: function ($endOfPage) {
@@ -40,5 +45,9 @@ CarListing.Subsets.ListingsIndex = Backbone.Subset.extend({
     };
 
     listings.fetch(fetchOptions);
+  },
+
+  formattedTotalCount: function () {
+    return accounting.formatNumber(this.listingsCount);
   }
 });
