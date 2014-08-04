@@ -3,21 +3,7 @@ class ListingsController < ApplicationController
   before_filter :require_owner, only: [:edit, :update, :destroy]
 
   def index
-    @search_params = search_params
-    @listings = Listing.search(@search_params, params[:page])
-                       .active
-                       .include_everything
-    @makes = Subdivision.makes
-                        .order(:name)
-                        .includes(:active_models)
-    @years = Year.select('years.year')
-                 .order('years.year')
-                 .uniq.pluck(:year)
-
-    @listings_json = render_to_string('api/listings/index', formats: [:json])
-    @subdivisions_json = render_to_string('subdivisions/index', formats: [:json])
-
-    render :index, formats: [:html]
+    render :index, content_type: 'text/html'
   end
 
   def show

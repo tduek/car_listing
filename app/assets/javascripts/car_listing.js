@@ -10,8 +10,9 @@ window.CarListing = {
     this.users = new this.Collections.Users();
 
     var bootstrappedData = options.bootstrappedData;
+    var listingsData = options.bootstrappedListings;
 
-    var listingsData = _.defaults(bootstrappedData.listingsData, options);
+    // var listingsData = _.defaults(bootstrappedData.listingsData, options);
     this.allListings = new this.Collections.Listings(listingsData.listings, { parse: true });
     this.indexListings = new this.Subsets.ListingsIndex(listingsData, {
       parse: true,

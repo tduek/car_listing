@@ -4,6 +4,8 @@ class ApplicationController < ActionController::Base
   include UserSessionsHelper
   include ActiveSupport::Inflector
 
+  helper_method :search_params, :search_params_present?, :years_json, :subdivisions_json, :listings_json
+
   def valid_captcha?
     return false unless params[:recaptcha_challenge_field] && params[:recaptcha_response_field]
 
@@ -37,7 +39,7 @@ class ApplicationController < ActionController::Base
   end
 
   def raise_404
-    raise ActiveRecord::RecordNotFound.new()
+    raise ActiveRecord::RecordNotFound.new
   end
 
 
@@ -72,5 +74,38 @@ class ApplicationController < ActionController::Base
       Listing::PERMITTED_SEARCH_KEYS.include?(k.to_sym) && v.present?
     end.with_indifferent_access
   end
+
+  def search_params_present?
+    search_params.empty?
+  end
+
+  def years_json
+    years = Year
+      .select('years.year')
+      .order('years.year')
+      .uniq
+      .pluck(:year)
+      .to_json
+      .html_safe
+  end
+
+  def subdivisions_json
+    @makes = Subdivision
+      .makes
+      .order(:name)
+      .includes(:active_models)
+
+    render_to_string('subdivisions/index', formats: [:json]).html_safe
+  end
+
+  def listings_json
+    @listings = Listing
+      .search(search_params, params[:page])
+      .active
+      .include_everything
+
+    render_to_string('api/listings/index', formats: [:json]).html_safe
+  end
+
 
 end
