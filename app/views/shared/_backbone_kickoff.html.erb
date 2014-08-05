@@ -1,8 +1,3 @@
-<% content_for :head_js do %>
- <script type="text/javascript" src="http://www.google.com/recaptcha/api/js/recaptcha_ajax.js"></script>
-<% end %>
-
-
 <% cache('backbone_kickoff-bootstrapped_data', expires_in: 10.minutes, race_condition_ttl: 10.seconds) do %>
 <script type="application/json" id="bootstrapped-data">
   {

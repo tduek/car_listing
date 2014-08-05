@@ -2,7 +2,6 @@
 <html>
 <head>
   <title><%= @title %>Tommy's Cars</title>
-
   <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Oswald|Open+Sans">
 
   <%= stylesheet_link_tag    "application", :media => "all" %>
@@ -10,7 +9,9 @@
   <%= csrf_meta_tags %>
 
   <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
-  <%= yield :head_js %>
+
+  <script async src="http://www.google.com/recaptcha/api/js/recaptcha_ajax.js"></script>
+
 </head>
 <body>
 
