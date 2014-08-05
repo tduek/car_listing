@@ -7,7 +7,7 @@ class ListingsController < ApplicationController
   end
 
   def show
-    redirect_to root_url + "/#/listings/#{params[:id]}"
+    @listing = Listing.find(params[:id])
   end
 
   def new

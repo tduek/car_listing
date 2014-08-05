@@ -1,34 +1,20 @@
-<div class="page">
-  <header class="">
-    <h3>
-      Displaying
-      <% if @listings.respond_to?(:total_pages) %>
-        <% range_end = @listings.count * @listings.current_page %>
-        <%= " #{range_end+1 - @listings.count} - #{range_end} of
-        #{number_with_delimiter(@listings.total_count, delimiter: ',')}" %>
-      <% else %>
-         all
-         <%= number_with_delimiter(Listing.cached_count(params[:refresh_count])) %>
-         listings
-      <% end %>
-    </h3>
+<header>
+  <h3>
+    Displaying
+    <%= number_with_delimiter(index_listings.cheap_total_count) %>
+    listings
+  </h3>
+</header>
 
-    <% if @listings.respond_to?(:total_pages) %>
-      <nav class="page-nav">
-        <%= render partial: "page_nav_form", locals: {page_delta: -1} unless @listings.first_page? %>
-        <%= render partial: "page_nav_form", locals: {page_delta: 1} unless @listings.last_page? %>
-      </nav>
-    <% end %>
-  </header>
-
+<div>
   <section class="listings">
-    <%#= render @listings %>
+    <%= render index_listings %>
   </section>
-
-  <h2 id="end-of-page">
-    Fetching more listings
-    <img alt="Ajax-loader" src="assets/ajax-loader.gif">
-  </h2>
-
-  <h2 id="end-of-list">END OF LIST</h2>
 </div>
+
+<h2 id="end-of-page">
+  Fetching more listings
+  <img alt="ajax-loader" src="<%= asset_path('spinner.gif') %>">
+</h2>
+
+<h2 id="end-of-list">END OF LIST</h2>

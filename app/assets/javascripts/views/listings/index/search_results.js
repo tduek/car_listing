@@ -23,7 +23,7 @@ CarListing.Views.SearchResults = Backbone.View.extend({
     var view = new CarListing.Views.ListingsList({
       listings: CarListing.indexListings,
       el: $el
-    })
+    });
 
     this.subviews.push(view);
     view.render();

@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   include UserSessionsHelper
   include ActiveSupport::Inflector
 
-  helper_method :available_years, :search_params, :search_params_present?, :years_json, :subdivisions_json, :listings_json
+  helper_method :index_listings, :available_years, :search_params, :search_params_present?, :years_json, :subdivisions_json, :listings_json
 
   def valid_captcha?
     return false unless params[:recaptcha_challenge_field] && params[:recaptcha_response_field]
@@ -105,12 +105,18 @@ class ApplicationController < ActionController::Base
   end
 
   def listings_json
-    @listings = Listing
+    @listings = index_listings
+
+    render_to_string('api/listings/index', formats: [:json]).html_safe
+  end
+
+  def index_listings
+    return @index_listings if @index_listings
+
+    @index_listings = Listing
       .search(search_params, params[:page])
       .active
       .include_everything
-
-    render_to_string('api/listings/index', formats: [:json]).html_safe
   end
 
 
