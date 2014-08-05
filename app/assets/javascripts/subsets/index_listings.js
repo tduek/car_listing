@@ -1,6 +1,6 @@
 CarListing.Subsets.ListingsIndex = Backbone.Subset.extend({
 
-  url: 'api/listings',
+  url: '/api/listings',
 
   initialize: function (models, options) {
 
