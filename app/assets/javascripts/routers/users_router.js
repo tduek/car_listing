@@ -5,7 +5,7 @@ CarListing.Routers.Users = Backbone.Router.extend({
   },
 
   routes: {
-    'users/:id': 'show',
+    'sellers/:id': 'show',
     'user_dashboard': 'dashboard'
   },
 
