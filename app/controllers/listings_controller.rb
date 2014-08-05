@@ -3,7 +3,7 @@ class ListingsController < ApplicationController
   before_filter :require_owner, only: [:edit, :update, :destroy]
 
   def index
-    render :index, content_type: 'text/html'
+    render 'index.html.erb', content_type: 'text/html'
   end
 
   def show

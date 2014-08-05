@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   include UserSessionsHelper
   include ActiveSupport::Inflector
 
-  helper_method :search_params, :search_params_present?, :years_json, :subdivisions_json, :listings_json
+  helper_method :available_years, :search_params, :search_params_present?, :years_json, :subdivisions_json, :listings_json
 
   def valid_captcha?
     return false unless params[:recaptcha_challenge_field] && params[:recaptcha_response_field]
@@ -58,6 +58,8 @@ class ApplicationController < ActionController::Base
   end
 
   def search_params
+    return @search_params if @search_params
+
     params[:search] ||= {}
     result = extract_search_params(params[:search])
     result = (result.empty? ? extract_search_params(params) : result)
@@ -66,7 +68,7 @@ class ApplicationController < ActionController::Base
       result[k] = v.to_i unless Listing::STRING_SEARCH_PARAMS.include?(k.to_sym)
     end
 
-    result
+    @search_params = result
   end
 
   def extract_search_params(indif_hash)
@@ -80,13 +82,17 @@ class ApplicationController < ActionController::Base
   end
 
   def years_json
-    years = Year
+    available_years.to_json.html_safe
+  end
+
+  def available_years
+    return @available_yrs if @available_yrs
+
+    @available_yrs = Year
       .select('years.year')
-      .order('years.year')
+      .order('years.year DESC')
       .uniq
       .pluck(:year)
-      .to_json
-      .html_safe
   end
 
   def subdivisions_json

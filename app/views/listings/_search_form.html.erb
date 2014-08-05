@@ -1,165 +1,129 @@
-<%= form_tag(listings_url, method: "get", class: "search") do %>
 <table>
   <tr>
     <td>
-  <%= label_tag :year_from, "Year:" %>
-  <%= select_tag(:year_from,
-                  options_for_select((1930..Time.now.year).to_a.reverse, 
-                                      params[:search][:year_from]), 
-                  prompt: "from", name: "search[year_from]") %>▰  
-  <%= select_tag(:year_to,
-                  options_for_select((1930..Time.now.year).to_a.reverse,
-                                      params[:search][:year_to]), 
-                  prompt: "to", name: "search[year_to]") %>
+      <label for="search-year_from">Year</label>
+      <% search_year_from = search_params[:year_from] %>
+      <select class="search-year" id="search-year_from" name="year_from"
+        class="<%= 'selected user-written' if search_year_from %>">
+        <option value="">from</option>
+        <% available_years.each do |year| %>
+        <option value="<%= year %>"
+          <%= 'selected' if search_year_from == year %>>
+          <%= year %>
+        </option>
+        <% end %>
+      </select>
+      ▰
+      <% search_year_to = search_params[:year_to] %>
+      <select class="search-year" id="search-year_to" name="year_to"
+        class="<%= 'selected user-written' if search_year_to %>">
+        <option value="">to</option>f
+        <% available_years.each do |year| %>
+        <option value="<%= year %>"
+          <%= 'selected' if search_year_to == year %>>
+          <%= year %>
+        </option>
+        <% end %>
+      </select>
+    </td>
+  </tr>
+  <tr>
+    <td class="contains-tooltip make">
+      <% search_make_id = search_params[:make_id] %>
+      <select name="make_id" id="search-make_id"
+        class="<%= 'selected user-written' if search_make_id %>">
+        <option value="">Make</option>
+        <% Subdivision.makes.each do |make| %>
+        <option value="<%= make.id %>"
+          <%= 'selected' if search_make_id == make.id %>>
+          <%= make.name %>
+        </option>
+        <% end %>
+      </select>
+    </td>
+  </tr>
+  <tr>
+    <td class="contains-tooltip contains-mask">
+      <div class="tooltip">
+        Select a make first, please.
+        <div class="triangle"></div>
+      </div>
+      <select name="model_id" id="search-model_id" title="Select make first"
+        class="<%= 'selected user-written' if search_params[:model_id] %>">
+        <option value="">Model</option>
+        <% if search_make_id %>
+          <% Subdivision.where(parent_id: search_make_id).each do |model| %>
+          <option value="<%= model.id %>"
+            <%= 'selected' if model.id = search_params[:model_id] %>>
+            <%= model.name %>
+          </option>
+          <% end %>
+        <% end %>
+      </select>
+      <div class="mask"></div>
     </td>
   </tr>
   <tr>
     <td>
-  <%= select_tag(:make_id, 
-                  options_for_select(@makes_array, 
-                                     params[:search][:make_id]), 
-                  prompt: "Make ▾", name: "search[make_id]") %>
-    </td>
-  </tr>
-  <tr>
-    <td>
-  <%= select_tag(:model_id, 
-                  options_for_select(@models_array, 
-                                     params[:search][:model_id]),
-                  prompt: "Model ▾", name: "search[model_id]") %>
-    </td>
-  </tr>
-  <tr>
-    <td>
-  <%= label_tag :price_from, "Price:" %>
-      <input placeholder="from" 
-                    type="text" 
-                    name="search[price_from]"
+      <label for="search-price_from">Price</label><br>
+      <label for="search-price_from">$</label>
+      <input placeholder="from"
+                    type="text"
+                    name="price_from"
                  pattern="[0-9]*"
-                      id="price_from"
+                      id="search-price_from"
                maxlength="5"
-                   value="<%= params[:search][:price_from] %>">▰ 
+                   value="<%= search_params[:price_from] %>">
+                   ▰
+      <label for="search-price_to">$</label>
       <input placeholder="to"
-                    type="text" 
-                    name="search[price_to]" 
+                    type="text"
+                    name="price_to"
                  pattern="[0-9]*"
-                      id="price_to"
+                      id="search-price_to"
                maxlength="6"
-                   value="<%= params[:search][:price_to] %>">
+                   value="<%= search_params[:price_to] %>">
     </td>
   </tr>
   <tr>
     <td>
-      <%= label_tag :search_distance, "Distance:" %><br>
-      <input placeholder="any" 
-                    type="text" 
-                    name="search[dist]"
+      <label for="search-distance">Distance</label><br>
+      <input placeholder="any"
+                    type="text"
+                    name="dist"
                  pattern="[0-9]*"
-                      id="search_distance"
+                      id="search-distance"
                maxlength="4"
-                   value="<%= params[:search][:dist] %>">
-      <%= label_tag :search_distance, "miles" %>
-      <%= label_tag :search_zip, "from" %> 
+                   value="<%= search_params[:dist] %>">
+      <label for="search-distance">miles</label>
+      <label for="search-zip">from</label>
       <input placeholder="zip"
-                    type="text" 
-                    name="search[zip]" 
+                    type="text"
+                    name="zip"
                  pattern="[0-9]*"
-                      id="search_zip"
+                      id="search-zip"
                maxlength="5"
-                   value="<%= params[:search][:zip] %>">
+                   value="<%= search_params[:zip] %>">
     </td>
   </tr>
   <tr>
     <td>
-      <%= label_tag :sort_by %>
-      <%= select_tag(:sort_by, 
-                      options_for_select(@sort_options,
-                                         params[:search][:sort]),
-                      prompt: "▾", name: "search[sort]") %>
+      <label for="search-sort_by">Sort by</label>
+      <select name="sort" id="search-sort_by"
+        class="<%= 'selected user-written' if search_params[:sort_by] %>">
+        <option value="">random</option>
+        <% Listing::SORT_OPTIONS.each do |(label, val)| %>
+        <option value="<%= val %>"
+          <%= 'selected' if search_params[:sort_by] == val %>>
+          <%= label %>
+        </option>
+        <% end %>
       </select>
     </td>
   </tr>
   <tr>
     <td>
-  <%= submit_tag "Search" %>
+      <input type="submit" value="Search">
     </td>
   </tr>
 </table>
-<% end %>
-
-<script>
-
-var disableNewerThanYearFrom = function () {
-  var yearFrom = parseInt($("#year_from").val());
-  var options = $("#year_to").children("option")
-  options.each(function (i) {
-    var option = $(options[i])
-    if (option.val() < yearFrom) {
-      option.prop("disabled", "true"); 
-    } else if (isNaN(yearFrom)) {
-      option.removeAttr("disabled");
-    }
-  });
-};
-
-var disableOlderThanYearTo = function () {
-  var yearTo = parseInt($("#year_to").val());
-  var options = $("#year_from").children("option")
-  options.each(function (i) {
-    var option = $(options[i])
-    if (option.val() > yearTo) {
-     option.prop("disabled", "true"); 
-    } else if (isNaN(yearTo)) {
-      option.removeAttr("disabled");
-    }
-  });
-};
-
-var updateSortByDistance = function () {
-  var distanceOption = $("select#sort_by").find("option[value='distance']")
-  if ($("#search_zip").val().length === 5) {
-    distanceOption.removeAttr("disabled");
-  } else {
-    distanceOption.prop("disabled", "true");
-  }
-};
-
-$(document).ready(function () {
-  disableNewerThanYearFrom();
-  disableOlderThanYearTo();
-  $("#year_from").on("change", disableNewerThanYearFrom)
-  
-  $("#year_to").on("change", disableOlderThanYearTo)
-  
-  
-  var allModelsForSelect = $("#model_id").children("option");
-  var updateModelSelect = function() {
-    var currentMakeID = parseInt($("#make_id").val());
-    if (isNaN(currentMakeID)) {
-      $("#model_id").prop("disabled", "true");
-    } else {
-      $("#model_id").removeAttr("disabled");
-      var nextMakeID = $("#make_id").find("option[value="+currentMakeID+"]").next().val();
-      $("#model_id").empty();
-    
-      if (currentMakeID) {
-        $("#model_id").prepend("<option value=''>Model ▾</option>")
-      }
-    
-      allModelsForSelect.each(function (i) {
-        var modelOption = $(allModelsForSelect[i])
-        var modelID = parseInt(modelOption.val());
-        if ((!currentMakeID || modelID > currentMakeID) && (!nextMakeID || modelID < nextMakeID)) {
-          $("#model_id").append(modelOption)
-        }
-      });
-    }
-  };
-    
-  updateModelSelect();  
-  $("#make_id").on("change", updateModelSelect);
-  
-  updateSortByDistance();
-  $("#search_zip").on("change", updateSortByDistance);
-});
-</script>
