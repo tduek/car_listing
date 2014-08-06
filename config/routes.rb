@@ -26,6 +26,7 @@ CarListing::Application.routes.draw do
     end
   end
 
+  resources :sellers, only: [:show], controller: 'users'
 
   resource :user_password, only: [:new, :create, :edit, :update]
 
