@@ -3,7 +3,7 @@ class UsersController < ApplicationController
     [:show, :edit, :update, :destroy, :resend_initial_activation_email, :change_email]
 
   before_filter :require_owner, only:
-    [:show, :edit, :update, :destroy, :resend_initial_activation_email, :change_email]
+    [:edit, :update, :destroy, :resend_initial_activation_email, :change_email]
 
 
 
@@ -11,6 +11,13 @@ class UsersController < ApplicationController
     @user = User.new
   end
 
+  def show
+    if @user.is_activated?
+      render :show
+    else
+      raise_404
+    end
+  end
 
   def create
     @user = User.new(params[:user])

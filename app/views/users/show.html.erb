@@ -1,5 +1,62 @@
-<% if @user.is_activated? %>
-  <%= render partial: "dashboard", locals: {user: @user} %>
-<% else %>
-  <%= render partial: "inactive_user", locals: {user: @user} %>
-<% end %>
+<div>
+
+  <header class="page-header">
+    <h1>
+    <% if @user.name.present?  %>
+      <%= @user.name %>'s Profile
+    <% else %>
+      Seller Profile
+    <% end %>
+    </h1>
+  </header>
+
+  <section id="sidebar">
+    <header>
+        <h3>Seller Info</h3>
+    </header>
+
+    <dl class="info">
+    <% if @user.is_dealer? %>
+      <dt>Seller type</dt>
+      <dd>DEALERSHIP</dd>
+
+      <% if @user.address_line_1.present? %>
+      <dt>Address</dt>
+      <dd>
+        <%= @user.address_line_1 %>
+        <% if @user.address_line_2.present? %>
+        <br><%= @user.address_line_2 %>
+        <% end %>
+        <br><%= "#{@user.city}, #{@user.state} #{@user.zip}" %>
+      </dd>
+      <% end %>
+
+    <% else %>
+      <dt>Seller type</dt>
+      <dd>BY OWNER</dd>
+
+      <% if @user.location.present? %>
+      <dt>Location</dt>
+      <dd><%= @user.location %></dd>
+      <% end %>
+    <% end %>
+      <dt>Contact</dt>
+      <dd>
+        <span><a class="phone" href="#">Click here!</a></span>
+      </dd>
+    </dl>
+  </section>
+
+  <section id="main-content">
+    <header>
+      <h3>Seller's Listings</h3>
+    </header>
+
+    <section class="listings">
+      <%= render @user.listings %>
+    </section>
+  </section>
+
+</div>
+
+<%= render partial: 'shared/backbone_kickoff' %>
