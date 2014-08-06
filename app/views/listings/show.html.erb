@@ -1,20 +1,33 @@
-<h1><%= @listing.ymm %></h1>
+<div>
+<header class="page-header">
+  <h1><%= @listing.ymm %></h1>
 
-<h3><%= @listing.title %></h3>
+  <h3><%= @listing.title %></h3>
+</header>
 
 <section class="top-info clear-fix">
   <section class="pics">
-  <% if @listing.pics.empty? %>
+  <% pics = @listing.pics.to_a %>
+  <% if pics.empty? %>
     <p>Sorry, no pics :(</p>
   <% else %>
     <div class="main-pic">
-      <%= image_tag @listing.main_pic.file.url, class: "car-pic" %>
+      <% main_pic = pics.first %>
+      <img src="<%= main_pic.file.url %>" class="car-pic"
+           data-id="<%= main_pic.id %>">
     </div>
+    <% num_thumb_rows = pics.length / 7 + 1 %>
+    <% num_thumb_rows.times do |row_i| %>
     <ul class="thumbs clear-fix">
-      <% @listing.pics.each do |thumb| %>
-      <li><%= image_tag thumb.file.url, class: "car-pic" %></li>
+      <% row_pics = pics[(row_i * 7)...((row_i + 1) * 7)] %>
+      <% row_pics.each do |pic| %>
+      <li>
+        <img src="<%= pic.file.url %>" class="car-pic"
+             data-id="<%= pic.id %>">
+      </li>
       <% end %>
     </ul>
+    <% end %>
   <% end %>
   </section>
 
@@ -23,113 +36,41 @@
     <article class="car-info">
       <header>What it is:</header>
 
-      <ul>
-        <li class="clear-fix">
-          <label><strong>Year:</strong></label>
-          <span><%= @listing.year %></span>
-        </li>
-        <li class="clear-fix">
-          <label><strong>Make:</strong></label>
-          <span><%= @listing.make.name %></span>
-        </li class="clear-fix">
-        <li class="clear-fix">
-          <label><strong>Model:</strong></label>
-          <span><%= @listing.model.name %></span>
-        </li>
-        <li class="clear-fix">
-          <label><strong>Miles:</strong></label>
-          <span><%= @listing.miles || 'N/A' %></span>
-        </li>
-        <li class="clear-fix">
-          <label><strong>Transmission:</strong></label>
-          <span><%= @listing.transmission || 'N/A' %></span>
-        </li>
-        <li class="clear-fix">
-          <label><strong>VIN:</strong></label>
-          <span><%= @listing.vin || 'N/A' %></span>
-        </li>
-        <li class="clear-fix">
-          <label><strong>Seller:</strong></label>
-          <span><%= @listing.is_owner ? "BY OWNER" : "DEALER" %></span>
-        </li>
-        <li class="clear-fix">
-          <label><strong>Asking:</strong></label>
-          <span><%= number_to_currency(@listing.price, precision: 0) %></span>
-        </li>
-        <li class="clear-fix">
-          <label><strong>Contact:</strong></label>
-          <span>
-            <a class="phone" href="#">
-              Phone
-            </a>
-          </span>
-          <script type="text/javascript">
-            var RecaptchaOptions = {
-               theme: 'custom',
-               custom_theme_widget: 'recaptcha_widget'
-            };
-          </script>
-          <form action="<%= listing_phone_url(@listing) %>" method="get"
-                 class="phone clear-fix">
-            <input type="hidden" name="authenticity_token"
-                                value="<%= form_authenticity_token %>">
-            <div id="recaptcha_widget" class="clear-fix">
-               <div class="recaptcha-widget-main">
-                 <div id="recaptcha_image"></div>
+      <dl class="info">
+        <dt>Miles</dt>
+        <dd>
+        <% if @listing.miles %>
+          <%= number_with_delimiter(@listing.miles)  %>
+        <% else %>
+          N/A
+        <% end %>
+        </dd>
 
-                 <div class="recaptcha_only_if_incorrect_sol">
-                   Incorrect please try again
-                 </div>
+        <dt>Transmission</dt>
+        <dd><%= @listing.transmission || 'N/A' %></dd>
 
-                 <label class="recaptcha_only_if_image"
-                          for="recaptcha_response_field">
-                   Enter the words above:
-                 </label>
-                 <label class="recaptcha_only_if_audio"
-                          for="recaptcha_response_field">
-                   Enter the numbers you hear:
-                 </label>
+        <dt>VIN</dt>
+        <dd><%= @listing.vin || 'N/A' %></dd>
 
-                 <input type="text" id="recaptcha_response_field"
-                        name="recaptcha_response_field">
-                 <input type="submit">
-               </div>
+        <dt>Seller</dt>
+        <dd>
+          <a href="/sellers/<%= @listing.seller_id %>">
+            <% if @listing.by_owner? %>
+              BY OWNER
+            <% else %>
+              DEALER
+            <% end %>
 
-               <nav class="clear-fix">
-                 <a href="javascript:Recaptcha.reload()"
-                    title="Get another CAPTCHA">
-                   <i class="fa fa-refresh"></i>
-                 </a>
-                 <a href="javascript:Recaptcha.switch_type('audio')"
-                    title="Get an audio CAPTCHA"
-                    class="recaptcha_only_if_image">
-                   <i class="fa fa-file-audio-o"></i>
-                 </a>
-                 <a href="javascript:Recaptcha.switch_type('image')"
-                    title="Get an image CAPTCHA"
-                    class="recaptcha_only_if_audio">
-                   <i class="fa fa-file-image-o"></i>
-                 </a>
-                 <a href="javascript:Recaptcha.showhelp()" title="Help">
-                   <i class="fa fa-question"></i>
-                 </a>
-               </nav>
+            <%= @listing.seller.name %>
+          </a>
+        </dd>
 
-             </div>
+        <dt>Asking</dt>
+        <dd><%= number_to_currency(@listing.price, precision: 0) %></dd>
 
-             <script type="text/javascript"             src="http://www.google.com/recaptcha/api/challenge?k=6LeCffQSAAAAACUboC37v0EuQej0R-53GKMKOIVh">
-             </script>
-             <noscript>
-               <iframe src="http://www.google.com/recaptcha/api/noscript?k=6LeCffQSAAAAACUboC37v0EuQej0R-53GKMKOIVh"
-                    height="300" width="500" frameborder="0"></iframe><br>
-               <textarea name="recaptcha_challenge_field" rows="3" cols="40">
-               </textarea>
-               <input type="hidden" name="recaptcha_response_field"
-                    value="manual_challenge">
-             </noscript>
-          </form>
-        </li>
-      </ul>
+        <dt>Contact</dt>
+        <dd><span><a class="phone" href="#">Click here!</a></span></dd>
+      </dl>
     </article>
   </section>
 </section>
@@ -139,134 +80,6 @@
   <p><%= @listing.description %></p>
 </section>
 
+</div>
 
-
-<script>
-
-var showRecaptcha = function (el) {
-  Recaptcha.create('<%= ENV['RECAPTCHA_PUBLIC_KEY'] %>', el, {
-    callback: Recaptcha.focus_response_field
-  });
-
-  CarListing.showPhoneForm = function () {
-    $('a.phone').remove();
-    showRecaptcha('recaptcha_widget');
-    $('form.phone').addClass('show');
-  }
-};
-
-$(document).ready(function() {
-  $('a.phone').on('click', function (event) {
-    event.preventDefault();
-
-    var $currentTarget = $(event.currentTarget);
-    $currentTarget.remove();
-    $('form.phone').addClass('show');
-    showRecaptcha('recaptcha_widget');
-  });
-
-  $('form.phone').on('submit', function (event) {
-    event.preventDefault();
-
-    var $form = $(event.currentTarget);
-    var url = $form.attr('action');
-    $.ajax({
-      method: 'get',
-      url: url,
-      accepts: 'json',
-      data: $form.serializeJSON(),
-      success: function (data) {
-        if (data.phone) {
-          Recaptcha.destroy();
-          $form.before('<span>' + data.phone + '</span>');
-          $form.remove();
-        }
-        else {
-          $textInput = $form.find('input[type="text"]');
-          $textInput.prop('disabled', true)
-          $('#recaptcha_widget').removeClass('recaptcha_nothad_incorrect_sol');
-          $form.find('.recaptcha_only_if_incorrect_sol')
-            .stop()
-            .fadeTo(300, 0.1).fadeTo(300, 1)
-            .fadeTo(300, 0.1).fadeTo(300, 1)
-            .delay(1000)
-            .fadeOut(400)
-            .promise().done(function () {
-              Recaptcha.reload()
-              $textInput.prop('disabled', false);
-            });
-        }
-      },
-      error: function (data) {
-        console.log('hit error', data)
-      }
-    });
-  });
-
-  var $lightbox = $("div.lightbox");
-  var totalPics = <%= @listing.pics.count %>;
-  var currentPic = 1;
-
-  var width = <%= @listing.pics.count * 600 %>
-  $("div.viewport > ul").css("width", width);
-  <% @listing.pics.each do |pic| %>
-    $("div.lightbox ul").append('<li><%= image_tag pic.file.url %></li>');
-  <% end %>
-
-  $("img.car-pic").click(function() {
-    $("body").addClass("no-scroll");
-    $lightbox.addClass("show");
-    setViewportCSS();
-  });
-
-  $("div.lightbox").click(function(event) {
-    exitLightbox();
-  });
-
-  $(".viewport").click(function(event){
-    event.stopPropagation();
-  });
-
-  $("#scroll-viewport-left").click(moveViewport.bind(this, 600));
-  $("#scroll-viewport-right").click(moveViewport.bind(this, -600));
-
-  $(window).keydown(function(event) {
-    if (event.keyCode == 27) { exitLightbox() }
-    else if (event.keyCode == 37) { moveViewport(600) }
-    else if (event.keyCode == 39) { moveViewport(-600) }
-  });
-
-  function setViewportCSS() {
-    var imgHeight = $($("div.viewport img")[currentPic-1]).css("height");
-    $("div.viewport").css("height", imgHeight);
-
-    $("div.viewport").css("margin", function() {
-      var lightboxHeight = parseInt($(".lightbox").css("height"));
-      var newMargin = (lightboxHeight - parseInt(imgHeight))/2;
-      if (newMargin < 0) { newMargin = 50 }
-
-      return "" + newMargin + "px auto";
-    });
-  };
-
-  function exitLightbox() {
-    $lightbox.removeClass("show");
-    $("body").removeClass("no-scroll");
-  };
-
-  function moveViewport(delta) {
-    if ((delta > 0 && currentPic != 1) || (delta < 0 && currentPic != totalPics) && $lightbox.hasClass("show")) {
-      if (delta > 0) { currentPic-- }
-      else { currentPic++ }
-      $("div.viewport > ul").css("left", function(i, val) {
-        return ""+(parseInt(val) + delta)+"px";
-      });
-    }
-
-    setViewportCSS();
-  };
-});
-</script>
-
-
-
+<%= render partial: 'shared/backbone_kickoff' %>
