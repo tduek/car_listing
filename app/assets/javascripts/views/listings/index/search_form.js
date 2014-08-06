@@ -62,7 +62,13 @@ CarListing.Views.SearchForm = Backbone.View.extend({
     if (!_.isEqual(this.listings.searchParams, newSearchParams)) {
       this.listings.searchParams = newSearchParams;
       this.refreshListings();
+      this.updateHistory();
     }
+  },
+
+  updateHistory: function () {
+    var queryString = '?' + $.param(this.listings.searchParams);
+    Backbone.history.navigate(queryString, {replace: true});
   },
 
   cleanupSearchParams: function (params) {
