@@ -78,7 +78,7 @@ class ApplicationController < ActionController::Base
   end
 
   def search_params_present?
-    search_params.empty?
+    !search_params.empty?
   end
 
   def years_json

@@ -1,16 +1,29 @@
 <div>
-
   <section id="sidebar">
     <form class="search">
+    <% if search_params_present? %>
       <%= render partial: 'search_form' %>
+    <% else %>
+
+      <% cache('search_form', expires_in: 10.minutes, race_condition_ttl: 10.seconds) do %>
+        <%= render partial: 'search_form' %>
+      <% end %>
+
+    <% end %>
     </form>
   </section>
 
   <section id="main-content" class="clear-fix">
+  <% if search_params_present? %>
     <%= render partial: 'search_results' %>
+  <% else %>
+
+    <% cache('search_results', expires_in: 10.minutes, race_condition_ttl: 10.seconds) do %>
+      <%= render partial: 'search_results' %>
+    <% end %>
+
+  <% end %>
   </section>
-
 </div>
-
 
 <%= render partial: 'shared/backbone_kickoff.html.erb' %>
