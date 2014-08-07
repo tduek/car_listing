@@ -39,14 +39,14 @@ window.CarListing = {
 
   backbonifyLinks: function () {
     $('a.home').attr('href', '');
-    $('a.dashboard').attr('href', 'user_dashboard');
+    $('a.dashboard').attr('href', 'dashboard');
 
     $(document).on('click', 'a', function(e) {
       var href = $(this).attr("href");
       var protocol = this.protocol + "//";
 
       if (
-          href.slice(protocol.length) !== protocol
+          href.slice(0, protocol.length) !== protocol
           && protocol !== 'javascript://'
           && href.substring(0, 1) !== '#'
         ) {

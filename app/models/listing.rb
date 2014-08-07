@@ -33,7 +33,7 @@ class Listing < ActiveRecord::Base
                   ["distance", "distance"],
                   ["best deal", "best_deal"]]
 
-  MAX_FOR_BEST_DEAL_SORT = 100
+  MAX_FOR_BEST_DEAL_SORT = 500
 
   PERMITTED_SEARCH_KEYS = [
     :year_from, :year_to,

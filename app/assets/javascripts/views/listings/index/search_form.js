@@ -98,7 +98,7 @@ CarListing.Views.SearchForm = Backbone.View.extend({
   selectChanged: function ($select) {
     if ($select.val()) {
       if ($select.is('#search-sort_by')) {
-        this.tryToSortBy($select);
+        this.validateSortBy($select);
       } else {
         $select.addClass('selected user-written');
       }
@@ -150,7 +150,7 @@ CarListing.Views.SearchForm = Backbone.View.extend({
     }
   },
 
-  tryToSortBy: function ($sortSelect) {
+  validateSortBy: function ($sortSelect) {
     var sortVal = $sortSelect.val();
     if (sortVal === 'best_deal' && !this.listings.canSortByBestDeal()) {
       // can't sort by best deal
@@ -162,6 +162,9 @@ CarListing.Views.SearchForm = Backbone.View.extend({
       $sortSelect.val('');
       this.selectChanged($sortSelect);
       this.showSortDistanceTooltip();
+    }
+    else {
+      $sortSelect.addClass('selected user-written');
     }
   },
 
@@ -225,7 +228,7 @@ CarListing.Views.SearchForm = Backbone.View.extend({
 
   showSortDealTooltip: function () {
     var $sortSelect = this.$('#search-sort_by');
-    var text = 'I can only sort by best deal if there are less than 100 listings. There are ' + this.listings.formattedTotalCount() + ' now. Try narrowing it down by selecting a specific year, make, or distance.'
+    var text = 'I can only sort by best deal if there are less than ' + this.listings.maxCountForBestDealSort + ' listings. There are ' + this.listings.formattedTotalCount() + ' now. Try narrowing it down by selecting a specific year, make, or distance.'
 
     CarListing.clippyTooltip($sortSelect, text, { hold: true })
   }
