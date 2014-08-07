@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140712203411) do
+ActiveRecord::Schema.define(:version => 20140807155014) do
 
   create_table "craigs_sites", :force => true do |t|
     t.string   "city"
@@ -50,6 +50,7 @@ ActiveRecord::Schema.define(:version => 20140712203411) do
     t.boolean  "is_active",    :default => true
   end
 
+  add_index "listings", ["created_at"], :name => "index_listings_on_created_at"
   add_index "listings", ["is_active"], :name => "index_listings_on_is_active"
   add_index "listings", ["make_id"], :name => "index_listings_on_make_id"
   add_index "listings", ["model_id"], :name => "index_listings_on_model_id"
