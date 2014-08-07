@@ -32,6 +32,26 @@ form.signin-form input {
   width: 100%;
   margin: 0;
   background: none;
+  box-sizing: border-box;
+}
+
+#sign-in-remember-me {
+  width: auto;
+  float: left;
+  margin: 4px 5px 4px 0;
+}
+
+label[for="sign-in-remember-me"] {
+  float: left;
+  font-family: "Oswald";
+  font-weight: 100;
+  color: #333333;
+  font-size: 13px;
+  letter-spacing: 0.5px;
+}
+
+form.signin-form .links {
+  clear: both;
 }
 
 form.signin-form a {

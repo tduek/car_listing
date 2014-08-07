@@ -2,16 +2,20 @@ module UserSessionsHelper
 
   def signin_user!(user)
     @current_user = user
+    user_session = user.sessions.create!
 
-    user_session = user.sessions.create
-    session[:user_session_token] = user_session.token
+    if params[:remember_me]
+      cookies.permanent[:user_session_token] = user_session.token
+    else
+      cookies[:user_session_token] = user_session.token
+    end
   end
 
   def current_user
-    return nil unless session[:user_session_token]
+    return nil unless cookies[:user_session_token]
     return @current_user if @current_user
 
-    user_session = UserSession.find_by_token(session[:user_session_token])
+    user_session = UserSession.find_by_token(cookies[:user_session_token])
     @current_user ||= user_session.user if user_session
   end
 
@@ -20,10 +24,10 @@ module UserSessionsHelper
   end
 
   def signout_current_user!
-    user_session = UserSession.find_by_token(session[:user_session_token])
+    user_session = UserSession.find_by_token(cookies[:user_session_token])
 
     user_session.destroy if user_session
-    session[:user_session_token] = nil
+    cookies.delete(:user_session_token)
   end
 
 end
