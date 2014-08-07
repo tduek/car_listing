@@ -1,6 +1,6 @@
 CarListing.Models.Listing = Backbone.Model.extend({
 
-  urlRoot: 'api/listings',
+  urlRoot: '/api/listings',
 
   initialize: function () {
     this.collections = [];
@@ -23,6 +23,10 @@ CarListing.Models.Listing = Backbone.Model.extend({
     }
 
     return json;
+  },
+
+  isLoaded: function () {
+    return !!(this.get('price') || this.get('ymm') || this.get('title'));
   },
 
   price: function () {

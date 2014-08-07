@@ -7,11 +7,11 @@ CarListing.Subsets.ListingsIndex = Backbone.Subset.extend({
   },
 
   parse: function (json) {
-    if (json.listingsCount) this.listingsCount = json.listingsCount;
-    if (json.totalPages) this.totalPages = json.totalPages;
-    if (json.currentPage) this.currentPage = json.currentPage;
+    if (json.listingsCount) this.listingsCount = parseInt(json.listingsCount);
+    if (json.totalPages) this.totalPages = parseInt(json.totalPages);
+    if (json.currentPage) this.currentPage = parseInt(json.currentPage);
     if (json.searchParams) this.searchParams = json.searchParams;
-    if (json.maxCountForBestDealSort) this.maxCountForBestDealSort = json.maxCountForBestDealSort;
+    if (json.maxCountForBestDealSort) this.maxCountForBestDealSort = parseInt(json.maxCountForBestDealSort);
 
     return json.listings;
   },
