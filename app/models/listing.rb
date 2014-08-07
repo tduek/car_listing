@@ -258,4 +258,9 @@ class Listing < ActiveRecord::Base
     [self.year, self.make.try(:name), self.model.try(:name)].compact.join(' ')
   end
 
+  def user
+    seller
+  end
+
+
 end
