@@ -18,12 +18,10 @@ class Pic < ActiveRecord::Base
 
   belongs_to :listing
 
-  before_create :generate_token_unless_listing
+  before_create :ensure_token
 
-  def generate_token_unless_listing
-    unless self.listing_id || self.listing
-      self.token = generate_unique_token_for_field(:token)
-    end
+  def ensure_token
+    self.token ||= generate_unique_token_for_field(:token)
   end
 
   def as_json(options = {})
@@ -31,7 +29,8 @@ class Pic < ActiveRecord::Base
       id: self.id,
       listing_id: self.listing_id,
       ord: self.ord,
-      url: self.file.url
+      url: self.file.url,
+      token: self.token
     }
   end
 

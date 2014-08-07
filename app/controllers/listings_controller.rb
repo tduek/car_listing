@@ -51,12 +51,38 @@ class ListingsController < ApplicationController
 
   def update
     @listing = Listing.find(params[:id])
+    old_pics = @listing.pics.to_a
 
-    if @listing.update_attributes(params[:listing])
+    new_tokens = []
+    new_files = []
+    params[:pics].values.each do |pic_params|
+      new_tokens << pic_params[:token] && next if pic_params[:token].present?
+      new_files << pic_params[:file] if pic_params[:file].present?
+    end
+
+    new_files.map! { |file| Pic.new(file: file) }
+    new_pics = Pic.where(token: new_tokens).to_a + new_files
+    new_pics.each_with_index { |pic, i| pic.ord = i + 1 }
+
+    pic_ids_to_rm = old_pics.map(&:id) - new_pics.map(&:id)
+    pics_to_rm = Pic.where(id: pic_ids_to_rm)
+
+    params[:listing][:pics] = new_pics
+
+    begin
+      ActiveRecord::Base.transaction do
+        pics_to_rm.each(&:destroy)
+        @listing.update_attributes(params[:listing])
+
+        if pics_to_rm.any?(&:persisted?) || !@listing.update_attributes(params[:listing])
+          raise ActiveRecord::RecordNotSaved
+        end
+      end
+
       flash[:success] = "Successfully saved changes to your #{@listing.ymm}"
       redirect_to @listing
-    else
-      flash.now[:alert] = "Couldn't save changes to your #{@liasting.name || 'listing'}. Check below."
+    rescue ActiveRecord::RecordNotSaved
+      flash.now[:alert] = "Couldn't save changes to your #{@listing.name || 'listing'}. Check below."
       render :edit
     end
   end
@@ -66,7 +92,7 @@ class ListingsController < ApplicationController
 
     @listing.destroy
 
-    flash[:succes] = "Successfully removed your #{@listing.ymm} from our listings."
+    flash[:success] = "Removed your #{@listing.ymm} from our listings."
     redirect_to current_user
   end
 

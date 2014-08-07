@@ -1,7 +1,7 @@
 class Listing < ActiveRecord::Base
   include ActiveSupport::Inflector
 
-  attr_accessible :miles, :model_id, :price, :year, :make_id, :title, :description, :vin, :transmission
+  attr_accessible :miles, :model_id, :price, :year, :make_id, :title, :description, :vin, :transmission, :pics
 
   belongs_to :seller, class_name: 'User', foreign_key: :seller_id
   has_one :zip, through: :seller, source: :zip

@@ -55,18 +55,22 @@
 
     $('div.main-pic').html(
       <% if @listing.pics[0] %>
-      picTemplateFn({opts:
-                      {src: '<%= @listing.pics[0].file.url %>',
-                       main: true,
-                       errors: <%= @listing.pics[0].invalid? %>,
-                       token: '<%= @listing.pics[0].token %>'}
-                    })
+      picTemplateFn({
+        opts: {
+          src: '<%= @listing.pics[0].file.url %>',
+          main: true,
+          errors: <%= @listing.pics[0].invalid? %>,
+          token: '<%= @listing.pics[0].token %>'
+        }
+      })
       <% else %>
-      picTemplateFn({opts:
-                      {empty:  true,
-                       main:   true,
-                       src:    '<%= asset_path "camera_icon.png" %>'}
-                    })
+      picTemplateFn({
+        opts: {
+          empty:  true,
+          main:   true,
+          src:    '<%= asset_path "camera_icon.png" %>'
+        }
+      })
       <% end %>
     );
 
@@ -75,27 +79,33 @@
     });
 
     $('div.main-pic').on('click', '.remove', function() {
-      var picWrap = picTemplateFn({opts:
-                                    {main: true,
-                                     empty: true,
-                                     src: '<%= asset_path "camera_icon.png" %>'}
-                                  });
+      var picWrap = picTemplateFn({
+        opts: {
+          main: true,
+          empty: true,
+          src: '<%= asset_path "camera_icon.png" %>'
+        }
+      });
       $('div.main-pic').html(picWrap);
     });
 
 
     <% thumbs = @listing.pics[1..-1] %>
     <% thumbs && thumbs.each do |pic| %>
-    $('ul.thumbs').append(picTemplateFn({opts:
-                                          {src: '<%= pic.file.url %>',
-                                           errors: <%= pic.invalid? %>,
-                                           token: '<%= pic.token %>'}
-                                        }));
+    $('ul.thumbs').append(picTemplateFn({
+      opts: {
+        src: '<%= pic.file.url %>',
+        errors: <%= pic.invalid? %>,
+        token: '<%= pic.token %>'
+      }
+    }));
     <% end %>
-    var picWrap = picTemplateFn({opts:
-                                  {empty: true,
-                                   src: '<%=asset_path "camera_icon.png" %>'}
-                                });
+    var picWrap = picTemplateFn({
+      opts: {
+        empty: true,
+        src: '<%=asset_path "camera_icon.png" %>'
+      }
+    });
     $('ul.thumbs').append(picWrap);
 
     $('ul.thumbs').on('change', 'input.pic_file', function(event) {
@@ -118,7 +128,6 @@
           $fileInput.siblings('.progress').html('0%')
           $fileInput.siblings('.remove').show();
 
-
           var reader = new FileReader();
           reader.onload = function(e) {
             var picData = e.target.result;
@@ -133,7 +142,6 @@
             $fileInput.siblings('.errors').find('.message').html(oopsMsg);
           };
 
-
           reader.readAsDataURL(input.files[0]);
         }
         else {
@@ -143,15 +151,11 @@
     };
 
     function validateImageType(file) {
-      if (/jpg|jpeg|png|bmp/.exec(file.type)) {
-        return true;
-      }
+      if (/jpg|jpeg|png|bmp/.exec(file.type)) return true;
     };
 
     function validateImageSize(file) {
-      if (file.size / (1024 * 1024) < 4) {
-        return true;
-      }
+      if (file.size / (1024 * 1024) < 4) return true;
     };
 
     function postAttachment(picData, $fileInput) {
@@ -169,7 +173,8 @@
           // Set spinner. Now handled in #readUrl with .progress.
         },
         success: function(data) {
-          $fileInput.siblings('input.pic_token').val(data['token']);
+          console.log("in success", data);
+          $fileInput.siblings('input.pic_token').val(data.token);
         },
         error: function(xhr) {
           $fileInput.parent().addClass('errors');
@@ -203,10 +208,13 @@
       var lastFileInputVal = $('input.pic_file').last().val();
       var lastSrcInputVal = $('input.pic_token').last().val();
       if (lastFileInputVal.length > 0 || lastSrcInputVal.length > 0) {
-        var picWrap = picTemplateFn({opts:
-                                      {empty: true,
-                                       src: '<%=asset_path "camera_icon.png"%>'}
-                                    });
+        var picWrap = picTemplateFn({
+          opts: {
+            empty: true,
+            src: '<%=asset_path "camera_icon.png"%>'
+          }
+        });
+
         $('ul.thumbs').append(picWrap);
        }
      };
