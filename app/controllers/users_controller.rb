@@ -2,6 +2,8 @@ class UsersController < ApplicationController
   before_filter :set_singular_resource, only:
     [:show, :edit, :update, :destroy, :resend_initial_activation_email, :change_email]
 
+  before_filter :require_user_signed_in, only: [:dashboard]
+
   before_filter :require_owner, only:
     [:edit, :update, :destroy, :resend_initial_activation_email, :change_email]
 
@@ -17,6 +19,10 @@ class UsersController < ApplicationController
     else
       raise_404
     end
+  end
+
+  def dashboard
+
   end
 
   def create

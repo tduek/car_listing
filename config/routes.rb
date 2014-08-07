@@ -26,6 +26,8 @@ CarListing::Application.routes.draw do
     end
   end
 
+  get :dashboard, as: :dashboard, to: 'users#dashboard'
+
   resources :sellers, only: [:show], controller: 'users'
 
   resource :user_password, only: [:new, :create, :edit, :update]
