@@ -49,7 +49,7 @@
         <li><%= link_to "sell your car", new_listing_url %></li>
         <li>
           <% if user_signed_in? %>
-            <a href="<%= user_url(current_user) %>" class="dashboard">
+            <a href="<%= dashboard_url %>" class="dashboard">
               DASHBOARD
             </a>
           <% else %>

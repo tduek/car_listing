@@ -22,7 +22,7 @@ class UsersController < ApplicationController
   end
 
   def dashboard
-
+    render 'listings/index'
   end
 
   def create
