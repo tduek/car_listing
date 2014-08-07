@@ -9,7 +9,14 @@ CarListing.Views.ListingShow = Backbone.View.extend({
   template: JST['listings/show/container'],
 
   render: function () {
-    var renderedContent = this.template({listing: this.listing});
+    var renderedContent;
+
+    if (this.listing.isLoaded()) {
+      renderedContent = this.template({listing: this.listing});
+    } else {
+      renderedContent = '<img src="' + CarListing.spinnerURL + '" class="spinner">';
+    }
+
     this.$el.html(renderedContent);
 
     return this;
