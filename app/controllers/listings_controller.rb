@@ -3,19 +3,19 @@ class ListingsController < ApplicationController
   before_filter :require_owner, only: [:edit, :update, :destroy]
 
   def index
-    render 'index.html.erb', content_type: 'text/html'
+    render 'index.html.erb', content_type: 'text/html', layout: 'application.html.erb'
   end
 
   def show
     @listing = Listing.find(params[:id])
 
-    render :show, content_type: 'text/html'
+    render :show, content_type: 'text/html', layout: 'application.html.erb'
   end
 
   def new
     @listing = current_user.listings.new
 
-    render :new, content_type: 'text/html'
+    render :new, content_type: 'text/html', layout: 'application.html.erb'
   end
 
 
@@ -43,7 +43,7 @@ class ListingsController < ApplicationController
       redirect_to @listing
     else
       flash.now[:alert] = "Couldn't save your listing. Check below."
-      render :new, content_type: 'text/html'
+      render :new, content_type: 'text/html', layout: 'application.html.erb'
     end
   end
 
@@ -51,7 +51,7 @@ class ListingsController < ApplicationController
   def edit
     @listing = Listing.find(params[:id])
 
-    render :edit, content_type: 'text/html'
+    render :edit, content_type: 'text/html', layout: 'application.html.erb'
   end
 
 
@@ -89,7 +89,7 @@ class ListingsController < ApplicationController
       redirect_to @listing
     rescue ActiveRecord::RecordNotSaved
       flash.now[:alert] = "Couldn't save changes to your #{@listing.name || 'listing'}. Check below."
-      render :edit, content_type: 'text/html'
+      render :edit, content_type: 'text/html', layout: 'application.html.erb'
     end
   end
 

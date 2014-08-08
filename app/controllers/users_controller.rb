@@ -15,14 +15,14 @@ class UsersController < ApplicationController
 
   def show
     if @user.is_activated?
-      render :show, content_type: 'text/html'
+      render :show, content_type: 'text/html', layout: 'application.html.erb'
     else
       raise_404
     end
   end
 
   def dashboard
-    render 'listings/index', content_type: 'text/html'
+    render 'listings/index', content_type: 'text/html', layout: 'application.html.erb'
   end
 
   def create
