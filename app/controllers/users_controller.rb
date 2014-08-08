@@ -15,14 +15,14 @@ class UsersController < ApplicationController
 
   def show
     if @user.is_activated?
-      render :show
+      render :show, content_type: 'text/html'
     else
       raise_404
     end
   end
 
   def dashboard
-    render 'listings/index'
+    render 'listings/index', content_type: 'text/html'
   end
 
   def create
@@ -33,7 +33,7 @@ class UsersController < ApplicationController
       @user.update_attribute(:activation_email_sent_at, Time.now)
 
       signin_user!(@user)
-      redirect_to @user, notice: "Almost done! Check your inbox for the activation email."
+      redirect_to dashboard_url, notice: "Almost done! Check your inbox for the activation email."
     else
       flash[:alert] = "Something went terribly wrong. Check below."
       render :new

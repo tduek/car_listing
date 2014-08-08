@@ -8,10 +8,14 @@ class ListingsController < ApplicationController
 
   def show
     @listing = Listing.find(params[:id])
+
+    render :show, content_type: 'text/html'
   end
 
   def new
     @listing = current_user.listings.new
+
+    render :new, content_type: 'text/html'
   end
 
 
@@ -39,13 +43,15 @@ class ListingsController < ApplicationController
       redirect_to @listing
     else
       flash.now[:alert] = "Couldn't save your listing. Check below."
-      render :new
+      render :new, content_type: 'text/html'
     end
   end
 
 
   def edit
     @listing = Listing.find(params[:id])
+
+    render :edit, content_type: 'text/html'
   end
 
 
@@ -83,14 +89,14 @@ class ListingsController < ApplicationController
       redirect_to @listing
     rescue ActiveRecord::RecordNotSaved
       flash.now[:alert] = "Couldn't save changes to your #{@listing.name || 'listing'}. Check below."
-      render :edit
+      render :edit, content_type: 'text/html'
     end
   end
 
   def destroy
     @listing = Listing.find(params[:id])
 
-    @listing.destroy
+    @listing.deactivate!
 
     flash[:success] = "Removed your #{@listing.ymm} from our listings."
     redirect_to current_user
