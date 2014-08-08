@@ -262,5 +262,9 @@ class Listing < ActiveRecord::Base
     seller
   end
 
+  def deactivate!
+    self.update_attributes!(is_active: false)
+  end
+
 
 end
