@@ -44,8 +44,8 @@ CarListing.Views.SearchForm = Backbone.View.extend({
     }
 
     this.selectChanged(this.$('#search-sort_by'));
-    // this.maybeToggleSortByDistance();
-    // this.maybeToggleSortByDeal();
+
+    this.updateHistory();
 
     return this;
   },
