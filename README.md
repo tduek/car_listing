@@ -1,6 +1,6 @@
 # Tommy's Cars
 
-Live at [tommyscars.com][tommyscars.com].
+Live at [tommyscars.com](http://tommyscars.com).
 
 This is a used car listing site that also tells you how good each deal is. Users can list their own cars or search for one they want to buy. They can also 'favorite' listings.
 
@@ -38,7 +38,7 @@ And then all my Models were in sync :)
 
 Google doesn't index JS apps, so this was just annoying. I just render the same views in Rails that Backbone would generate for the given URL, and I tack on all the Backbone kickoff logic.
 
-Eventually, and this is a big eventually, I'd like to port the whole app over to Node and run Backbone in both the front and Backend somehow to serve up the HTML snapshots without any duplication of view code. I heard of Airbnb did something like this. Haven't looked into it much.
+Eventually, and this is a big eventually, I'd like to port the whole app over to Node and run Backbone in both the front and Backend somehow to serve up the HTML snapshots without any duplication of view code. I heard Airbnb did something like this. Haven't looked into it much.
 
 
 ## TODO
