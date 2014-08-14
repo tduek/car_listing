@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140813214710) do
+ActiveRecord::Schema.define(:version => 20140814190827) do
 
   create_table "craigs_sites", :force => true do |t|
     t.string   "city"
@@ -149,6 +149,7 @@ ActiveRecord::Schema.define(:version => 20140813214710) do
     t.string   "company_name"
     t.datetime "forgot_password_email_sent_at"
     t.boolean  "is_real_user"
+    t.string   "new_email"
   end
 
   create_table "years", :force => true do |t|

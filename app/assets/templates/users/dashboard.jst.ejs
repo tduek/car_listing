@@ -5,7 +5,18 @@
 
 <section id="sidebar">
   <header><h3>Links</h3></header>
-  <a href="<%= window.location.origin %>/listings/new">Sell a car!</a>
+  <nav>
+    <ul>
+      <li>
+        <a href="<%= window.location.origin %>/listings/new">Sell a car!</a>
+      </li>
+      <li>
+        <a href="<%= window.location.origin %>/users/<%= user.id %>/edit">
+          Account settings
+        </a>
+      </li>
+    </ul>
+  </nav>
 </section>
 
 <section id="main-content">

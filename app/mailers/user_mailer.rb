@@ -14,7 +14,7 @@ class UserMailer < ActionMailer::Base
     user.update_attribute(:activation_email_sent_at, Time.now)
 
     @user = user
-    mail(to: user.email, subject: "Please verify your new email address")
+    mail(to: user.new_email, subject: "Please verify your new email address")
   end
 
   def forgot_password_email(user)

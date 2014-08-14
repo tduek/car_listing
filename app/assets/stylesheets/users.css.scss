@@ -2,17 +2,17 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-form.new_user {
+form.new-user {
   border: 6px solid #333333;
   width: 600px;
   margin: 0 auto;
 }
 
-form.new_user > h1 {
+form.new-user > h1 {
   margin: 20px;
 }
 
-form.new_user > div.field {
+form.new-user > div.field {
   margin: 10px 20px;
   padding: 0px 0;
   border-bottom: 1px dotted #333333;
@@ -24,12 +24,12 @@ div.field-with-errors {
   margin: 10px 0;
 }
 
-form.new_user div.field.field-with-errors {
+form.new-user div.field.field-with-errors {
   margin-left: 10px !important;
   margin-right: 10px !important;
 }
 
-form.new_user div.field-with-errors > p {
+form.new-user div.field-with-errors > p {
   margin-bottom: -10px;
 }
 

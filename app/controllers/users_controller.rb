@@ -41,44 +41,15 @@ class UsersController < ApplicationController
     end
   end
 
-
   def activate
-    @user = User.find_by_activation_token(params[:activation_token])
-    (head(404) && return) unless @user
+    user = User.find_by_activation_token(params[:activation_token])
+    (head(404) && return) unless user
 
-    if @user.is_activated?
-      flash[:notice] = "Already activated, now enjoy."
-    else
-      @user.activate!
-      flash[:notice] = "Activated your account successfully! Enjoy!"
-    end
+    user.activate!
+    flash[:notice] = "Activated your account successfully! Enjoy!"
 
-    signin_user!(@user)
-    redirect_to @user
-  end
-
-
-  def resend_initial_activation_email
-    @user = User.find(params[:id])
-    UserMailer.initial_activation_email(@user).deliver!
-
-    redirect_to @user, notice: "Almost done! Check your inbox for the activation email."
-  end
-
-
-
-  def reset_password
-    @user = User.find_by_email(params[:email])
-
-    if @user
-      UserMailer.reset_password_email(@user).deliver!
-
-      flash[:success] = "Successfully reset your password. Please check your email inbox to set a new one."
-      redirect_to @user
-    else
-      flash.now[:bad_email] = "We don't have any accounts for #{params[:email]}"
-      render :forgot_password
-    end
+    signin_user!(user)
+    redirect_to dashboard_url
   end
 
 
@@ -90,26 +61,27 @@ class UsersController < ApplicationController
   def update
     @user = User.find(params[:id])
 
-    if params[:user][:email] != @user.email
-      UserMailer.change_email_verification_email(@user).deliver!
-      @changed_email = true
+    new_email = params[:user][:new_email]
+    if new_email.present? && new_email != @user.email
+      changed_email = true
+    else
+      changed_email = false
+      params[:user].delete(:new_email)
     end
 
     if @user.update_attributes(params[:user])
-      flash[:success] = "Saved changes! #{"Please check your inbox to verify your new email address." if @changed_email}"
-      redirect_to @user
-    else
-      msg = "Couldn't save changes. Check below."
-
-      if request.referrer["edit"]
-        flash.now[:alert] = msg
-        render :edit
-      else
-        redirect_to :back, alert: msg
+      if changed_email
+        UserMailer.change_email_verification_email(@user).deliver!
       end
+
+      flash[:success] = "Saved changes! #{"Please check your inbox to verify your new email address." if changed_email}"
+      redirect_to dashboard_url
+    else
+
+      flash.now[:alert] = "Couldn't save changes. Check below."
+      render :edit
     end
   end
-
 
   def destroy
     @user.deactivate!
