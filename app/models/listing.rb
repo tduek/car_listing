@@ -10,7 +10,7 @@ class Listing < ActiveRecord::Base
   belongs_to :model, class_name: "Subdivision", foreign_key: :model_id
 
   has_one :main_pic, class_name: "Pic", conditions: '"pics"."ord" = 1'
-  has_many :pics, dependent: :destroy
+  has_many :pics, dependent: :destroy, order: :ord
 
   has_many :favorites
   has_many :users_who_have_favorited, through: :favorites, source: :user

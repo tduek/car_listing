@@ -1,3 +1,9 @@
+<% if (listing.seller().id === CarListing.currentUserID) { %>
+  <a href="<%= window.location.origin %>/listings/<%= listing.id %>/edit">
+    Edit listing
+  </a>
+<% } %>
+
 <header class="page-header">
   <h1><%= listing.get('ymm') %></h1>
 
@@ -15,10 +21,11 @@
       <img src="<%= mainPic.get('url') %>" class="car-pic"
            data-id="<%= mainPic.id %>">
     </div>
-    <% var numThumbRows = parseInt(pics.length / 7 + 1) %>
+    <% var thumbPics = pics.slice(1) %>
+    <% var numThumbRows = parseInt(thumbPics.length / 7 + 1) %>
     <% _( numThumbRows ).times(function (row_i) { %>
     <ul class="thumbs clear-fix">
-      <% var rowPics = pics.models.slice((row_i * 7), (row_i + 1) * 7); %>
+      <% var rowPics = thumbPics.slice((row_i * 7), (row_i + 1) * 7); %>
       <% _( rowPics ).each(function (pic) { %>
       <li>
         <img src="<%= pic.get('url') %>" class="car-pic"
