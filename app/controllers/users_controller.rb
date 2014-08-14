@@ -27,6 +27,7 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(params[:user])
+    @user.is_real_user = true
 
     if @user.save
       UserMailer.initial_activation_email(@user).deliver!

@@ -9,7 +9,7 @@ class ActiveRecord::Base
 end
 
 class User < ActiveRecord::Base
-  attr_accessible :address_line_1, :address_line_2, :city, :state, :email, :fname, :lname, :phone, :zip, :password, :password_confirmation
+  attr_accessible :address_line_1, :address_line_2, :city, :state, :email, :fname, :lname, :phone, :zipcode, :password, :password_confirmation
 
   has_many :sessions, class_name: "UserSession"
 
@@ -19,17 +19,30 @@ class User < ActiveRecord::Base
 
   belongs_to :zip, primary_key: :code, foreign_key: :zipcode
 
-  validates :fname, :lname, :email, :phone, :address_line_1, :city, :zip, presence: true
+  validates :fname, :lname, :email, :phone, :address_line_1, :city, :zip,
+    presence: true,
+    if: :is_real_user?
 
   before_validation { [self.fname, self.lname].each { |n| n.capitalize! if n } }
-  validates :fname, :lname, length: 2..30, format: {with: /[a-z\s-]+/i}
+  validates :fname, :lname,
+    length: 2..30,
+    format: {with: /[a-z\s-]+/i},
+    if: :is_real_user?
 
-  validates :email, format: {with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i}, uniqueness: true
+  validates :email,
+    format: {with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i},
+    uniqueness: {case_sensitive: false},
+    if: :is_real_user?
 
-  before_validation { self.phone.gsub!(/\D/, "") if self.phone }
-  validates :phone, numericality: true, length: {is: 10, message: "should have 10 digits"}
+  before_validation { self.phone.gsub!(/\D/, '') if self.phone.is_a?(String) }
+  validates :phone,
+    numericality: true,
+    length: { is: 10, message: "should have 10 digits" }
 
-  validates :zip, numericality: true, length: {is: 5}
+  validates :zipcode,
+    numericality: true,
+    length: { is: 5 }
+
   validate :phone_format
 
   # Password logic
@@ -44,7 +57,7 @@ class User < ActiveRecord::Base
   def phone_format
     phone_s = phone.to_s
     unless phone_s.length == 10 || (phone_s.length == 11 && phone_s[0] == '1')
-      errors[:phone] << "is invalid."
+      errors[:phone] << "is invalid"
     end
   end
 
@@ -79,6 +92,10 @@ class User < ActiveRecord::Base
     (user && user.is_password?(password)) ? user : nil
   end
 
+  def self.find_by_email(email)
+    where('lower(email) = ?', email.to_s.downcase).first
+  end
+
   def is_password?(password)
     BCrypt::Password.new(self.password_digest).is_password?(password)
   end
@@ -99,8 +116,13 @@ class User < ActiveRecord::Base
     self.save
   end
 
+  def reset_forgot_password_token!
+    self.forgot_password_token = generate_unique_token_for_field(:forgot_password_token)
+    self.save!
+  end
+
   def activate!
-    self.update_attribute(:is_activated, true)
+    self.update_attributes!(is_activated: true)
   end
 
   def user

@@ -7,7 +7,7 @@ if user == current_user
     :is_activated, :is_dealer
   )
 
-  json.activation_email_sent_at user.activation_email_sent_at.getutc.iso8601
+# json.activation_email_sent_at user.activation_email_sent_at.getutc.iso8601
 
 elsif user.is_dealer?
   json.(user,

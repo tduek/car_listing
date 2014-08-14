@@ -30,7 +30,10 @@ CarListing::Application.routes.draw do
 
   resources :sellers, only: [:show], controller: 'users'
 
-  resource :user_password, only: [:new, :create, :edit, :update]
+  get 'forgot_password', to: 'forgot_user_passwords#new', as: :forgot_password
+  post 'forgot_password', to: 'forgot_user_passwords#create', as: :forgot_password
+  get 'reset_password', to: 'forgot_user_passwords#reset_password', as: :reset_password
+  put 'reset_password', to: 'forgot_user_passwords#update', as: :reset_password
 
   resource :user_session, only: [:new, :create, :destroy]
 

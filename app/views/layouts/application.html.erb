@@ -28,16 +28,6 @@
         <%= link_to "SIGN IN", new_user_session_url, class: "signin-form-link" %>
         | <%= link_to "JOIN", new_user_url %>
       </nav>
-        <%= render partial: "user_sessions/form.html.erb" %>
-        <script>
-        $(document).ready(function () {
-          $(".signin-form-link").click(function (event) {
-            event.preventDefault();
-            $("nav.signin-links").toggle();
-            $("form.signin-form").toggle();
-          });
-        });
-        </script>
       <% end %>
     </div>
     <% end %>

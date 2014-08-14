@@ -16,7 +16,8 @@ html, body, article, div, img, a,
 h1, h2, h3, h4, h5, p, dl, dt, dd,
 header, section, ul, li, form, fieldset {
   margin: 0; padding: 0; border: 0;
-  font: inherit;
+  font-family: inherit;
+  font-size: inherit;
 }
 
 body { font-family: "Open Sans", sans-serif; font-weight: 100; color: #333333; }

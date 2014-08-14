@@ -1,0 +1,19 @@
+<section class="signin">
+
+  <h1>Forgot Password</h1>
+  <p>
+    Please enter your email address and we will send you a link to reset your password.
+  </p>
+
+  <form action="<%= forgot_password_url %>" method="post" class="signin-form">
+    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+
+    <input type="email" name="email" value="<%= params[:email] %>" placeholder="Email">
+
+
+    <div class="links-line large">
+      <input type="submit" value="SEND">
+    </div>
+  </form>
+
+</section>

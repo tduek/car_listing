@@ -17,7 +17,11 @@ class UserMailer < ActionMailer::Base
     mail(to: user.email, subject: "Please verify your new email address")
   end
 
-  def reset_password_email(user)
+  def forgot_password_email(user)
+    user.reset_forgot_password_token!
+    user.update_attribute(:forgot_password_email_sent_at, Time.now)
+
+    @user = user
     mail(to: user.email, subject: "Password reset instructions.")
   end
 

@@ -1,31 +1,5 @@
-// Place all the styles related to the user_sessions controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
-
-body > header > div.signin {
-  position: absolute;
-  top: 5px;
-  right: 0;
-  text-align: right;
-}
-
-div.signin > nav.signin-links {
-  vertical-align: top;
-}
-
-div.signin > nav.signin-links > a {
-  font-family: "Oswald";
-  font-weight: 100;
-  color: #333333;
-  font-size: 15px;
-}
-
-div.signin form.signin-form {
-  display: none;
-}
-
 form.signin-form {
-  margin: 0 auto;
+  margin: 20px auto;
 }
 
 form.signin-form input {
@@ -35,44 +9,50 @@ form.signin-form input {
   box-sizing: border-box;
 }
 
+.signin-form input[type="email"],
+.signin-form input[type="password"] {
+  font-size: 18px;
+}
+
 #sign-in-remember-me {
   width: auto;
   float: left;
-  margin: 4px 5px 4px 0;
+  margin: 5px 5px 5px 0;
 }
 
-label[for="sign-in-remember-me"] {
-  float: left;
-  font-family: "Oswald";
-  font-weight: 100;
-  color: #333333;
-  font-size: 13px;
-  letter-spacing: 0.5px;
-}
-
-form.signin-form .links {
-  clear: both;
-}
-
-form.signin-form a {
+form.signin-form .links-line {
   display: block;
-  float: left;
+  clear: both;
+  margin: 5px 0;
   font-family: "Oswald";
   font-weight: 100;
   color: #333333;
-  font-size: 15px;
+}
+
+.links-line.small {
+  font-size: 16px;
+}
+
+.links-line.large {
+  font-size: 24px;
+}
+
+form.signin-form .links-line :first-child {
+  float: left;
+}
+
+form.signin-form .links-line :last-child {
+  float: right;
 }
 
 form.signin-form input[type="submit"] {
   font-family: "Oswald";
-  font-weight: 100;
-  color: #333333;
-  font-size: 15px;
+  font-size: inherit;
+  color: inherit;
   display: block;
-  float: right;
   border: 0;
   margin: 0;
-  padding: 0 0 10px 10px;
+  padding: 0;
   text-transform: uppercase;
   background: none;
   width: auto;
@@ -85,12 +65,4 @@ main#content section.signin {
 
 main#content section.signin h1 {
   font-size: 30px;
-}
-
-main#content .signin-form {
-
-}
-
-#content .signin-form input, #content .signin-form a {
-  font-size: 20px;
 }
