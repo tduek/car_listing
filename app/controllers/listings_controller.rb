@@ -3,18 +3,30 @@ class ListingsController < ApplicationController
   before_filter :require_owner, only: [:edit, :update, :destroy]
 
   def index
+    # rendering a partial in 'index.html.erb' with formats: [:json],
+    # which sets the response to Content-Type="application/json"
+    # and looks for .json templates and layout, so overwrote
+    # content-type and hard-coded extension and templating engine.
     render 'index.html.erb', content_type: 'text/html', layout: 'application.html.erb'
   end
 
   def show
     @listing = Listing.find(params[:id])
 
+    # rendering a partial in :show with formats: [:json],
+    # which sets the response to Content-Type="application/json"
+    # and looks for .json templates and layout, so overwrote
+    # content-type and hard-coded extension and templating engine.
     render :show, content_type: 'text/html', layout: 'application.html.erb'
   end
 
   def new
     @listing = current_user.listings.new
 
+    # rendering a partial in :new with formats: [:json],
+    # which sets the response to Content-Type="application/json"
+    # and looks for .json templates and layout, so overwrote
+    # content-type and hard-coded extension and templating engine.
     render :new, content_type: 'text/html', layout: 'application.html.erb'
   end
 
@@ -50,8 +62,6 @@ class ListingsController < ApplicationController
 
   def edit
     @listing = Listing.find(params[:id])
-
-    render :edit, content_type: 'text/html', layout: 'application.html.erb'
   end
 
 

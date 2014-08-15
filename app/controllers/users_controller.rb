@@ -1,11 +1,11 @@
 class UsersController < ApplicationController
   before_filter :set_singular_resource, only:
-    [:show, :edit, :update, :destroy, :resend_initial_activation_email, :change_email]
+    [:show, :edit, :update, :destroy]
 
   before_filter :require_user_signed_in, only: [:dashboard]
 
   before_filter :require_owner, only:
-    [:edit, :update, :destroy, :resend_initial_activation_email, :change_email]
+    [:edit, :update, :destroy, :change_email]
 
 
 
@@ -15,6 +15,10 @@ class UsersController < ApplicationController
 
   def show
     if @user.is_activated?
+      # rendering a partial in the :show with formats: [:json], which sets the
+      # response to Content-Type="application/json" and looks for .json
+      # templates and layout, so overwrote content-type and hard-coded
+      # extension and templating engine.
       render :show, content_type: 'text/html', layout: 'application.html.erb'
     else
       raise_404
@@ -22,6 +26,10 @@ class UsersController < ApplicationController
   end
 
   def dashboard
+    # rendering a partial in 'listings/index' with formats: [:json],
+    # which sets the response to Content-Type="application/json"
+    # and looks for .json templates and layout, so overwrote
+    # content-type and hard-coded extension and templating engine.
     render 'listings/index', content_type: 'text/html', layout: 'application.html.erb'
   end
 
@@ -31,7 +39,6 @@ class UsersController < ApplicationController
 
     if @user.save
       UserMailer.initial_activation_email(@user).deliver!
-      @user.update_attribute(:activation_email_sent_at, Time.now)
 
       signin_user!(@user)
       redirect_to dashboard_url, notice: "Almost done! Check your inbox for the activation email."
