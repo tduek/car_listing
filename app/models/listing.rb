@@ -100,10 +100,10 @@ class Listing < ActiveRecord::Base
                       .join(' AND ')
 
       @cheap_total_count = Listing.count_by_sql(<<-SQL)
-        SELECT #{select_val}
+        SELECT #{ select_val }
         FROM listings
-        #{join_val}
-        WHERE #{where_val}
+        #{ join_val }
+        WHERE #{ where_val }
       SQL
     end
 
@@ -128,9 +128,9 @@ class Listing < ActiveRecord::Base
     if terms[:year_from].to_i > 0 && terms[:year_to].to_i > 0
       results = results.where(year: terms[:year_from]..terms[:year_to])
     elsif terms[:year_from].to_i > 0
-      results = results.where("listings.year >= '#{terms[:year_from]}'")
+      results = results.where("listings.year >= ?", terms[:year_from])
     elsif terms[:year_to].to_i > 0
-      results = results.where("listings.year <= '#{terms[:year_to]}'")
+      results = results.where("listings.year <= ?", terms[:year_to])
     end
 
     if terms[:make_id].to_i > 0
@@ -144,9 +144,9 @@ class Listing < ActiveRecord::Base
     if terms[:price_from].to_i > 0 && terms[:price_to].to_i > 0
       results = results.where(price: terms[:price_from]..terms[:price_to])
     elsif terms[:price_from].to_i > 0
-      results = results.where("listings.price >= '#{terms[:price_from]}'")
+      results = results.where("listings.price >= ?", terms[:price_from])
     elsif terms[:price_to].to_i > 0
-      results = results.where("listings.price <= '#{terms[:price_to]}'")
+      results = results.where("listings.price <= ?", terms[:price_to])
     end
 
     results.order_values = []
