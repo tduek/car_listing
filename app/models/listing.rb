@@ -19,7 +19,10 @@ class Listing < ActiveRecord::Base
 
   validates :year, :make_id, :model_id, :miles, :transmission, :price, :title, :description, presence: true
   validates :year, :miles, :price, numericality: {message: "must be a number"}
-  validates :year, inclusion: {in: 1920..Time.now.year+1, message: "must be between 1920 - #{Time.now.year + 1}"}
+  validates :year, inclusion: {
+    in: 1920..Time.now.year+1,
+    message: "must be between 1920 - #{Time.now.year + 1}"
+  }
   validate :miles_arent_shortened
   validates :title, length: 15..100
   validates :description, length: {minimum: 150}
@@ -53,6 +56,7 @@ class Listing < ActiveRecord::Base
     self.preload(:pics, :main_pic, :make, :model, :zip, {seller: :zip})
   end
 
+
   def self.cached_count(refresh = false)
     if !refresh && @cached_count && @cached_count_updated_at > 2.hours.ago
       return @cached_count
@@ -62,36 +66,6 @@ class Listing < ActiveRecord::Base
     @cached_count = Listing.count
   end
 
-  def miles_arent_shortened
-    msg = "must specify the full number of miles (ie: 49000 miles and not just 49 or 49k). The system doesn't allow a car of this year to have less than "
-    if year && miles
-      if miles < 300 && year < Time.now.year - 2
-        errors[:miles] << msg + "300 miles"
-      elsif miles < 120 && year == Time.now.year - 2
-        errors[:miles] << msg + "120 miles"
-      elsif miles < 34 && year == Time.now.year - 1
-        errors[:miles] << msg + "34 miles"
-      end
-    end
-  end
-
-  def by_owner?
-    !seller.is_dealer?
-  end
-
-
-  def fix_year
-    if self.year && self.year.to_s.length == 2
-      self.year = self.year.to_s.gsub(/\D/, "")
-      if self.year.to_i <= (Time.now.year + 1) % 100
-        self.year = "19#{self.year}".to_i
-      else
-        self.year = "20#{self.year}".to_i
-      end
-    end
-
-    true
-  end
 
   def self.within_miles_from_zip(dist, zip)
    Listing.select('users_with_dist.distance')
@@ -100,6 +74,7 @@ class Listing < ActiveRecord::Base
                     ON users_with_dist.id=listings.seller_id
           SQL
   end
+
 
   def self.with_deal_ratio
     result = self.select(<<-SQL)
@@ -134,6 +109,7 @@ class Listing < ActiveRecord::Base
 
     result
   end
+
 
   def self.search(terms, page = nil)
     page = 1 if [nil, 0].include?(page)
@@ -209,6 +185,40 @@ class Listing < ActiveRecord::Base
     results
   end
 
+
+  def miles_arent_shortened
+    msg = "must specify the full number of miles (ie: 49000 miles and not just 49 or 49k). The system doesn't allow a car of this year to have less than "
+    if year && miles
+      if miles < 300 && year < Time.now.year - 2
+        errors[:miles] << msg + "300 miles"
+      elsif miles < 120 && year == Time.now.year - 2
+        errors[:miles] << msg + "120 miles"
+      elsif miles < 34 && year == Time.now.year - 1
+        errors[:miles] << msg + "34 miles"
+      end
+    end
+  end
+
+
+  def by_owner?
+    !seller.is_dealer?
+  end
+
+
+  def fix_year
+    if self.year && self.year.to_s.length == 2
+      self.year = self.year.to_s.gsub(/\D/, "")
+      if self.year.to_i <= (Time.now.year + 1) % 100
+        self.year = "19#{self.year}".to_i
+      else
+        self.year = "20#{self.year}".to_i
+      end
+    end
+
+    true
+  end
+
+
   def transmission
     case read_attribute(:transmission)
     when 1; 'Automatic'
@@ -216,6 +226,7 @@ class Listing < ActiveRecord::Base
     else; nil
     end
   end
+
 
   def transmission=(tranny)
     if tranny && [1, 2].include?(tranny.to_i)
@@ -227,6 +238,7 @@ class Listing < ActiveRecord::Base
     end
   end
 
+
   def location
     location = "#{ self.zip.city }, #{ self.zip.st }"
     if self.respond_to?(:distance)
@@ -237,13 +249,11 @@ class Listing < ActiveRecord::Base
     location
   end
 
+
   def post_date_iso8601
     self.created_at.getutc.iso8601
   end
 
-  def is_favorite?
-
-  end
 
   def vin
     vin = read_attribute(:vin)
@@ -254,17 +264,19 @@ class Listing < ActiveRecord::Base
     end
   end
 
+
   def ymm
     [self.year, self.make.try(:name), self.model.try(:name)].compact.join(' ')
   end
+
 
   def user
     seller
   end
 
+
   def deactivate!
     self.update_attributes!(is_active: false)
   end
-
 
 end

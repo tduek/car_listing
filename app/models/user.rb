@@ -49,6 +49,23 @@ class User < ActiveRecord::Base
   # Activation
   before_create :ensure_activation_token
 
+  def self.within_miles_from_zip(dist, zip)
+    User.select('users.*, near_zips.distance')
+        .joins(<<-SQL)
+          INNER JOIN (#{ Zip.near(dist, zip).to_sql }) AS near_zips
+                  ON near_zips.code=users.zipcode
+        SQL
+  end
+
+  def self.find_by_credentials(email, password)
+    user = self.find_by_email(email)
+    (user && user.is_password?(password)) ? user : nil
+  end
+
+  def self.find_by_email(email)
+    where('lower(email) = ?', email.to_s.downcase).first
+  end
+
   def phone_format
     phone_s = phone.to_s
     unless phone_s.length == 10 || (phone_s.length == 11 && phone_s[0] == '1')
@@ -57,7 +74,7 @@ class User < ActiveRecord::Base
   end
 
   def phone=(val)
-      write_attribute(:phone, val.to_s.gsub(/\D/, '').to_i)
+    write_attribute(:phone, val.to_s.gsub(/\D/, '').to_i)
   end
 
   def email_validation
@@ -75,19 +92,9 @@ class User < ActiveRecord::Base
     end
   end
 
-
-
   def favorited_listing?(listing)
     self.favorites.exists?(listing_id: listing.id)
   end
-
-  # def password_required?
-  #   !persisted? ||
-  #   password ||
-  #   password_confirmation ||
-  #   password_digest_changed? ||
-  #   password_required
-  # end
 
   def password_required!
     @password_required = true
@@ -104,23 +111,6 @@ class User < ActiveRecord::Base
     if unencrypted_password.present?
       @password_confirmation = unencrypted_password
     end
-  end
-
-  def self.within_miles_from_zip(dist, zip)
-    User.select('users.*, near_zips.distance')
-        .joins(<<-SQL)
-          INNER JOIN (#{ Zip.near(dist, zip).to_sql }) AS near_zips
-                  ON near_zips.code=users.zipcode
-        SQL
-  end
-
-  def self.find_by_credentials(email, password)
-    user = self.find_by_email(email)
-    (user && user.is_password?(password)) ? user : nil
-  end
-
-  def self.find_by_email(email)
-    where('lower(email) = ?', email.to_s.downcase).first
   end
 
   def is_password?(password)
