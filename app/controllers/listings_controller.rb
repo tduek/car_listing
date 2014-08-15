@@ -105,11 +105,10 @@ class ListingsController < ApplicationController
 
   def destroy
     @listing = Listing.find(params[:id])
-
     @listing.deactivate!
 
-    flash[:success] = "Removed your #{@listing.ymm} from our listings."
-    redirect_to current_user
+    flash[:success] = "Removed your #{ @listing.ymm } from our listings."
+    redirect_to dashboard_url
   end
 
 
