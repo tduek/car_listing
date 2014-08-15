@@ -148,6 +148,22 @@ class User < ActiveRecord::Base
     self.reset_activation_token!
   end
 
+  def deactivate!
+    User.transaction do
+      self.listings.update_all(is_active: false)
+
+      self.is_activated = false
+      self.save!
+    end
+  end
+
+  def ensure_is_active!
+    unless is_active?
+      self.is_active = true
+      self.save!
+    end
+  end
+
   def user
     self
   end

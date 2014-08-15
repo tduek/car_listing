@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140814190827) do
+ActiveRecord::Schema.define(:version => 20140815144856) do
 
   create_table "craigs_sites", :force => true do |t|
     t.string   "city"
@@ -137,8 +137,8 @@ ActiveRecord::Schema.define(:version => 20140814190827) do
     t.string   "city"
     t.integer  "zipcode"
     t.string   "password_digest"
-    t.datetime "created_at",                                 :null => false
-    t.datetime "updated_at",                                 :null => false
+    t.datetime "created_at",                                                   :null => false
+    t.datetime "updated_at",                                                   :null => false
     t.string   "state"
     t.boolean  "is_activated"
     t.string   "activation_token"
@@ -150,6 +150,7 @@ ActiveRecord::Schema.define(:version => 20140814190827) do
     t.datetime "forgot_password_email_sent_at"
     t.boolean  "is_real_user"
     t.string   "new_email"
+    t.boolean  "is_active",                                  :default => true
   end
 
   create_table "years", :force => true do |t|
