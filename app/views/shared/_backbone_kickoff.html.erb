@@ -32,7 +32,8 @@
       searchParams: <%= search_params.to_json.html_safe %>,
       currentUserID: <%= current_user.try(:id) || 'null' %>,
       bootstrappedData: bootstrappedData,
-      bootstrappedListings: bootstrappedListings
+      bootstrappedListings: bootstrappedListings,
+      formAuthToken: "<%= form_authenticity_token %>"
     });
   });
 </script>

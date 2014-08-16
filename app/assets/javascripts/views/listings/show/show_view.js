@@ -24,7 +24,17 @@ CarListing.Views.ListingShow = Backbone.View.extend({
 
   events: {
     'click a.phone': 'openRecaptchaForm',
-    'click .car-pic': 'openLightbox'
+    'click .car-pic': 'openLightbox',
+    'submit .delete-listing': 'deleteListing'
+  },
+
+  deleteListing: function (event) {
+    var form = event.currentTarget;
+    event.preventDefault();
+
+    if (confirm('Are you sure you want to delete this listing?')) {
+      form.submit();
+    }
   },
 
   openRecaptchaForm: function (event) {

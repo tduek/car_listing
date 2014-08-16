@@ -276,7 +276,8 @@ class Listing < ActiveRecord::Base
 
 
   def deactivate!
-    self.update_attributes!(is_active: false)
+    self.is_active = false
+    self.save!
   end
 
 end

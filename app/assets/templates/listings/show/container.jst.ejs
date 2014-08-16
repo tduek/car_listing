@@ -1,7 +1,22 @@
 <% if (listing.seller().id === CarListing.currentUserID) { %>
-  <a href="<%= window.location.origin %>/listings/<%= listing.id %>/edit">
-    Edit listing
-  </a>
+  <nav class="owner-links">
+    <h3>Seller links: </h3>
+
+    <a href="<%= window.location.origin %>/listings/<%= listing.id %>/edit">
+      Edit listing
+    </a>
+    |
+    <form method="post" class="delete-listing"
+      action="<%= window.location.origin %>/listings/<%= listing.id %>">
+      <input type="hidden" name="authenticity_token"
+        value="<%= CarListing.form_auth_token %>">
+
+      <input type="hidden" name="_method" value="delete">
+
+      <input type="submit" value="Delete this listing">
+
+    </form>
+  </nav>
 <% } %>
 
 <header class="page-header">

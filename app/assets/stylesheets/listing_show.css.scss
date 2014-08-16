@@ -1,6 +1,33 @@
 // Place all the styles related to the listings controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+nav.owner-links {
+  background-color: #CCCCCC;
+  padding: 5px;
+  border: 3px solid #333333;
+}
+
+nav.owner-links > h3 {
+  float: left;
+  margin: -1px 10px 0px 0;
+  font-family: "Oswald", sans-serif;
+  vertical-align: top;
+}
+
+nav.owner-links a,
+nav.owner-links form.delete-listing,
+form.delete-listing input[type="submit"] {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  display: inline-block;
+  background: transparent;
+  font-size: 15px;
+}
+
+form.delete-listing input[type="submit"]:hover {
+  border-bottom: 1px solid #333333;
+}
 
 input#listing_title {
   width: 99%;

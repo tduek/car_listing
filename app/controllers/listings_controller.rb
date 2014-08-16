@@ -13,11 +13,15 @@ class ListingsController < ApplicationController
   def show
     @listing = Listing.find(params[:id])
 
-    # rendering a partial in :show with formats: [:json],
-    # which sets the response to Content-Type="application/json"
-    # and looks for .json templates and layout, so overwrote
-    # content-type and hard-coded extension and templating engine.
-    render :show, content_type: 'text/html', layout: 'application.html.erb'
+    if @listing.is_active? || @listing.seller == current_user
+      # rendering a partial in :show with formats: [:json],
+      # which sets the response to Content-Type="application/json"
+      # and looks for .json templates and layout, so overwrote
+      # content-type and hard-coded extension and templating engine.
+      render :show, content_type: 'text/html', layout: 'application.html.erb'
+    else
+      raise_404
+    end
   end
 
   def new

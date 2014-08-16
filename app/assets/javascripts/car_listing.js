@@ -29,6 +29,7 @@ window.CarListing = {
     this.RECAPTCHA_PUBLIC_KEY = bootstrappedData.RECAPTCHA_PUBLIC_KEY;
 
     this.spinnerURL = bootstrappedData.spinnerURL;
+    this.formAuthToken = options.formAuthToken;
 
     this.listingsRouter = new this.Routers.Listings();
     this.usersRouter = new this.Routers.Users();

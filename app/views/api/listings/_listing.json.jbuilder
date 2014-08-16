@@ -1,6 +1,6 @@
 json.id listing.id
 
-json.(listing, :ymm, :miles, :transmission, :location, :price, :seller_id)
+json.(listing, :ymm, :miles, :transmission, :location, :price, :seller_id, :is_active)
 
 json.vin h(listing.vin)
 json.title h(listing.title)
