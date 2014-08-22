@@ -11,17 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140815144856) do
-
-  create_table "craigs_sites", :force => true do |t|
-    t.string   "city"
-    t.string   "city_for_url"
-    t.integer  "zip"
-    t.float    "latitude"
-    t.float    "longitude"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
-  end
+ActiveRecord::Schema.define(:version => 20140822221901) do
 
   create_table "favorites", :force => true do |t|
     t.integer  "listing_id"
@@ -35,6 +25,7 @@ ActiveRecord::Schema.define(:version => 20140815144856) do
   add_index "favorites", ["user_id"], :name => "index_favorites_on_user_id"
 
   create_table "listings", :force => true do |t|
+    t.integer  "seller_id"
     t.integer  "year"
     t.integer  "make_id"
     t.integer  "model_id"
@@ -44,7 +35,6 @@ ActiveRecord::Schema.define(:version => 20140815144856) do
     t.integer  "miles"
     t.datetime "created_at",                     :null => false
     t.datetime "updated_at",                     :null => false
-    t.integer  "seller_id"
     t.string   "vin"
     t.integer  "transmission"
     t.boolean  "is_active",    :default => true
@@ -55,6 +45,7 @@ ActiveRecord::Schema.define(:version => 20140815144856) do
   add_index "listings", ["make_id"], :name => "index_listings_on_make_id"
   add_index "listings", ["model_id"], :name => "index_listings_on_model_id"
   add_index "listings", ["price"], :name => "index_listings_on_price"
+  add_index "listings", ["seller_id"], :name => "index_listings_on_user_id"
   add_index "listings", ["year"], :name => "index_listings_on_year"
 
   create_table "pics", :force => true do |t|
@@ -70,33 +61,6 @@ ActiveRecord::Schema.define(:version => 20140815144856) do
   end
 
   add_index "pics", ["listing_id"], :name => "index_pics_on_listing_id"
-
-  create_table "scrapings", :force => true do |t|
-    t.string   "title"
-    t.text     "description"
-    t.string   "url"
-    t.integer  "price"
-    t.datetime "post_date"
-    t.integer  "guid",           :limit => 8
-    t.string   "seller_type"
-    t.string   "source"
-    t.integer  "craigs_site_id"
-    t.boolean  "parsed",                      :default => false
-    t.boolean  "dqed",                        :default => false
-    t.datetime "created_at",                                     :null => false
-    t.datetime "updated_at",                                     :null => false
-  end
-
-  add_index "scrapings", ["guid"], :name => "index_scrapings_on_guid"
-
-  create_table "spellings", :force => true do |t|
-    t.string   "string"
-    t.integer  "subdivision_id"
-    t.datetime "created_at",     :null => false
-    t.datetime "updated_at",     :null => false
-  end
-
-  add_index "spellings", ["subdivision_id"], :name => "index_spellings_on_subdivision_id"
 
   create_table "stats", :force => true do |t|
     t.integer  "model_id"
@@ -135,16 +99,16 @@ ActiveRecord::Schema.define(:version => 20140815144856) do
     t.string   "address_line_1"
     t.string   "address_line_2"
     t.string   "city"
+    t.string   "state"
     t.integer  "zipcode"
     t.string   "password_digest"
-    t.datetime "created_at",                                                   :null => false
-    t.datetime "updated_at",                                                   :null => false
-    t.string   "state"
+    t.string   "forgot_password_token"
     t.boolean  "is_activated"
     t.string   "activation_token"
     t.datetime "activation_email_sent_at"
-    t.string   "forgot_password_token"
     t.boolean  "is_dealer"
+    t.datetime "created_at",                                                   :null => false
+    t.datetime "updated_at",                                                   :null => false
     t.integer  "phone",                         :limit => 8
     t.string   "company_name"
     t.datetime "forgot_password_email_sent_at"
