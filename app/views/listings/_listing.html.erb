@@ -45,7 +45,7 @@
       <strong class="user-written">
         <%= listing.by_owner? ? "OWNER" : "DEALER" %>:
       </strong>
-      <span>"<%= listing.title.truncate(35) %>"</span>
+      <span>"<%= listing.title.try(:truncate, 35) %>"</span>
     </h4>
 
     <h5 class="line">
