@@ -1,8 +1,5 @@
 class DropDeprecatedColumns < ActiveRecord::Migration
   def up
-    remove_column :pics, :is_thumb
-    remove_column :pics, :thumb_for
-
     remove_column :listings, :is_owner
     remove_column :listings, :phone
     remove_column :listings, :zipcode
@@ -10,9 +7,6 @@ class DropDeprecatedColumns < ActiveRecord::Migration
   end
 
   def down
-    add_column :pics, :is_thumb, :boolean
-    add_column :pics, :thumb_for, :integer
-
     add_column :listings, :is_owner, :boolean
     add_column :listings, :post_date, :datetime
     add_column :listings, :phone, :integer, limit: 8

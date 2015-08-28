@@ -3,6 +3,7 @@ class ListingsController < ApplicationController
   before_filter :require_owner, only: [:edit, :update, :destroy]
 
   def index
+    sleep(15)
     # rendering a partial in 'index.html.erb' with formats: [:json],
     # which sets the response to Content-Type="application/json"
     # and looks for .json templates and layout, so overwrote

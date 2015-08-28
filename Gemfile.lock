@@ -30,6 +30,7 @@ GEM
       multi_json (~> 1.0)
     addressable (2.3.5)
     arel (3.0.2)
+    awesome_print (1.2.0)
     aws-sdk (1.11.1)
       json (~> 1.4)
       nokogiri (>= 1.4.4)
@@ -166,6 +167,7 @@ PLATFORMS
 
 DEPENDENCIES
   addressable
+  awesome_print
   aws-sdk
   backbone-on-rails
   bcrypt-ruby
@@ -187,3 +189,6 @@ DEPENDENCIES
   underscore-rails
   unicorn
   yajl-ruby
+
+BUNDLED WITH
+   1.10.3
